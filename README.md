@@ -1,1 +1,3 @@
-# -
+# Aldebaran Render
+
+This project is...
