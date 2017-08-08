@@ -1,24 +1,69 @@
 #ifndef VEC3_H
 #define VEC3_H
 
+#include <cmath>
+#include <iostream>
+#include <cassert>
+
 class vec3 {
 public:
-	typedef float coord_type;
-	coord_type values[3];
+	typedef float element_type;
 	enum element { X=0, Y=1, Z=2, R=0, G=1, B=2 };
 
-	vec3(coord_type x, coord_type y, coord_type z) {
-		values[X] = x;
-		values[Y] = y;
-		values[Z] = z;
+	element_type vec[3];
+
+	vec3(element_type x = 0.f, element_type y = 0.f, element_type z=0.f) : vec{ x, y, z }
+	{ 
+
 	}
 
-	inline coord_type x() { return values[X]; }
-	inline coord_type y() { return values[Y]; }
-	inline coord_type z() { return values[Z]; }
-	inline coord_type r() { return values[R]; }
-	inline coord_type g() { return values[G]; }
-	inline coord_type b() { return values[B]; }
+	inline element_type x() { return vec[X]; }
+	inline element_type y() { return vec[Y]; }
+	inline element_type z() { return vec[Z]; }
+	inline element_type r() { return vec[R]; }
+	inline element_type g() { return vec[G]; }
+	inline element_type b() { return vec[B]; }
+
+	// indexed access operator (rhs)
+    inline element_type operator[]( size_t idx ) const { 
+    	return vec[ idx ]; 
+    }
+    // indexed access operator (lhs)
+    inline element_type& operator[]( size_t idx ) { 
+    	return vec[ idx ]; 
+    }
+
+    inline vec3& operator+=( const vec3& );
+    inline vec3& operator-=( const vec3& );
+    inline vec3& operator*=( const vec3& );
+    inline vec3& operator/=( const vec3& );
+    inline vec3& operator*=( const element_type );
+    inline vec3& operator/=( const element_type );
+
+    inline vec3& operator+(void) {
+    	return *this;
+    }
+
+	inline vec3 operator-(void) { 
+		return vec3(-vec[X], -vec[Y], -vec[Z] );
+	}
+
+	inline element_type length( void ) const {
+		return sqrt( pow(vec[X], 2.0) + pow(vec[Y], 2.0) + pow(vec[Z], 2.0 ) );
+	}
+
+    inline element_type squared_length( void ) const
+    {
+        return pow(vec[X], 2.0) + pow(vec[Y], 2.0) + pow(vec[Z], 2.0 );
+    }
+
+    inline void make_unit_vector( void );
 };
+
+typedef vec3 rgb;
+typedef vec3 offset;
+typedef vec3 point3;
+
+#include "vec3.inl"
 
 #endif
