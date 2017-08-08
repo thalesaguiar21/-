@@ -6,6 +6,7 @@ using std::string;
 int main(){
 	vec3 a (1, 2, 3);
 	vec3 b (2, 2, 3);
+	vec3 abCross = cross(a, b);
 	vec3 c = a + b;
 	float angle = get_degree(a, b, true);
 	vec3::element_type t = dot(a, b);
@@ -20,5 +21,6 @@ int main(){
 	std::cout << "||Â|| = " << a.length() <<std::endl;
 	std::cout << "Â' = " << k <<std::endl;
 	std::cout << "A . B = " << t <<std::endl;
+	std::cout << "A X B = " << abCross <<std::endl;
 	return 0;
 }
