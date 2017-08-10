@@ -6,7 +6,9 @@
 #include <cassert>
 
 namespace utility {
-    class vec3 {
+
+    class vec3 
+    {
         public:
             typedef float element_type;
             enum element { X=0, Y=1, Z=2, R=0, G=1, B=2 };
@@ -59,11 +61,11 @@ namespace utility {
             }
 
             inline void make_unit_vector( void );
-        };
+    };
 
-        typedef vec3 rgb;
-        typedef vec3 offset;
-        typedef vec3 point3;
+    typedef vec3 rgb;
+    typedef vec3 offset;
+    typedef vec3 point3;
 }
 
 #include "vec3.inl"

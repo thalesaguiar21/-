@@ -1,8 +1,10 @@
 
 
-#ifndef _RAY_H_ #define _RAY_H_ #include "vec3.h" 
-// necessário para acessar vec3 
+#ifndef _RAY_H_ 
+#define _RAY_H_ 
+#include "vec3.h"  // necessário para acessar vec3 
 using namespace utility; 
+
 class Ray {     
 	private:         
 		point3 O; // the origin of the ray.         
@@ -19,5 +21,6 @@ class Ray {
 		{ 
 			return O + t_ * D; // parametric equation of the ray.
 		} 
-}; #endif
+}; 
+#endif
 
