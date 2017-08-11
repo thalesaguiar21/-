@@ -16,12 +16,12 @@ namespace utility {
 		std::vector<std::string> file_lines;
 
     	std::ifstream myfile(file_name);
-    	cout << "Opening file '" << file_name << "'...\n" <<endl;
+    	cout << "Opening file '" << file_name << "'...\n";
 		if( myfile.is_open() ) {
-			cout << "Checking file format...\n";
 			std::string line;
 			// Extract the content of the given file, 
 			while( getline(myfile, line) ) {
+
 				file_lines.push_back(line);
 			}
 		} else {
