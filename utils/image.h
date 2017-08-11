@@ -16,7 +16,7 @@ namespace utility {
 			// Error messages
 			const std::string NO_CONTENT          = "[ERROR] No content given!";
 			const std::string INVALID_SIZE        = "[ERROR] Insuficient information, or file is too big!";
-			const std::string INSUFICIENT_CONTENT = "[ERROR] No information give: ";
+			const std::string INSUFICIENT_CONTENT = "[ERROR] No information given: ";
 			// Valid file attributes
 			const char COMMENT_CHAR   = '#';
 			const int VALID_FILE_SIZE = 9;
@@ -36,16 +36,39 @@ namespace utility {
 			inline void from(std::vector<std::string> content) {
 
 				if (validate_content(content)) {
-					name = content[NAME].substr(7, content[NAME].length());
-					type = content[TYPE].substr(7, content[TYPE].length());
+					std::vector<std::string> tmp_content = remove_comments(content);
+					name = tmp_content[NAME].substr(7, tmp_content[NAME].length());
+					type = tmp_content[TYPE].substr(7, tmp_content[TYPE].length());
 
-					codification = content[CODIFICATION].substr(15, content[CODIFICATION].length());
-					type = std::stoi(content[WIDTH].substr(8, content[WIDTH].length()), nullptr);
+					codification = tmp_content[CODIFICATION].substr(15, tmp_content[CODIFICATION].length());
+					width = std::stoi(tmp_content[WIDTH].substr(8, tmp_content[WIDTH].length()), nullptr);
+					height = std::stoi(tmp_content[HEIGHT].substr(9, tmp_content[HEIGHT].length()), nullptr);
+
+
+					std::cout << name <<std::endl;
+					std::cout << type <<std::endl;
+					std::cout << codification <<std::endl;
+					std::cout << width <<std::endl;
+					std::cout << height <<std::endl;
 				}
 			}
 
 			private:
+				// Remove any strings after a COMMENT_CHAR
+				inline std::vector<std::string> remove_comments(std::vector<std::string> content) {
+					for (int i = 0; i < content.size(); ++i)
+					{
+						int comment_pos = content[i].find_first_of(COMMENT_CHAR);
+						content[i] = content[i].substr(0, comment_pos);
+					}
+
+					return content;
+				}
+
+				// Verify if the given file content match the standard format
 				inline bool validate_content(std::vector<std::string> content){
+
+					std::cout << "Checking file format...\n";
 					bool valid = true;
 					if(content.empty()){
 						std::cout << NO_CONTENT <<std::endl;
