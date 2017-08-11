@@ -30,7 +30,7 @@ namespace utility {
 			int height;
 			rgb upper_left;
 			rgb lower_left;
-			rgb upper_rigth;
+			rgb upper_right;
 			rgb lower_right;
 
 			inline void from(std::vector<std::string> content) {
@@ -39,21 +39,50 @@ namespace utility {
 					std::vector<std::string> tmp_content = remove_comments(content);
 					name = tmp_content[NAME].substr(7, tmp_content[NAME].length());
 					type = tmp_content[TYPE].substr(7, tmp_content[TYPE].length());
-
 					codification = tmp_content[CODIFICATION].substr(15, tmp_content[CODIFICATION].length());
-					width = std::stoi(tmp_content[WIDTH].substr(8, tmp_content[WIDTH].length()), nullptr);
-					height = std::stoi(tmp_content[HEIGHT].substr(9, tmp_content[HEIGHT].length()), nullptr);
+					width 	= std::stoi(tmp_content[WIDTH].substr(8, tmp_content[WIDTH].length()), nullptr);
+					height 	= std::stoi(tmp_content[HEIGHT].substr(9, tmp_content[HEIGHT].length()), nullptr);
 
+					// Get the strings containing all rgb values from the file content
+					std::string upper_left_str 	= tmp_content[UPPER_LEFT].substr(13, tmp_content[UPPER_LEFT].length());
+					std::string lower_left_str 	= tmp_content[LOWER_LEFT].substr(13, tmp_content[LOWER_LEFT].length());
+					std::string upper_right_str = tmp_content[UPPER_RIGHT].substr(14, tmp_content[UPPER_RIGHT].length());
+					std::string lower_right_str = tmp_content[LOWER_RIGHT].substr(14, tmp_content[LOWER_RIGHT].length());
 
-					std::cout << name <<std::endl;
-					std::cout << type <<std::endl;
-					std::cout << codification <<std::endl;
-					std::cout << width <<std::endl;
-					std::cout << height <<std::endl;
+					std::vector<int> values;
+					values = get_values(upper_left_str);
+					upper_left = rgb(values[0], values[1], values[2]);
+
+					values = get_values(lower_left_str);
+					lower_left = rgb(values[0], values[1], values[2]);
+
+					values = get_values(upper_right_str);
+					upper_right = rgb(values[0], values[1], values[2]);
+
+					values = get_values(lower_right_str);
+					lower_right = rgb(values[0], values[1], values[2]);
 				}
 			}
 
 			private:
+
+				inline std::vector<int> get_values(std::string str) {
+					int size = str.length();
+					std::string num = "";
+					std::vector<int> values;
+
+					for (int i = 0; i < size; ++i)
+					{
+						if (str[i] != ' ') {
+							num += str[i];
+						} else if (values.size() < 3){
+							values.push_back(std::stoi(num, nullptr));
+							num = "";
+						}
+					}
+
+					return values;
+				}
 				// Remove any strings after a COMMENT_CHAR
 				inline std::vector<std::string> remove_comments(std::vector<std::string> content) {
 					for (int i = 0; i < content.size(); ++i)
