@@ -97,7 +97,7 @@ namespace utility {
 				// Verify if the given file content match the standard format
 				inline bool validate_content(std::vector<std::string> content){
 
-					std::cout << "Checking file format...\n";
+					std::cout << "Checking file format...";
 					bool valid = true;
 					if(content.empty()){
 						std::cout << NO_CONTENT <<std::endl;
@@ -133,6 +133,7 @@ namespace utility {
 						std::cout << INSUFICIENT_CONTENT << "LOWER_RIGHT" <<std::endl;
 						valid = false;						
 					}
+					std::cout << "Success!\n";
 					return valid;
 				}
 	};
