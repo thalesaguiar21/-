@@ -23,11 +23,25 @@ Image Raytrace (Camera cam, Scene scene, int width, int height)
 }
 #endif
 
+bool hit_sphere(const point3 & center, float radius, const Ray & ray){
+
+    vec3 oc = ray.get_origin() - center;
+    float A = dot(ray.get_direction(), ray.get_direction());
+    float B = 2.0 * dot(oc, ray.get_direction());
+    float C = dot(oc, oc) - (radius * radius);
+
+    float delta = (B * B) - 4 * A * C;
+    //float t1 = (-B + sqrt(delta)) / (2 * A);
+    //float t2 = (-B - sqrt(delta)) / (2 * A);
+
+    return delta > 0;
+}
+
 
 rgb color( const Ray & r_ )
 {
-    rgb top    (0.1, 0.3, 0.5);
-    rgb bottom (0.6, 0.8, 1);
+    rgb top    (0, 0.5, 1);
+    rgb bottom (1, 1, 1);
 
     auto unit = utility::unit_vector( r_.get_direction() );
     auto unit_y = unit.y();
@@ -51,8 +65,8 @@ int main( int argc, char *argv[]  )
         return 1;
     } else {
         myfile.open(argv[1]);
-        int n_cols{ 200 };
-        int n_rows{ 100 };
+        int n_cols{ 1136 };
+        int n_rows{ 640 };
 
         myfile    << "P3\n"
                   << n_cols << " " << n_rows << "\n"
@@ -85,9 +99,16 @@ int main( int argc, char *argv[]  )
                 point3 end_point = lower_left_corner + u*horizontal + v*vertical ;
                 // The ray:
                 Ray r( origin, end_point - origin );
+                point3 center (0, 0, 1);
+                float radius = 0.2;
+                rgb c;
 
-                // Determine the color of the ray, as it travels through the virtual space.
-                auto c = color( r );
+                if(hit_sphere(center, radius, r)){
+                    c = rgb (1, 0, 0);
+                } else {
+                    // Determine the color of the ray, as it travels through the virtual space.
+                    c = color( r );
+                }
 
                 int ir = int( 255.99f * c[rgb::R] );
                 int ig = int( 255.99f * c[rgb::G] );

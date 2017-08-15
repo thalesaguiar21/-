@@ -3,4 +3,10 @@ ppm:
 
 rppm:
 	@g++ make_img.cpp -o make_ppm
-	@./make_ppm utils/my_file.txt
+	@./make_ppm file_examples/my_file.txt
+	@rm make_ppm
+
+render:
+	@g++ render.cpp -o render
+	@./render imgs/myimg.ppm
+	@rm render
