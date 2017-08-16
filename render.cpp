@@ -31,29 +31,25 @@ bool hit_sphere(const point3 & center, float radius, const Ray & ray){
     float C = dot(oc, oc) - (radius * radius);
 
     float delta = (B * B) - 4 * A * C;
-    //float t1 = (-B + sqrt(delta)) / (2 * A);
-    //float t2 = (-B - sqrt(delta)) / (2 * A);
-
+    /*if (delta > 0){
+        //float t1 = (-B + sqrt(delta)) / (2 * A);
+        float t2 = (-B - sqrt(delta)) / (2 * A);
+        return t2;
+    } else {
+        return t2;
+    }*/
     return delta > 0;
 }
 
 
-rgb color( const Ray & r_ )
+rgb color( const Ray & r_, rgb top, rgb bottom )
 {
-    rgb top    (0, 0.5, 1);
-    rgb bottom (1, 1, 1);
-
     auto unit = utility::unit_vector( r_.get_direction() );
     auto unit_y = unit.y();
 
-    // TODO: determine the background color, which is an linear interpolation between bottom->top.
-    // The interpolation is based on where the ray hits the background.
-    // Imagine that the background is attached to the view-plane; in other words,
-    // the virtual world we want to visualize is empty!
-
     auto t = (unit_y + 1) / 2;
     rgb result = bottom + t * (top - bottom);
-    return result; // Stub, replace it accordingly
+    return result;
 }
 
 int main( int argc, char *argv[]  )
@@ -107,7 +103,7 @@ int main( int argc, char *argv[]  )
                     c = rgb (1, 0, 0);
                 } else {
                     // Determine the color of the ray, as it travels through the virtual space.
-                    c = color( r );
+                    c = color( r, rgb (1, 0, 0), rgb (0, 0.5, 0.7));
                 }
 
                 int ir = int( 255.99f * c[rgb::R] );
