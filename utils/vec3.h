@@ -52,12 +52,12 @@ namespace utility {
             }
 
             inline element_type length( void ) const {
-                return sqrt( pow(vec[X], 2.0) + pow(vec[Y], 2.0) + pow(vec[Z], 2.0 ) );
+                return sqrt( this->squared_length() );
             }
 
             inline element_type squared_length( void ) const
             {
-                return pow(vec[X], 2.0) + pow(vec[Y], 2.0) + pow(vec[Z], 2.0 );
+                return vec[X] * vec[X] + vec[Y] * vec[Y] + vec[Z] * vec[Z];
             }
 
             inline void make_unit_vector( void );

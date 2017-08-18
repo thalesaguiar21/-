@@ -8,5 +8,5 @@ rppm:
 
 render:
 	@g++ render.cpp -o render
-	@./render imgs/myimg.ppm
+	@./render file_examples/my_file.txt
 	@rm render

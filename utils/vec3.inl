@@ -7,21 +7,6 @@ namespace utility {
     //
     inline void vec3::make_unit_vector( void )
     {
-        /**
-         * +---> unit vector.
-         * |
-         *
-         * ^     1
-         * v = _____ * v
-         *     ||v||
-         *
-         * ||v|| = sqrt( v dot v )
-         *
-         *      1
-         * k =_____
-         *    ||v||
-         */
-        // TODO
         float length = (float)this->length();
         this->vec[X] = this->vec[X] / length;
         this->vec[Y] = this->vec[Y] / length;
@@ -63,17 +48,23 @@ namespace utility {
 
     inline vec3 operator-( const vec3 & v1, const vec3 & v2 )
     {
-        vec3 tmp = v2;
-        return v1 + (-tmp);
+        return vec3( v1.vec[vec3::X] - v2.vec[vec3::X],
+                     v1.vec[vec3::Y] - v2.vec[vec3::Y],
+                     v1.vec[vec3::Z] - v2.vec[vec3::Z] );
     }
 
     inline vec3 operator*( const vec3 & v1, const vec3 & v2 )
     {
-        return vec3(0, 0, 0);
+        return vec3( v1.vec[vec3::X] * v2.vec[vec3::X],
+                     v1.vec[vec3::Y] * v2.vec[vec3::Y],
+                     v1.vec[vec3::Z] * v2.vec[vec3::Z] );
     }
 
     inline vec3 operator/( const vec3 & v1, const vec3 & v2 )
     {
+        return vec3( v1.vec[vec3::X] / v2.vec[vec3::X],
+                     v1.vec[vec3::Y] / v2.vec[vec3::Y],
+                     v1.vec[vec3::Z] / v2.vec[vec3::Z] );
     }
 
     // Uso: V * 4
@@ -97,9 +88,7 @@ namespace utility {
 
     inline vec3::element_type dot( const vec3 & v1, const vec3 & v2 )
     {
-        return v1[vec3::X]*v2[vec3::X] 
-               + v1[vec3::Y]*v2[vec3::Y] 
-               + v1[vec3::Z]*v2[vec3::Z];
+        return v1[vec3::X] * v2[vec3::X] + v1[vec3::Y] * v2[vec3::Y] + v1[vec3::Z] * v2[vec3::Z];
     }
 
     inline vec3 cross( const vec3 & v1, const vec3 & v2 )
@@ -132,11 +121,12 @@ namespace utility {
         return *this;
     }
 
-    // Uso: A /= B;
+    // For Colors
     inline vec3& vec3::operator/=( const vec3 & v )
     {
-        // TODO
-
+        vec[X] = vec[X] / v.vec[X];
+        vec[Y] = vec[Y] / v.vec[Y];
+        vec[Z] = vec[Z] / v.vec[Z];
         return *this;
     }
 
@@ -164,9 +154,11 @@ namespace utility {
     // Uso: vec3 A = unit_vector( B );
     inline vec3 unit_vector( const vec3 & v )
     {
-        vec3 tmp = v;
-        tmp /= v.length();
-        return tmp;
+        return v / v.length();
+    }
+
+    inline rgb normalize( const rgb & color ) {
+        return rgb (color[vec3::X] / 255.0, color[vec3::Y] / 255.0, color[vec3::Z] / 255.0);
     }
 
     inline double get_rad(const vec3 & v1, const vec3 & v2, bool cos)

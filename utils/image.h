@@ -51,16 +51,16 @@ namespace utility {
 
 					std::vector<int> values;
 					values = get_values(upper_left_str);
-					upper_left = rgb(values[0], values[1], values[2]);
+					upper_left = normalize( rgb(values[0], values[1], values[2]) );
 
 					values = get_values(lower_left_str);
-					lower_left = rgb(values[0], values[1], values[2]);
+					lower_left = normalize( rgb(values[0], values[1], values[2]) );
 
 					values = get_values(upper_right_str);
-					upper_right = rgb(values[0], values[1], values[2]);
+					upper_right = normalize( rgb(values[0], values[1], values[2]) );
 
 					values = get_values(lower_right_str);
-					lower_right = rgb(values[0], values[1], values[2]);
+					lower_right = normalize( rgb(values[0], values[1], values[2]) );
 				}
 			}
 

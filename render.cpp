@@ -1,9 +1,14 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <string>
 #include "utils/vec3.h"
 #include "utils/ray.h"
+#include "utils/image.h"
+#include "utils/file_reader.h"
 
 using namespace utility;
+using std::string;
 
 /*
  *  In the near future we'll want to refactor our project to become
@@ -31,25 +36,52 @@ bool hit_sphere(const point3 & center, float radius, const Ray & ray){
     float C = dot(oc, oc) - (radius * radius);
 
     float delta = (B * B) - 4 * A * C;
-    /*if (delta > 0){
-        //float t1 = (-B + sqrt(delta)) / (2 * A);
-        float t2 = (-B - sqrt(delta)) / (2 * A);
-        return t2;
-    } else {
-        return t2;
-    }*/
     return delta > 0;
 }
 
-
-rgb color( const Ray & r_, rgb top, rgb bottom )
-{
-    auto unit = utility::unit_vector( r_.get_direction() );
-    auto unit_y = unit.y();
-
-    auto t = (unit_y + 1) / 2;
-    rgb result = bottom + t * (top - bottom);
+Ray hit_sphere_with_light(const point3 & center, float radius, const Ray & ray, bool root1 = false) {
+    
+    Ray result;
+    vec3 oc = ray.get_origin() - center;
+    float A = dot(ray.get_direction(), ray.get_direction());
+    float B = 2.0 * dot(oc, ray.get_direction());
+    float C = dot(oc, oc) - (radius * radius);
+    
+    float delta = (B * B) - 4 * A * C;
+    if (delta > 0){
+        float t1 = (-B + sqrt(delta)) / (2.0 * A);
+        float t2 = (-B - sqrt(delta)) / (2.0 * A);
+        float max = (root1) ? (t1) : (t2);
+        vec3 unit = unit_vector(ray.point_at(max) - center);
+        vec3 normal = 0.5 * vec3(unit.x()+1, unit.y()+1, unit.z()+1);
+        result = Ray (center, normal);
+    }
     return result;
+}
+
+
+rgb color( const Ray & r_, Image img)
+{
+
+    point3 center = point3 (0, 0, -1.0);
+    float radius = 0.5;
+    rgb color;
+
+    if (hit_sphere(center, radius, r_)) {
+        Ray norm = hit_sphere_with_light(center, radius, r_, true);
+        color = norm.get_direction();
+    } else {
+        auto unit = utility::unit_vector( r_.get_direction() );
+
+        auto tx = (unit.x() + 1.0) / 2.0;
+        auto ty = (unit.y() + 1.0) / 2.0;
+
+        rgb upper = (1 - tx) * img.upper_left + tx * img.upper_right;
+        rgb lower = (1 - tx) * img.lower_left + tx * img.lower_right;
+        color = (1 - ty) * lower + ty * upper;
+    } 
+
+    return color;
 }
 
 int main( int argc, char *argv[]  )
@@ -60,13 +92,14 @@ int main( int argc, char *argv[]  )
         std::cout << "No input file name was given! Closing the program." <<std::endl;
         return 1;
     } else {
-        myfile.open(argv[1]);
-        int n_cols{ 1136 };
-        int n_rows{ 640 };
+        std::vector<string> content = utility::read_file(argv[1]);
+        Image img;
+        img.from(content);
+        std::ofstream imgFile("imgs/" + img.name);
 
-        myfile    << "P3\n"
-                  << n_cols << " " << n_rows << "\n"
-                  << "255\n";
+        imgFile << "P3" << "\n";
+        imgFile << img.width << " " << img.height << "\n";
+        imgFile << "255\n";
 
         //=== Defining our 'camera'
         point3 lower_left_corner( -2, -1, -1 ); // lower left corner of the view plane.
@@ -75,46 +108,24 @@ int main( int argc, char *argv[]  )
         point3 origin(0, 0, 0); // the camera's origin.
 
          // NOTICE: We loop rows from bottom to top.
-        for ( auto row{n_rows-1} ; row >= 0 ; --row ) // Y
+        for ( auto row = img.height - 1 ; row >= 0 ; --row ) // Y
         {
-            for( auto col{0} ; col < n_cols ; col++ ) // X
+            for( auto col = 0 ; col < img.width ; col++ ) // X
             {
-                // Determine how much we have 'walked' on the image: in [0,1]
-                auto u = float(col) / float( n_cols ); // walked u% of the horizontal dimension of the view plane.
-                auto v = float(row) / float( n_rows ); // walked v% of the vertical dimension of the view plane.
-
-                // Determine the ray's direction, based on the pixel coordinate (col,row).
-                // We are mapping (matching) the view plane (vp) to the image.
-                // To create a ray we need: (a) an origin, and (b) an end point.
-                //
-                // (a) The ray's origin is the origin of the camera frame (which is the same as the world's frame).
-                //
-                // (b) To get the end point of ray we just have to 'walk' from the
-                // vp's origin + horizontal displacement (proportional to 'col') +
-                // vertical displacement (proportional to 'row').
+                auto u = float(col) / float(img.width); 
+                auto v = float(row) / float(img.height); 
                 point3 end_point = lower_left_corner + u*horizontal + v*vertical ;
-                // The ray:
                 Ray r( origin, end_point - origin );
-                point3 center (0, 0, 1);
-                float radius = 0.2;
-                rgb c;
 
-                if(hit_sphere(center, radius, r)){
-                    c = rgb (1, 0, 0);
-                } else {
-                    // Determine the color of the ray, as it travels through the virtual space.
-                    c = color( r, rgb (1, 0, 0), rgb (0, 0.5, 0.7));
-                }
+                rgb c = color (r, img);
 
                 int ir = int( 255.99f * c[rgb::R] );
                 int ig = int( 255.99f * c[rgb::G] );
                 int ib = int( 255.99f * c[rgb::B] );
 
-                myfile << ir << " " << ig << " " << ib << "\n";
+                imgFile << ir << " " << ig << " " << ib << "\n";
             }
         }
-
-        myfile.close();
     }
 
     return 0;
