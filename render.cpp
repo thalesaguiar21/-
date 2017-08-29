@@ -63,12 +63,25 @@ Ray hit_sphere_with_light(const point3 & center, float radius, const Ray & ray, 
 rgb color( const Ray & r_, Image img)
 {
 
-    point3 center = point3 (0, 0, -1.0);
-    float radius = 0.5;
+    point3 centerA = point3 (0, 0, -2.0);
+    float radiusA = 0.5;
+
+    point3 centerB = point3 (0.3, 0.3, -3.0);
+    float radiusB = 0.7;
+
+    point3 centerC = point3 (-0.8, 0.3, -4.0);
+    float radiusC = 0.9;
+
     rgb color;
 
-    if (hit_sphere(center, radius, r_)) {
-        Ray norm = hit_sphere_with_light(center, radius, r_, true);
+    if (hit_sphere(centerA, radiusA, r_)) {
+        Ray norm = hit_sphere_with_light(centerA, radiusA, r_, true);
+        color = norm.get_direction();
+    } else if (hit_sphere(centerB, radiusB, r_)) {
+        Ray norm = hit_sphere_with_light(centerB, radiusB, r_);
+        color = norm.get_direction();
+    } else if (hit_sphere(centerC, radiusC, r_)) {
+        Ray norm = hit_sphere_with_light(centerC, radiusC, r_);
         color = norm.get_direction();
     } else {
         auto unit = utility::unit_vector( r_.get_direction() );
