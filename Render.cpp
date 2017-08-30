@@ -2,10 +2,10 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include "utils/vec3.h"
-#include "utils/ray.h"
-#include "utils/image.h"
-#include "utils/file_reader.h"
+#include "utils/Vec3.h"
+#include "utils/Ray.h"
+#include "utils/Image.h"
+#include "utils/FileReader.h"
 
 using namespace utility;
 using std::string;
@@ -28,9 +28,9 @@ Image Raytrace (Camera cam, Scene scene, int width, int height)
 }
 #endif
 
-bool hit_sphere(const point3 & center, float radius, const Ray & ray){
+bool hit_sphere(const Point3 & center, float radius, const Ray & ray){
 
-    vec3 oc = ray.get_origin() - center;
+    Vec3 oc = ray.get_origin() - center;
     float A = dot(ray.get_direction(), ray.get_direction());
     float B = 2.0 * dot(oc, ray.get_direction());
     float C = dot(oc, oc) - (radius * radius);
@@ -39,10 +39,10 @@ bool hit_sphere(const point3 & center, float radius, const Ray & ray){
     return delta > 0;
 }
 
-Ray hit_sphere_with_light(const point3 & center, float radius, const Ray & ray, bool root1 = false) {
+Ray hit_sphere_with_light(const Point3 & center, float radius, const Ray & ray, bool root1 = false) {
     
     Ray result;
-    vec3 oc = ray.get_origin() - center;
+    Vec3 oc = ray.get_origin() - center;
     float A = dot(ray.get_direction(), ray.get_direction());
     float B = 2.0 * dot(oc, ray.get_direction());
     float C = dot(oc, oc) - (radius * radius);
@@ -52,27 +52,27 @@ Ray hit_sphere_with_light(const point3 & center, float radius, const Ray & ray, 
         float t1 = (-B + sqrt(delta)) / (2.0 * A);
         float t2 = (-B - sqrt(delta)) / (2.0 * A);
         float max = (root1) ? (t1) : (t2);
-        vec3 unit = unit_vector(ray.point_at(max) - center);
-        vec3 normal = 0.5 * vec3(unit.x()+1, unit.y()+1, unit.z()+1);
+        Vec3 unit = unit_vector(ray.point_at(max) - center);
+        Vec3 normal = 0.5 * Vec3(unit.x()+1, unit.y()+1, unit.z()+1);
         result = Ray (center, normal);
     }
     return result;
 }
 
 
-rgb color( const Ray & r_, Image img)
+RGB color( const Ray & r_, Image img)
 {
 
-    point3 centerA = point3 (0, 0, -2.0);
+    Point3 centerA = Point3 (0, 0, -2.0);
     float radiusA = 0.5;
 
-    point3 centerB = point3 (0.3, 0.3, -3.0);
+    Point3 centerB = Point3 (0.3, 0.3, -3.0);
     float radiusB = 0.7;
 
-    point3 centerC = point3 (-0.8, 0.3, -4.0);
+    Point3 centerC = Point3 (-0.8, 0.3, -4.0);
     float radiusC = 0.9;
 
-    rgb color;
+    RGB color;
 
     if (hit_sphere(centerA, radiusA, r_)) {
         Ray norm = hit_sphere_with_light(centerA, radiusA, r_, true);
@@ -89,8 +89,8 @@ rgb color( const Ray & r_, Image img)
         auto tx = (unit.x() + 1.0) / 2.0;
         auto ty = (unit.y() + 1.0) / 2.0;
 
-        rgb upper = (1 - tx) * img.upper_left + tx * img.upper_right;
-        rgb lower = (1 - tx) * img.lower_left + tx * img.lower_right;
+        RGB upper = (1 - tx) * img.upper_left + tx * img.upper_right;
+        RGB lower = (1 - tx) * img.lower_left + tx * img.lower_right;
         color = (1 - ty) * lower + ty * upper;
     } 
 
@@ -115,10 +115,10 @@ int main( int argc, char *argv[]  )
         imgFile << "255\n";
 
         //=== Defining our 'camera'
-        point3 lower_left_corner( -2, -1, -1 ); // lower left corner of the view plane.
-        vec3 horizontal( 4, 0, 0 ); // Horizontal dimension of the view plane.
-        vec3 vertical(0, 2, 0); // Vertical dimension of the view plane.
-        point3 origin(0, 0, 0); // the camera's origin.
+        Point3 lower_left_corner( -2, -1, -1 ); // lower left corner of the view plane.
+        Vec3 horizontal( 4, 0, 0 ); // Horizontal dimension of the view plane.
+        Vec3 vertical(0, 2, 0); // Vertical dimension of the view plane.
+        Point3 origin(0, 0, 0); // the camera's origin.
 
          // NOTICE: We loop rows from bottom to top.
         for ( auto row = img.height - 1 ; row >= 0 ; --row ) // Y
@@ -127,14 +127,14 @@ int main( int argc, char *argv[]  )
             {
                 auto u = float(col) / float(img.width); 
                 auto v = float(row) / float(img.height); 
-                point3 end_point = lower_left_corner + u*horizontal + v*vertical ;
+                Point3 end_point = lower_left_corner + u*horizontal + v*vertical ;
                 Ray r( origin, end_point - origin );
 
-                rgb c = color (r, img);
+                RGB c = color (r, img);
 
-                int ir = int( 255.99f * c[rgb::R] );
-                int ig = int( 255.99f * c[rgb::G] );
-                int ib = int( 255.99f * c[rgb::B] );
+                int ir = int( 255.99f * c[RGB::R] );
+                int ig = int( 255.99f * c[RGB::G] );
+                int ib = int( 255.99f * c[RGB::B] );
 
                 imgFile << ir << " " << ig << " " << ib << "\n";
             }

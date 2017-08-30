@@ -7,6 +7,6 @@ rppm:
 	@rm make_ppm
 
 render:
-	@g++ render.cpp -o render
+	@g++ Render.cpp -o render
 	@./render file_examples/my_file.txt
 	@rm render

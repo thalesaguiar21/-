@@ -7,7 +7,7 @@
 
 namespace utility {
 
-    class vec3 
+    class Vec3 
     {
         public:
             typedef float element_type;
@@ -15,7 +15,7 @@ namespace utility {
 
             element_type vec[3];
 
-            vec3(element_type x = 0.f, element_type y = 0.f, element_type z=0.f) : vec{ x, y, z }
+            Vec3(element_type x = 0.f, element_type y = 0.f, element_type z=0.f) : vec{ x, y, z }
             { 
 
             }
@@ -36,19 +36,19 @@ namespace utility {
                 return vec[ idx ]; 
             }
 
-            inline vec3& operator+=( const vec3& );
-            inline vec3& operator-=( const vec3& );
-            inline vec3& operator*=( const vec3& );
-            inline vec3& operator/=( const vec3& );
-            inline vec3& operator*=( const element_type );
-            inline vec3& operator/=( const element_type );
+            inline Vec3& operator+=( const Vec3& );
+            inline Vec3& operator-=( const Vec3& );
+            inline Vec3& operator*=( const Vec3& );
+            inline Vec3& operator/=( const Vec3& );
+            inline Vec3& operator*=( const element_type );
+            inline Vec3& operator/=( const element_type );
 
-            inline vec3& operator+(void) {
+            inline Vec3& operator+(void) {
                 return *this;
             }
 
-            inline vec3 operator-(void) { 
-                return vec3(-vec[X], -vec[Y], -vec[Z] );
+            inline Vec3 operator-(void) { 
+                return Vec3(-vec[X], -vec[Y], -vec[Z] );
             }
 
             inline element_type length( void ) const {
@@ -63,11 +63,11 @@ namespace utility {
             inline void make_unit_vector( void );
     };
 
-    typedef vec3 rgb;
-    typedef vec3 offset;
-    typedef vec3 point3;
+    typedef Vec3 RGB;
+    typedef Vec3 Offset;
+    typedef Vec3 Point3;
 }
 
-#include "vec3.inl"
+#include "Vec3.inl"
 
 #endif

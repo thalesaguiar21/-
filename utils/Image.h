@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-#include "vec3.h"
+#include "Vec3.h"
 
 namespace utility {
 
@@ -28,10 +28,10 @@ namespace utility {
 			std::string codification;
 			int width;
 			int height;
-			rgb upper_left;
-			rgb lower_left;
-			rgb upper_right;
-			rgb lower_right;
+			RGB upper_left;
+			RGB lower_left;
+			RGB upper_right;
+			RGB lower_right;
 
 			inline void from(std::vector<std::string> content) {
 
@@ -43,7 +43,7 @@ namespace utility {
 					width 	= std::stoi(tmp_content[WIDTH].substr(8, tmp_content[WIDTH].length()), nullptr);
 					height 	= std::stoi(tmp_content[HEIGHT].substr(9, tmp_content[HEIGHT].length()), nullptr);
 
-					// Get the strings containing all rgb values from the file content
+					// Get the strings containing all RGB values from the file content
 					std::string upper_left_str 	= tmp_content[UPPER_LEFT].substr(13, tmp_content[UPPER_LEFT].length());
 					std::string lower_left_str 	= tmp_content[LOWER_LEFT].substr(13, tmp_content[LOWER_LEFT].length());
 					std::string upper_right_str = tmp_content[UPPER_RIGHT].substr(14, tmp_content[UPPER_RIGHT].length());
@@ -51,16 +51,16 @@ namespace utility {
 
 					std::vector<int> values;
 					values = get_values(upper_left_str);
-					upper_left = normalize( rgb(values[0], values[1], values[2]) );
+					upper_left = normalize( RGB(values[0], values[1], values[2]) );
 
 					values = get_values(lower_left_str);
-					lower_left = normalize( rgb(values[0], values[1], values[2]) );
+					lower_left = normalize( RGB(values[0], values[1], values[2]) );
 
 					values = get_values(upper_right_str);
-					upper_right = normalize( rgb(values[0], values[1], values[2]) );
+					upper_right = normalize( RGB(values[0], values[1], values[2]) );
 
 					values = get_values(lower_right_str);
-					lower_right = normalize( rgb(values[0], values[1], values[2]) );
+					lower_right = normalize( RGB(values[0], values[1], values[2]) );
 				}
 			}
 
