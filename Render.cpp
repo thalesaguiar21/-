@@ -77,8 +77,10 @@ int main( int argc, char *argv[]  )
     imgFile << img.width << " " << img.height << "\n";
     imgFile << "255\n";
 
-    Camera cam (Point3(-2, -1, -1), Point3(0, 0, 0), Vec3(4, 0, 0), Vec3(0, 4, 0));
-    vector<Actor*> actors = { new Sphere(Point3 (1.0,1.0,-3.0), 0.5)};
+    Camera cam (Point3(-2, -1, -1), Point3(0, 0, 0), Vec3(4, 0, 0), Vec3(0, 2, 0));
+    vector<Actor*> actors = { new Sphere(Point3 (-0.35,0,-1.0), 0.4),
+                              new Sphere(Point3 (-0.25,0, -3.0), 0.8),
+                              new Sphere(Point3 (-0.15,0, -2.0), 1.2)};
     Scene scene (cam, actors);
 
     // NOTICE: We loop rows from bottom to top.

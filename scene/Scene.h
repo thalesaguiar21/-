@@ -23,10 +23,26 @@ class Scene {
 		}
 
 		/* Creates a new scene with the given camera and a set of
-			 actors.*/
+			 actors. These actors are sorted by their z coordinate of their origin.*/
 		Scene (Camera camera, vector<Actor*> actors) {
 		  cam = camera;
 		  this->actors = actors;
+		  sortActors();
+		}
+
+		/* Sort the scene's actors by ther Z coordinate of their origin.*/
+		inline void sortActors() {
+			if(actors.size() > 1) {
+				for(int i=0; i < actors.size(); i++) {
+					for(int j=i; j<actors.size(); j++) {
+						if(actors[j]->origin.z() < actors[i]->origin.z()){
+							Actor *aux = actors[i];
+							actors[i] = actors[j];
+							actors[j] = aux;
+						}
+					}
+				}
+			}
 		}
 };
 #endif
