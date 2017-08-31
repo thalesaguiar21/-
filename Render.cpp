@@ -2,14 +2,20 @@
 #include <fstream>
 #include <vector>
 #include <string>
+
 #include "utils/Vec3.h"
 #include "utils/Ray.h"
 #include "utils/Image.h"
 #include "utils/FileReader.h"
+
 #include "scene/Camera.h"
+#include "scene/Scene.h"
+
+#include "basic_shapes/Sphere.h"
 
 using namespace utility;
 using std::string;
+using std::vector;
 
 /*
  *  In the near future we'll want to refactor our project to become
@@ -29,16 +35,28 @@ Image Raytrace (Camera cam, Scene scene, int width, int height)
 }
 #endif
 
-RGB color( const Ray & r_, Image img) 
+RGB color( const Ray & r_, Image img, const Scene & scene) 
 {
-  // If no Actor was hit, then hits the background.
-  auto unit = utility::unit_vector( r_.get_direction() );
-  auto tx = (unit.x() + 1.0) / 2.0;
-  auto ty = (unit.y() + 1.0) / 2.0;
+  RGB color;
+  bool hitActor = false;
+  for(int i=0; i < scene.actors.size(); i++) {
+    if(scene.actors[i]->hit(r_)) {
+      color = scene.actors[i]->getNormal(r_);
+      hitActor = true;
+      break;
+    }
+  }
 
-  RGB upper = (1 - tx) * img.upper_left + tx * img.upper_right;
-  RGB lower = (1 - tx) * img.lower_left + tx * img.lower_right;
-  RGB color = (1 - ty) * lower + ty * upper;
+  if(!hitActor) {
+    // If no Actor was hit, then hits the background.
+    auto unit = utility::unit_vector( r_.get_direction() );
+    auto tx = (unit.x() + 1.0) / 2.0;
+    auto ty = (unit.y() + 1.0) / 2.0;
+
+    RGB upper = (1 - tx) * img.upper_left + tx * img.upper_right;
+    RGB lower = (1 - tx) * img.lower_left + tx * img.lower_right;
+    color = (1 - ty) * lower + ty * upper;
+  }
   return color;
 }
 
@@ -47,10 +65,10 @@ int main( int argc, char *argv[]  )
   std::ofstream myfile;
 
   if(argc < 2){
-      std::cout << "No input file name was given! Closing the program." <<std::endl;
-      return 1;
+    std::cout << "No input file name was given! Closing the program." <<std::endl;
+    return 1;
   } else {
-    std::vector<string> content = utility::read_file(argv[1]);
+    vector<string> content = utility::read_file(argv[1]);
     Image img;
     img.from(content);
     std::ofstream imgFile("imgs/" + img.name);
@@ -59,18 +77,16 @@ int main( int argc, char *argv[]  )
     imgFile << img.width << " " << img.height << "\n";
     imgFile << "255\n";
 
-    //=== Defining our 'camera'
-    Camera cam (Point3(-2, -1, -1),
-                Point3(0, 0, 0),
-                Vec3(4, 0, 0),
-                Vec3(0, 2, 0));
+    Camera cam (Point3(-2, -1, -1), Point3(0, 0, 0), Vec3(4, 0, 0), Vec3(0, 4, 0));
+    vector<Actor*> actors = { new Sphere(Point3 (1.0,1.0,-3.0), 0.5)};
+    Scene scene (cam, actors);
 
-     // NOTICE: We loop rows from bottom to top.
+    // NOTICE: We loop rows from bottom to top.
     for ( auto row = img.height - 1 ; row >= 0 ; --row ) { //Y
       for( auto col = 0 ; col < img.width ; col++ ) { // X 
         Ray r = cam.getRay(col, row, img.width, img.height);
 
-        RGB c = color (r, img);
+        RGB c = color (r, img, scene);
 
         int ir = int( 255.99f * c[RGB::R] );
         int ig = int( 255.99f * c[RGB::G] );

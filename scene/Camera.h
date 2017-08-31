@@ -14,6 +14,15 @@ public:
   // Vertical dimension of the view plane.
   Vec3 vertical;
 
+  /* The default constructor will create a Camera with llc and origin at (0,0,0)
+     and horizontal and vertical with direction (0,0,0).*/
+  Camera () {
+    llc = Point3(0, 0, 0);
+    origin = Point3(0, 0, 0);
+    horizontal = Vec3(0 , 0, 0);
+    vertical = Vec3(0, 0, 0);
+  }
+
   Camera (Point3 lowerLeftCorner, Point3 origin, Vec3 horizontal, Vec3 vertical) {
     llc = lowerLeftCorner;
     this->origin = origin;
