@@ -26,7 +26,7 @@ public:
     return delta > 0;
 	}
 
-	inline Vec3 getNormal (const Ray & ray, bool lowerRoot=false) override {
+	inline Vec3 hitPoint (const Ray & ray, bool lowerRoot=false) override {
 		double A, B, C;
 		double delta = hit(ray, A, B, C);
 		Vec3 normal;
@@ -34,8 +34,7 @@ public:
 			float t1 = (-B - sqrt(delta)) / (2.0 * A);
       float t2 = (-B + sqrt(delta)) / (2.0 * A);
       float root = (lowerRoot) ? (t1) : (t2);
-      Vec3 unit = unit_vector(ray.point_at(root) - origin);
-      normal = 0.5 * Vec3(unit.x()+1, unit.y()+1, unit.z()+1);
+      normal = ray.point_at(root);
 		}
 		return normal;
 	}

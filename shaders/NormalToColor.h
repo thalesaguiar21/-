@@ -10,9 +10,13 @@
 
 class NormalToColor : public Shader {
 
+private:
+	// True uses the -b + root, and false use -b - root.
+	bool rootToUse;
+
 public:
-	NormalToColor () {
-		// Nothing to initialize
+	NormalToColor (bool rootToUse_ = false) {
+		rootToUse = rootToUse_;
 	}
 
 	/* Take the intersection between the given Ray and the objects in the scene
@@ -27,7 +31,8 @@ public:
 	  bool hitActor = false;
 	  for(int i=0; i < scene.actors.size(); i++) {
 	    if(scene.actors[i]->hit(r_)) {
-	      color = scene.actors[i]->getNormal(r_);
+	    	Vec3 normal = unit_vector(scene.actors[i]->hitPoint(r_, rootToUse) - scene.actors[i]->origin);
+	    	color = 0.5 * (normal + Vec3 (1.0, 1.0, 1.0));
 	      hitActor = true;
 	      break;
 	    }

@@ -60,7 +60,7 @@ int main( int argc, char *argv[]  )
                               new Sphere(Point3 (-0.25,0, -3.0), 0.8),
                               new Sphere(Point3 (0.45,0, -2.0), 0.1)};
     Scene scene (cam, actors);
-    Shader *shader = new NormalToColor();
+    Shader *shader = new NormalToColor(true);
 
     // NOTICE: We loop rows from bottom to top.
     for ( auto row = img.height - 1 ; row >= 0 ; --row ) { //Y
