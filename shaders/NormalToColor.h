@@ -8,14 +8,15 @@
 
 #include "Shader.h"
 
-class NormalToColor : public Shader {
-
+class NormalToColor : public Shader 
+{
 private:
 	// True uses the -b + root, and false use -b - root.
 	bool rootToUse;
 
 public:
-	NormalToColor (bool rootToUse_ = false) {
+	NormalToColor (bool rootToUse_ = false) 
+	{
 		rootToUse = rootToUse_;
 	}
 
@@ -26,7 +27,8 @@ public:
 		 @param Image The parameters of the img.
 		 @param Scene A scene with a list of actors
 		 @return RGB The color created from the normal vector.*/
-	virtual RGB getColor(const Ray & r_, Image img, Scene scene) override {
+	virtual RGB getColor(const Ray & r_, Image img, Scene scene) override 
+	{
 		RGB color;
 	  bool hitActor = false;
 	  for(int i=0; i < scene.actors.size(); i++) {

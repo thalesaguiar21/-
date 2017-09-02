@@ -4,19 +4,22 @@
 #include "../utils/Ray.h"
 #include "../scene/Actor.h"
 
-class Sphere : public Actor {
+class Sphere : public Actor 
+{
 public:
 	// The sphere radius length
 	double radius;
 
 	/* Constructs a new Sphere with center at origin and diameter
 		 of 2 radius */ 
-	Sphere (Point3 origin, double radius) {
+	Sphere (Point3 origin, double radius) 
+	{
 		this->origin = origin;
 		this->radius = radius;
 	}
 
-	inline bool hit (const Ray & ray) override {
+	inline bool hit (const Ray & ray) override 
+	{
 		Vec3 oc = ray.get_origin() - origin;
     float A = dot(ray.get_direction(), ray.get_direction());
     float B = 2.0 * dot(oc, ray.get_direction());
@@ -26,7 +29,8 @@ public:
     return delta > 0;
 	}
 
-	inline Vec3 hitPoint (const Ray & ray, bool lowerRoot=false) override {
+	inline Vec3 hitPoint (const Ray & ray, bool lowerRoot=false) override 
+	{
 		double A, B, C;
 		double delta = hit(ray, A, B, C);
 		Vec3 normal;
@@ -49,7 +53,8 @@ private:
 	   @param B The B from Baskhara formula.
 	   @param C The C from Baskhara formula.
 	   @return double The value of Delta.*/
-	inline double hit(const Ray & ray, double &A, double &B, double &C) {
+	inline double hit(const Ray & ray, double &A, double &B, double &C) 
+	{
 		Vec3 oc = ray.get_origin() - origin;
     A = dot(ray.get_direction(), ray.get_direction());
     B = 2.0 * dot(oc, ray.get_direction());

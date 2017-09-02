@@ -11,9 +11,11 @@ using std::endl;
 using std::vector;
 using std::string;
 
-namespace utility {
+namespace utility 
+{
 	// Reads a file with a given name and creates a Image object with its content.
-	vector<string> read_file(string file_name) {
+	vector<string> read_file(string file_name) 
+	{
 		vector<string> file_lines;
 
 		std::ifstream myfile(file_name);

@@ -16,14 +16,16 @@ public:
 
   /* The default constructor will create a Camera with llc and origin at (0,0,0)
      and horizontal and vertical with direction (0,0,0).*/
-  Camera () {
+  Camera () 
+  {
     llc = Point3(0, 0, 0);
     origin = Point3(0, 0, 0);
     horizontal = Vec3(0 , 0, 0);
     vertical = Vec3(0, 0, 0);
   }
 
-  Camera (Point3 lowerLeftCorner, Point3 origin, Vec3 horizontal, Vec3 vertical) {
+  Camera (Point3 lowerLeftCorner, Point3 origin, Vec3 horizontal, Vec3 vertical) 
+  {
     llc = lowerLeftCorner;
     this->origin = origin;
     this->horizontal = horizontal;
@@ -39,7 +41,8 @@ public:
      @param height The image height
      @return A Ray object that hits the specified point
   */
-  inline Ray getRay(int col, int row, int width, int height){
+  inline Ray getRay(int col, int row, int width, int height)
+  {
     auto u = float(col) / float(width);
     auto v = float(row) / float(height);
     Point3 end_point = llc + u*horizontal + v*vertical ;

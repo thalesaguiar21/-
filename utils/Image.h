@@ -7,8 +7,10 @@
 
 #include "Vec3.h"
 
-namespace utility {
-	class Image {
+namespace utility 
+{
+	class Image 
+	{
 	public:
 		// == Image and file constants
 		// Error messages
@@ -31,8 +33,8 @@ namespace utility {
 		RGB upper_right;
 		RGB lower_right;
 
-		inline void from(std::vector<std::string> content) {
-
+		inline void from(std::vector<std::string> content) 
+		{
 			if (validate_content(content)) {
 				std::vector<std::string> tmp_content = remove_comments(content);
 				name = tmp_content[NAME].substr(7, tmp_content[NAME].length());
@@ -63,7 +65,8 @@ namespace utility {
 		}
 
 		private:
-			inline std::vector<int> get_values(std::string str) {
+			inline std::vector<int> get_values(std::string str) 
+			{
 				int size = str.length();
 				std::string num = "";
 				std::vector<int> values;
@@ -81,7 +84,8 @@ namespace utility {
 				return values;
 			}
 			// Remove any strings after a COMMENT_CHAR
-			inline std::vector<std::string> remove_comments(std::vector<std::string> content) {
+			inline std::vector<std::string> remove_comments(std::vector<std::string> content) 
+			{
 				for (int i = 0; i < content.size(); ++i)
 				{
 					int comment_pos = content[i].find_first_of(COMMENT_CHAR);
@@ -92,8 +96,8 @@ namespace utility {
 			}
 
 			// Verify if the given file content match the standard format
-			inline bool validate_content(std::vector<std::string> content){
-
+			inline bool validate_content(std::vector<std::string> content)
+			{
 				std::cout << "Checking file format...";
 				bool valid = true;
 				if(content.empty()){

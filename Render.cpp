@@ -76,6 +76,7 @@ int main( int argc, char *argv[]  )
         imgFile << ir << " " << ig << " " << ib << "\n";
       }
     }
+    delete shader;
   }
 
 
