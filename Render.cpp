@@ -13,6 +13,9 @@
 
 #include "basic_shapes/Sphere.h"
 
+#include "shaders/Shader.h"
+#include "shaders/NormalToColor.h"
+
 using namespace utility;
 using std::string;
 using std::vector;
@@ -35,31 +38,6 @@ Image Raytrace (Camera cam, Scene scene, int width, int height)
 }
 #endif
 
-RGB color( const Ray & r_, Image img, const Scene & scene) 
-{
-  RGB color;
-  bool hitActor = false;
-  for(int i=0; i < scene.actors.size(); i++) {
-    if(scene.actors[i]->hit(r_)) {
-      color = scene.actors[i]->getNormal(r_);
-      hitActor = true;
-      break;
-    }
-  }
-
-  if(!hitActor) {
-    // If no Actor was hit, then hits the background.
-    auto unit = utility::unit_vector( r_.get_direction() );
-    auto tx = (unit.x() + 1.0) / 2.0;
-    auto ty = (unit.y() + 1.0) / 2.0;
-
-    RGB upper = (1 - tx) * img.upper_left + tx * img.upper_right;
-    RGB lower = (1 - tx) * img.lower_left + tx * img.lower_right;
-    color = (1 - ty) * lower + ty * upper;
-  }
-  return color;
-}
-
 int main( int argc, char *argv[]  )  
 {
   std::ofstream myfile;
@@ -80,15 +58,16 @@ int main( int argc, char *argv[]  )
     Camera cam (Point3(-2, -1, -1), Point3(0, 0, 0), Vec3(4, 0, 0), Vec3(0, 2, 0));
     vector<Actor*> actors = { new Sphere(Point3 (-0.35,0,-1.0), 0.4),
                               new Sphere(Point3 (-0.25,0, -3.0), 0.8),
-                              new Sphere(Point3 (-0.15,0, -2.0), 1.2)};
+                              new Sphere(Point3 (0.45,0, -2.0), 0.1)};
     Scene scene (cam, actors);
+    Shader *shader = new NormalToColor();
 
     // NOTICE: We loop rows from bottom to top.
     for ( auto row = img.height - 1 ; row >= 0 ; --row ) { //Y
       for( auto col = 0 ; col < img.width ; col++ ) { // X 
         Ray r = cam.getRay(col, row, img.width, img.height);
 
-        RGB c = color (r, img, scene);
+        RGB c = shader->getColor(r, img, scene);
 
         int ir = int( 255.99f * c[RGB::R] );
         int ig = int( 255.99f * c[RGB::G] );
@@ -98,6 +77,7 @@ int main( int argc, char *argv[]  )
       }
     }
   }
+
 
   return 0;
 }
