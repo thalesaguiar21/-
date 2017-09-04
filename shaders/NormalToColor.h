@@ -27,7 +27,7 @@ public:
 		 @param Image The parameters of the img.
 		 @param Scene A scene with a list of actors
 		 @return RGB The color created from the normal vector.*/
-	virtual RGB getColor(const Ray & r_, Image img, Scene scene) override 
+	RGB getColor(const Ray & r_, Image img, Scene scene) override 
 	{
 		RGB color;
 	  bool hitActor = false;

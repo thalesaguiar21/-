@@ -1,4 +1,4 @@
-NAME = light_sphere.ppm
+NAME = no_antialias.ppm
 TYPE = PPM
 CODIFICATION = binary # aqui poderia ser: ascii
 WIDTH = 800

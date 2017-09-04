@@ -48,6 +48,14 @@ public:
     Point3 end_point = llc + u*horizontal + v*vertical ;
     return Ray( origin, end_point - origin );
   }
+
+  inline Ray getRayAntiAliasing(int col, int row, int width, int height) 
+  {
+    auto u = float(col + drand48()) / float(width);
+    auto v = float(row + drand48()) / float(height);
+    Point3 end_point = llc + u*horizontal + v*vertical ;
+    return Ray( origin, end_point - origin );
+  }
 };
 
 #endif

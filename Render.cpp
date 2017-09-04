@@ -38,6 +38,60 @@ Image Raytrace (Camera cam, Scene scene, int width, int height)
 }
 #endif
 
+void renderWithAntiAliasing(string fileName, Scene scene, Image img, Camera cam, Shader *shader, int samples) 
+{
+  std::ofstream file(fileName);
+  
+  file << "P3" << "\n";
+  file << img.width << " " << img.height << "\n";
+  file << "255\n";
+
+  // NOTICE: We loop rows from bottom to top.
+  for ( auto row = img.height - 1 ; row >= 0 ; --row ) { //Y
+    for( auto col = 0 ; col < img.width ; col++ ) { // X 
+      RGB color (0, 0, 0);
+      for(int s=0; s < samples; s++ ){
+        Ray r = cam.getRayAntiAliasing(col, row, img.width, img.height);
+        color += shader->getColor(r, img, scene);
+      }
+      color /= float(samples);
+      
+      int ir = int( 255.99f * color[RGB::R] );
+      int ig = int( 255.99f * color[RGB::G] );
+      int ib = int( 255.99f * color[RGB::B] );
+      
+      file << ir << " " << ig << " " << ib << "\n";
+    }
+  }
+  file.close();
+}
+
+
+void renderize(string fileName, Scene scene, Image img, Camera cam, Shader *shader) 
+{
+  std::ofstream file(fileName);
+  
+  file << "P3" << "\n";
+  file << img.width << " " << img.height << "\n";
+  file << "255\n";
+
+  RGB color (0, 0, 0);
+  // NOTICE: We loop rows from bottom to top.
+  for ( auto row = img.height - 1 ; row >= 0 ; --row ) { //Y
+    for( auto col = 0 ; col < img.width ; col++ ) { // X 
+      Ray r = cam.getRayAntiAliasing(col, row, img.width, img.height);
+      color = shader->getColor(r, img, scene);
+      
+      int ir = int( 255.99f * color[RGB::R] );
+      int ig = int( 255.99f * color[RGB::G] );
+      int ib = int( 255.99f * color[RGB::B] );
+      
+      file << ir << " " << ig << " " << ib << "\n";
+    }
+  }
+  file.close();
+}
+
 int main( int argc, char *argv[]  )  
 {
   std::ofstream myfile;
@@ -49,11 +103,11 @@ int main( int argc, char *argv[]  )
     vector<string> content = utility::read_file(argv[1]);
     Image img;
     img.from(content);
-    std::ofstream imgFile("imgs/" + img.name);
+    /*std::ofstream imgFile("imgs/" + img.name);
 
     imgFile << "P3" << "\n";
     imgFile << img.width << " " << img.height << "\n";
-    imgFile << "255\n";
+    imgFile << "255\n";*/
 
     Camera cam (Point3(-2, -1, -1), Point3(0, 0, 0), Vec3(4, 0, 0), Vec3(0, 2, 0));
     vector<Actor*> actors = { new Sphere(Point3 (-0.35,0,-1.0), 0.4),
@@ -62,8 +116,11 @@ int main( int argc, char *argv[]  )
     Scene scene (cam, actors);
     Shader *shader = new NormalToColor(true);
 
+    //renderWithAntiAliasing("imgs/" + img.name, scene, img, cam, shader, 10);
+    renderize("imgs/" + img.name, scene, img, cam, shader);
+    delete shader;
     // NOTICE: We loop rows from bottom to top.
-    for ( auto row = img.height - 1 ; row >= 0 ; --row ) { //Y
+    /*for ( auto row = img.height - 1 ; row >= 0 ; --row ) { //Y
       for( auto col = 0 ; col < img.width ; col++ ) { // X 
         Ray r = cam.getRay(col, row, img.width, img.height);
 
@@ -77,8 +134,8 @@ int main( int argc, char *argv[]  )
       }
     }
     delete shader;
+  }*/
   }
-
-
+  
   return 0;
 }
