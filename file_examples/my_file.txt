@@ -1,4 +1,4 @@
-NAME = no_antialias.ppm
+NAME = antialiasing.ppm
 TYPE = PPM
 CODIFICATION = binary # aqui poderia ser: ascii
 WIDTH = 800

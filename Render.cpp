@@ -40,6 +40,7 @@ Image Raytrace (Camera cam, Scene scene, int width, int height)
 
 void renderWithAntiAliasing(string fileName, Scene scene, Image img, Camera cam, Shader *shader, int samples) 
 {
+  std::cout << "Rendering file '" << fileName << "'...";
   std::ofstream file(fileName);
   
   file << "P3" << "\n";
@@ -64,11 +65,13 @@ void renderWithAntiAliasing(string fileName, Scene scene, Image img, Camera cam,
     }
   }
   file.close();
+  std::cout << "Done!" << std::endl;
 }
 
 
 void renderize(string fileName, Scene scene, Image img, Camera cam, Shader *shader) 
 {
+  std::cout << "Rendering file '" << fileName << "'...";
   std::ofstream file(fileName);
   
   file << "P3" << "\n";
@@ -79,7 +82,7 @@ void renderize(string fileName, Scene scene, Image img, Camera cam, Shader *shad
   // NOTICE: We loop rows from bottom to top.
   for ( auto row = img.height - 1 ; row >= 0 ; --row ) { //Y
     for( auto col = 0 ; col < img.width ; col++ ) { // X 
-      Ray r = cam.getRayAntiAliasing(col, row, img.width, img.height);
+      Ray r = cam.getRay(col, row, img.width, img.height);
       color = shader->getColor(r, img, scene);
       
       int ir = int( 255.99f * color[RGB::R] );
@@ -90,6 +93,7 @@ void renderize(string fileName, Scene scene, Image img, Camera cam, Shader *shad
     }
   }
   file.close();
+  std::cout << "Done!" << std::endl;
 }
 
 int main( int argc, char *argv[]  )  
@@ -116,8 +120,8 @@ int main( int argc, char *argv[]  )
     Scene scene (cam, actors);
     Shader *shader = new NormalToColor(true);
 
-    //renderWithAntiAliasing("imgs/" + img.name, scene, img, cam, shader, 10);
-    renderize("imgs/" + img.name, scene, img, cam, shader);
+    renderWithAntiAliasing("imgs/" + img.name, scene, img, cam, shader, 10);
+    //renderize("imgs/" + img.name, scene, img, cam, shader);
     delete shader;
     // NOTICE: We loop rows from bottom to top.
     /*for ( auto row = img.height - 1 ; row >= 0 ; --row ) { //Y
