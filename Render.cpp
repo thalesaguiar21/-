@@ -107,11 +107,6 @@ int main( int argc, char *argv[]  )
     vector<string> content = utility::read_file(argv[1]);
     Image img;
     img.from(content);
-    /*std::ofstream imgFile("imgs/" + img.name);
-
-    imgFile << "P3" << "\n";
-    imgFile << img.width << " " << img.height << "\n";
-    imgFile << "255\n";*/
 
     Camera cam (Point3(-2, -1, -1), Point3(0, 0, 0), Vec3(4, 0, 0), Vec3(0, 2, 0));
     vector<Actor*> actors = { new Sphere(Point3 (-0.35,0,-1.0), 0.4),
@@ -123,22 +118,6 @@ int main( int argc, char *argv[]  )
     renderWithAntiAliasing("imgs/" + img.name, scene, img, cam, shader, 10);
     //renderize("imgs/" + img.name, scene, img, cam, shader);
     delete shader;
-    // NOTICE: We loop rows from bottom to top.
-    /*for ( auto row = img.height - 1 ; row >= 0 ; --row ) { //Y
-      for( auto col = 0 ; col < img.width ; col++ ) { // X 
-        Ray r = cam.getRay(col, row, img.width, img.height);
-
-        RGB c = shader->getColor(r, img, scene);
-
-        int ir = int( 255.99f * c[RGB::R] );
-        int ig = int( 255.99f * c[RGB::G] );
-        int ib = int( 255.99f * c[RGB::B] );
-
-        imgFile << ir << " " << ig << " " << ib << "\n";
-      }
-    }
-    delete shader;
-  }*/
   }
   
   return 0;

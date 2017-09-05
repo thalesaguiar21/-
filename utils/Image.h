@@ -22,6 +22,7 @@ namespace utility
 		const int VALID_FILE_SIZE = 9;
 		// Atributes position
 		enum attr_position { NAME, TYPE, CODIFICATION, WIDTH, HEIGHT, UPPER_LEFT, LOWER_LEFT, UPPER_RIGHT, LOWER_RIGHT };
+		enum imgFormats { PPM };
 
 		std::string name;
 		std::string type;
