@@ -40,7 +40,7 @@ Image Raytrace (Camera cam, Scene scene, int width, int height)
 
 void renderWithAntiAliasing(string fileName, Scene scene, Image img, Camera cam, Shader *shader, int samples) 
 {
-  std::cout << "Rendering file '" << fileName << "'...";
+  std::cout << "Rendering file '" << fileName << "'..." << std::flush;
   std::ofstream file(fileName);
   
   file << "P3" << "\n";
@@ -98,8 +98,6 @@ void renderize(string fileName, Scene scene, Image img, Camera cam, Shader *shad
 
 int main( int argc, char *argv[]  )  
 {
-  std::ofstream myfile;
-
   if(argc < 2){
     std::cout << "No input file name was given! Closing the program." <<std::endl;
     return 1;
@@ -109,13 +107,11 @@ int main( int argc, char *argv[]  )
     img.from(content);
 
     Camera cam (Point3(-2, -1, -1), Point3(0, 0, 0), Vec3(4, 0, 0), Vec3(0, 2, 0));
-    vector<Actor*> actors = { new Sphere(Point3 (-0.35,0,-1.0), 0.4),
-                              new Sphere(Point3 (-0.25,0, -3.0), 0.8),
-                              new Sphere(Point3 (0.45,0, -2.0), 0.1)};
+    vector<Actor*> actors = { new Sphere(Point3 (0.45,0, -1.0), 0.4) };
     Scene scene (cam, actors);
     Shader *shader = new NormalToColor(true);
 
-    renderWithAntiAliasing("imgs/" + img.name, scene, img, cam, shader, 10);
+    renderWithAntiAliasing("imgs/" + img.name, scene, img, cam, shader, 500);
     //renderize("imgs/" + img.name, scene, img, cam, shader);
     delete shader;
   }

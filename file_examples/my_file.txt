@@ -1,4 +1,4 @@
-NAME = antialiasing.ppm
+NAME = test_normalshader_antialias500_01.ppm
 TYPE = PPM
 CODIFICATION = binary # aqui poderia ser: ascii
 WIDTH = 800
