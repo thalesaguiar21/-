@@ -8,10 +8,10 @@
 
 /* A Shader must inherit from this class and implement the method getColor.
 	 This method is where the shader must provide a generated color. */
-class Shader 
+class Shader
 {
 public:
-	virtual RGB getColor(const Ray & r_, Image img, Scene scene) = 0;
+	virtual RGB getColor(Point3 surfacePoint, Point3 origin) = 0;
 };
 
 #endif

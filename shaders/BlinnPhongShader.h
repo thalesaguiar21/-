@@ -6,7 +6,7 @@
 class BlinnPhongShader : public Shader
 {
 public:
-	RGB getColor(const Ray & r_, Image img, Scene scene) override 
+	RGB getColor(Point3 surfacePoint, Point3 originne) override
 	{
 		return RGB(0, 0, 0);
 	}
