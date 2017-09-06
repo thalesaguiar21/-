@@ -8,14 +8,14 @@ class Actor {
 public:
 	// Object's starting point
 	Point3 origin;
-	
+	Shader *shader;
 	/* This method checks if the given Ray hits the caller
-		 
+
 		 @param Ray The ray that is being shooted
 		 @return True if the given Ray hits the caller, False otherwise */
 	virtual bool hit (const Ray & r_) = 0;
 
-	/* This method returns the surface point at where the given 
+	/* This method returns the surface point at where the given
 		 Ray hits the caller.
 
 		 @param Ray The Ray shooted at the image.
