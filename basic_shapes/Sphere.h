@@ -2,7 +2,10 @@
 
 #include "../utils/Vec3.h"
 #include "../utils/Ray.h"
+
 #include "../scene/Actor.h"
+
+#include "../shaders/Shader.h"
 
 class Sphere : public Actor
 {
@@ -42,6 +45,12 @@ public:
 			normal = ray.point_at(root);
 		}
 		return normal;
+	}
+
+	inline RGB getColor (const Ray & ray, bool lowerRoot=true) override
+	{
+		Vec3 surfacePoint = hitPoint(ray, lowerRoot);
+		return shader->getColor(surfacePoint, origin);
 	}
 
 private:

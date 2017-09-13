@@ -29,10 +29,8 @@ public:
 	   @return RGB The color created from the normal vector.	*/
 	RGB getColor(Point3 surfacePoint, Point3 origin) override
 	{
-		RGB color (0.0, 0.0, 0.0);
 		Vec3 normal = unit_vector(surfacePoint - origin);
-		color = 0.5 * (normal + Vec3(1.0, 1.0, 1.0));
-		return color;
+		return 0.5 * (normal + Vec3(1.0, 1.0, 1.0));
 	}
 };
 

@@ -30,6 +30,11 @@ public:
     {
         return Vec3 (0, 0, 0);
     }
+
+    inline RGB getColor (const Ray & ray, bool lowerRoot=false) override
+	{
+		return RGB (0.0, 0.0, 0.0);
+	}
 };
 
 #endif

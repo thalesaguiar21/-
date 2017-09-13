@@ -11,7 +11,7 @@ namespace utility {
         this->vec[X] = this->vec[X] / length;
         this->vec[Y] = this->vec[Y] / length;
         this->vec[Z] = this->vec[Z] / length;
-        return; 
+        return;
     }
 
     //
@@ -93,7 +93,7 @@ namespace utility {
 
     inline Vec3 cross( const Vec3 & v1, const Vec3 & v2 )
     {
-        return Vec3 ( v1.vec[Vec3::Y] * v2.vec[Vec3::Z] - v1.vec[Vec3::Z] * v2.vec[Vec3::Y], 
+        return Vec3 ( v1.vec[Vec3::Y] * v2.vec[Vec3::Z] - v1.vec[Vec3::Z] * v2.vec[Vec3::Y],
                       - (v1.vec[Vec3::X] * v2.vec[Vec3::Z] - v1.vec[Vec3::Z] * v2.vec[Vec3::X]),
                       v1.vec[Vec3::X] * v2.vec[Vec3::Y] - v1.vec[Vec3::Y] * v2.vec[Vec3::X] );
     }
@@ -147,7 +147,7 @@ namespace utility {
             vec[Y] = vec[Y] / t;
             vec[Z] = vec[Z] / t;
         }
-        
+
         return *this;
     }
 
@@ -172,6 +172,15 @@ namespace utility {
         float y = get_rad(v1, v2, cos);
 
         return 180 * y / 3.1415;
+    }
+
+    inline RGB truncateRgb(const RGB & color_)
+    {
+        RGB aux = color_;
+        if(color_[Vec3::X] > 1.0) aux.vec[Vec3::X] = 1.0;
+        if(color_[Vec3::Y] > 1.0) aux.vec[Vec3::Y] = 1.0;
+        if(color_[Vec3::Z] > 1.0) aux.vec[Vec3::Z] = 1.0;
+        return aux;
     }
 }
 
