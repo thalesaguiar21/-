@@ -5,10 +5,8 @@
 Represents a basic tri-dimensional vector. can also be interpreted as a RGB
 color, a tri-dimensional Point in space
 */
-namespace utils
-{
-    class Vector3
-    {
+namespace utils {
+    class Vector3 {
     public:
         typedef float element_type;
         enum element { Cx=0, Cy=1, Cz=2, Cr=0, Cg=1, Cb=2 };
@@ -16,7 +14,7 @@ namespace utils
 
         // Constructors
         Vector3 ( void );
-        Vector3(element_type, element_type, element_type);
+        Vector3(element_type x, element_type y, element_type z);
 
         // Operators overloading
         element_type operator[]( size_t idx ) const;
