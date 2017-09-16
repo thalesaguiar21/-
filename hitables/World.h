@@ -11,10 +11,12 @@ namespace hitables {
   class World {
     public:
       vector<Hitable*> hitables;
+      float start;
+      float depth;
 
       World( void );
-      World( vector<Hitable*> hitables_ );
-      bool HitAnything( Ray r_, HitRecord &rec, float visibleWorld );
+      World( vector<Hitable*> hitables_, float start, float depth);
+      bool HitAnything( Ray r_, HitRecord &rec );
   };
 } //namespace hitables
 

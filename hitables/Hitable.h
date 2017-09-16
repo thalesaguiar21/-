@@ -19,9 +19,11 @@ namespace hitables {
 
           @param Ray The ray being shooted at the world.
           @param HitRecord The record to store the intersection information.
+          @param float Minimum point of hit
+          @param float Maximum point of hit
           @return bool True if it hit, false otherwise.
       */
-      bool virtual Hit(Ray r_, HitRecord &rec) = 0;
+      bool virtual Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) = 0;
   };
 
 }
