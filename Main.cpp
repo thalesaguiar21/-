@@ -2,14 +2,19 @@
 
 #include "utility/Vector3.h"
 #include "utility/Ray.h"
+#include "scene/Camera.h"
+#include "hitables/HitRecord.h"
+#include "hitables/Hitable.h"
+#include "hitables/basic_shapes/Sphere.h"
 
 using namespace utils;
+using basicShapes::Sphere;
 
 int main( int argc, char *argv[] ) {
-  /*Ray r (Point3(0, 0, 1), Point3(3, 1, 4));
-  std::cout << "Origin: " << r.origin << std::endl;
-  std::cout << "EndPoint: " << r.endPoint << std::endl;
-  std::cout << "Direction: " << r.Direction() << std::endl
-  std::cout << "PointAt: " << r.PointAt(2.0) << std::endl;*/
+  Sphere s = Sphere();
+  HitRecord rec;
+  if( s.Hit(Ray(Point3(0,0,0), Point3(0,0,0)), rec) ){
+    std::cout << "HIT!" << std::endl;
+  }
   return 0;
 }

@@ -1,7 +1,5 @@
 #include "Ray.h"
 
-#include "../utility/Vector3.h"
-
 namespace utils {
 
   Ray::Ray( void ) {

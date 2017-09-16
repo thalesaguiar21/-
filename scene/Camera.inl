@@ -1,10 +1,5 @@
 #include "Camera.h"
 
-#include "../utility/Vector3.h"
-#include "../utility/Ray.h"
-
-using namespace utils;
-
 Camera::Camera( void ) {
   origin = Point3(0, 0 ,0);
   llc = Point3(0, 0, 0);

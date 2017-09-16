@@ -1,6 +1,7 @@
 #ifndef _VECTOR3_H_
 #define _VECTOR3_H_
 
+#include <cmath>
 /*
 Represents a basic tri-dimensional vector. can also be interpreted as a RGB
 color, a tri-dimensional Point in space
