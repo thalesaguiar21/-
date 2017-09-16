@@ -6,6 +6,7 @@
 namespace utils {
   class Ray {
     public:
+      // The origin of the vector
       Point3 origin;
       Point3 terminal;
 
