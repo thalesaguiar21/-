@@ -11,12 +11,14 @@
 #include "hitables/Hitable.h"
 #include "hitables/basic_shapes/Sphere.h"
 #include "hitables/World.h"
+#include "file_reader/Image.h"
+#include "file_reader/Reader.h"
 
 using namespace utils;
 using namespace hitables;
+using namespace filerd;
 
 using basicShapes::Sphere;
-
 using std::cout;
 using std::endl;
 using std::string;

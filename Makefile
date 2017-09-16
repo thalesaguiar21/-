@@ -4,5 +4,5 @@ comp:
 
 render:
 	@g++ -std=c++11 Main.cpp -o renderer
-	@./renderer inputs/file1.txt
+	@./renderer ../inputs/file1.txt
 	@rm renderer
