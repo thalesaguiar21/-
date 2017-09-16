@@ -170,7 +170,11 @@ namespace utils {
 
   // Uso: Vector3 A = unit_vector( B );
   inline Vector3 UnitVector( const Vector3 & v ) {
-    return v / v.Length();
+    Vector3::element_type length = v.Length();
+    if (length != 0.0)
+      return v / v.Length();
+    else
+      return Vector3(0.0, 0.0, 0.0);
   }
 
   inline RGB NormRgb( const RGB & color ) {
