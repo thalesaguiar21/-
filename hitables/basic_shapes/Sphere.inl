@@ -11,21 +11,27 @@ namespace basicShapes {
     radius = radius_;
   }
 
-  bool Sphere::Hit( Ray r_, HitRecord &rec ) {
+  bool Sphere::Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) {
     Vector3 oc = r_.origin - origin;
     float A = dot(r_.Direction(), r_.Direction());
     float B = dot(oc, r_.Direction());
-    float C = dot(oc, oc);
+    float C = dot(oc, oc) - radius*radius;
     float discriminant = B*B - A*C;
     if(discriminant > 0) {
       float root = (-B - sqrt(discriminant));
-      if(root < 0.0) {
-        root = (-B + sqrt(discriminant));
+      if(root < maxHit && root > minHit) {
+        rec.root = root;
+        rec.hitPoint = r_.PointAt(rec.root);
+        rec.normal = (rec.hitPoint - origin);
+        return true;
       }
-      rec.root = root;
-      rec.hitPoint = r_.PointAt(root);
-      rec.normal = (rec.hitPoint - origin) / radius;
-      return true;
+      root = (-B + sqrt(discriminant));
+      if(root < maxHit && root > minHit) {
+        rec.root = root;
+        rec.hitPoint = r_.PointAt(rec.root);
+        rec.normal = (rec.hitPoint - origin);
+        return true;
+      }
     }
     return false;
   }

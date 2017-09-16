@@ -18,7 +18,7 @@ namespace basicShapes {
 
       Sphere( void );
       Sphere( Point3 center_, float radius_ );
-      bool Hit( Ray r_, HitRecord &rec ) override;
+      bool Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) override;
   };
 } // namespace basicShapes
 
