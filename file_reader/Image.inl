@@ -20,7 +20,7 @@ namespace filerd {
   }
 
   string Image::Header() {
-    if(format.compare("PPM")) {
+    if(format.compare("PPM") == 0) {
       return  "P3\n" + std::to_string(width) + " "
               + std::to_string(height) + "\n255\n";
     } else {
@@ -39,13 +39,13 @@ namespace filerd {
       cod = tmpContnt[CODIFICATION].substr(15, codLength);
 
       int widthLength = tmpContnt[WIDTH].length();
-      width 	= std::stoi(tmpContnt[WIDTH].substr(8, widthLength), nullptr);
+      width = std::stoi(tmpContnt[WIDTH].substr(8, widthLength), nullptr);
 
       int heightLength = tmpContnt[HEIGHT].length();
-      height 	= std::stoi(tmpContnt[HEIGHT].substr(9, heightLength), nullptr);
+      height = std::stoi(tmpContnt[HEIGHT].substr(9, heightLength), nullptr);
 
       int aliasLength = tmpContnt[ALIAS].length();
-      aliasSamples 	= std::stoi(tmpContnt[ALIAS].substr(9, aliasLength), nullptr);
+      aliasSamples = std::stoi(tmpContnt[ALIAS].substr(9, aliasLength), nullptr);
     }
   }
 

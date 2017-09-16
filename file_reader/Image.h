@@ -18,6 +18,7 @@ namespace filerd {
       string name;
       string format;
       string cod;
+      string buff;
       int width;
       int height;
       int aliasSamples;

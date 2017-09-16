@@ -23,6 +23,7 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::flush;
+using std::vector;
 
 RGB color( Ray r_, World world ) {
   HitRecord rec;
@@ -39,31 +40,38 @@ RGB color( Ray r_, World world ) {
 
 int main( int argc, char *argv[] ) {
 
-  int nx = 400;
-  int ny = 200;
-  std::ofstream file("../test.ppm");
-  file << "P3\n";
-  file << nx << " " << ny << "\n";
-  file << "255\n";
-  Camera cam (Point3(0,0,0), Point3(-2, -1, -1), Vector3(4, 0, 0), Vector3(0, 2, 0));
-  std::vector<Hitable*> myHitables = {  new Sphere(Point3(0, 0, -1.0), 0.3),
-                                        new Sphere(Point3(0, -100.5, -1), 100)};
-  World world (myHitables, 0.0, std::numeric_limits<float>::max());
+  if(argc < 2) {
+    cout << "[ERROR] No input file was given!" << endl;
+    return 1;
+  } else {
+    vector<string> input = ReadFile(argv[1]);
+    Image img;
+    img.FromContent(input);
+    Camera cam (Point3(0,0,0), Point3(-2, -1, -1), Vector3(4, 0, 0), Vector3(0, 2, 0));
+    std::vector<Hitable*> myHitables = {  new Sphere(Point3(0, 0, -1.0), 0.3),
+                                          new Sphere(Point3(0, -100.5, -1), 100)};
+    World world (myHitables, 0.0, std::numeric_limits<float>::max());
 
-  for(auto row=ny-1; row>=0; row--) {
-    for(auto col=0; col<nx; col++) {
-      float u = float(col) / float(nx);
-      float v = float(row) / float(ny);
-      Ray r = cam.ShootRay(u, v);
-      RGB tonality = color(r, world);
+    for(auto row=img.height-1; row>=0; row--) {
+      for(auto col=0; col<img.width; col++) {
+        float u = float(col) / float(img.width);
+        float v = float(row) / float(img.height);
+        Ray r = cam.ShootRay(u, v);
+        RGB tonality = color(r, world);
 
-      int ir = int(255.99 * tonality.R());
-      int ig = int(255.99 * tonality.G());
-      int ib = int(255.99 * tonality.B());
+        int ir = int(255.99 * tonality.R());
+        int ig = int(255.99 * tonality.G());
+        int ib = int(255.99 * tonality.B());
 
-      file << ir << " " << ig << " " << ib << "\n";
+        img.buff += std::to_string(ir) + " " +
+                    std::to_string(ig) + " " +
+                    std::to_string(ib) + "\n";
+      }
     }
+    std::ofstream file("../" + img.name);
+    file << img.Header();
+    file << img.buff;
+    file.close();
+    return 0;
   }
-  file.close();
-  return 0;
 }

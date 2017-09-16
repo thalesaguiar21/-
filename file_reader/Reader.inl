@@ -67,7 +67,7 @@ namespace filerd {
     } else if (content[HEIGHT].substr(0, 6).compare("HEIGHT") != 0) {
       cout << INSUFICIENT_CONTENT << "HEIGHT" << endl;
       valid = false;
-    } else if (content[ALIAS].substr(0, 6).compare("ALIAS") != 0) {
+    } else if (content[ALIAS].substr(0, 5).compare("ALIAS") != 0) {
       cout << INSUFICIENT_CONTENT << "ALIAS" << endl;
       valid = false;
     }

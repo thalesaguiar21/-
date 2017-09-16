@@ -29,7 +29,7 @@ namespace filerd {
   const string INSUFICIENT_CONTENT = "[ERROR] No information given: ";
   // Valid file attributes
   const char COMMENT_CHAR   = '#';
-  const int VALID_FILE_SIZE = 9;
+  const int VALID_FILE_SIZE = 6;
   // Atributes position
   enum attr_position { NAME, TYPE, CODIFICATION, WIDTH, HEIGHT, ALIAS };
   // Supported formats
