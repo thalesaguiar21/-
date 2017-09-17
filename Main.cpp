@@ -38,7 +38,16 @@ RGB color( Ray r_, World world ) {
   return tonality;
 }
 
+void ShowProgress() {
+
+}
+
 void Render(Image &img, Camera cam, World world) {
+  cout << "FILE SPECFICATION:" << endl;
+  cout << "-----------------------------" << endl;
+  cout << img.Description() << endl;
+  cout << "-----------------------------" << endl;
+  cout << "Rendering image ====> ";
   for(auto row=img.height-1; row>=0; row--) {
     for(auto col=0; col<img.width; col++) {
       RGB tonality (0, 0, 0);
@@ -58,6 +67,9 @@ void Render(Image &img, Camera cam, World world) {
                   std::to_string(ig) + " " +
                   std::to_string(ib) + "\n";
     }
+    int result = float(img.height - row) / float(img.height);
+    cout << result << "%";
+    cout << "\b\b\b";
   }
 }
 
