@@ -27,6 +27,7 @@ namespace filerd {
       Image(  string name, string format, string cod, int width, int height,
               int aliasSamples);
       string Header();
+      string Description();
       void FromContent( vector<string> fileContent );
   };
 } // namespace filerd

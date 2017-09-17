@@ -29,6 +29,15 @@ namespace filerd {
     }
   }
 
+  string Image::Description() {
+    string descr = "";
+    descr += "NAME:\t" + name + "\n";
+    descr += "SIZE:\t" + std::to_string(width) + "x";
+    descr += std::to_string(height) + "\n";
+    descr += "ALIAS:\t" + std::to_string(aliasSamples);
+    return descr;
+  }
+
   void Image::FromContent( vector<string> fileContent ) {
     if (ValidateContent(fileContent)) {
       vector<string> tmpContnt = RemoveComents(fileContent);
