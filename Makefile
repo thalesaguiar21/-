@@ -1,12 +1,13 @@
-ppm:
-	@g++ make_img.cpp -o make_ppm
+comp:
+	@g++ -std=c++11 Main.cpp -o renderer
+	@rm renderer
 
-rppm:
-	@g++ make_img.cpp -o make_ppm
-	@./make_ppm file_examples/my_file.txt
-	@rm make_ppm
+render1:
+	@g++ -std=c++11 Main.cpp -o renderer
+	@./renderer ../inputs/file1.txt
+	@rm renderer
 
-render:
-	@g++ Render.cpp -o render
-	@./render file_examples/my_file.txt
-	@rm render
+render2:
+	@g++ -std=c++11 Main.cpp -o renderer
+	@./renderer ../inputs/file2.txt
+	@rm renderer

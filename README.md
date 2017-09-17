@@ -1,8 +1,4 @@
-# Aldebaran Render
+# - Aldebaran Render
 
-This project is...
-
-
-<p align="middle">
-	<img src="/imgs/img01.ppm" width="200">	
-</p>
+This project is being developed as a test for a Computer Graphics class. This is
+a Ray Tracing based on <em>Ray Tracing in One Weekend - Peter Shirley</em>.
