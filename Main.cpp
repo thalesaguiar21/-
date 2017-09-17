@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <limits>
+#include <iomanip>
 
 #include "utility/Vector3.h"
 #include "utility/Ray.h"
@@ -38,16 +39,23 @@ RGB color( Ray r_, World world ) {
   return tonality;
 }
 
-void ShowProgress() {
+void ShowRenderingInfo(string fileSpecs, string msg) {
+  cout << "FILE SPECFICATION:" << endl;
+  cout << "-----------------------------" << endl;
+  cout << fileSpecs << endl;
+  cout << "-----------------------------" << endl;
+  cout << msg << " >>> " << flush;
+}
 
+void ShowProgress(float num, float denom) {
+  float result = num / denom * 100.0;
+  string strRes = std::to_string(int(result));
+  cout << strRes << "%" << flush;
+  cout << string(strRes.length() + 1, '\b') << flush;
 }
 
 void Render(Image &img, Camera cam, World world) {
-  cout << "FILE SPECFICATION:" << endl;
-  cout << "-----------------------------" << endl;
-  cout << img.Description() << endl;
-  cout << "-----------------------------" << endl;
-  cout << "Rendering image ====> ";
+  ShowRenderingInfo(img.Description(), "Rendering");
   for(auto row=img.height-1; row>=0; row--) {
     for(auto col=0; col<img.width; col++) {
       RGB tonality (0, 0, 0);
@@ -67,10 +75,9 @@ void Render(Image &img, Camera cam, World world) {
                   std::to_string(ig) + " " +
                   std::to_string(ib) + "\n";
     }
-    int result = float(img.height - row) / float(img.height);
-    cout << result << "%";
-    cout << "\b\b\b";
+    ShowProgress(img.height - row, img.height);
   }
+  cout << endl;
 }
 
 int main( int argc, char *argv[] ) {
