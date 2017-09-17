@@ -6,7 +6,7 @@ namespace filerd {
     format = "";
     width = 0;
     height = 0;
-    aliasSamples = 0;
+    aliasSamples = 1;
   }
 
   Image::Image( string name_, string format_, string cod_, int width_,
@@ -16,7 +16,7 @@ namespace filerd {
     cod = cod_;
     width = (width_ < 0) ? (0) : (width_);
     height = (height_ < 0) ? (0) : (height_);
-    aliasSamples = (aliasSamples_ < 0) ? (0) : (aliasSamples_);
+    aliasSamples = (aliasSamples_ <= 0) ? (1) : (aliasSamples_);
   }
 
   string Image::Header() {
@@ -45,7 +45,11 @@ namespace filerd {
       height = std::stoi(tmpContnt[HEIGHT].substr(9, heightLength), nullptr);
 
       int aliasLength = tmpContnt[ALIAS].length();
-      aliasSamples = std::stoi(tmpContnt[ALIAS].substr(9, aliasLength), nullptr);
+      aliasSamples = std::stoi(tmpContnt[ALIAS].substr(8, aliasLength), nullptr);
+
+      if(aliasSamples <= 0) {
+        aliasSamples = 1;
+      }
     }
   }
 

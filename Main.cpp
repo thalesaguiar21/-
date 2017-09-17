@@ -38,6 +38,29 @@ RGB color( Ray r_, World world ) {
   return tonality;
 }
 
+void Render(Image &img, Camera cam, World world) {
+  for(auto row=img.height-1; row>=0; row--) {
+    for(auto col=0; col<img.width; col++) {
+      RGB tonality (0, 0, 0);
+      for(auto s=0; s<img.aliasSamples; s++) {
+        float u = float(col + drand48()) / float(img.width);
+        float v = float(row + drand48()) / float(img.height);
+        Ray r = cam.ShootRay(u, v);
+        tonality += color(r, world);
+      }
+      tonality /= img.aliasSamples;
+
+      int ir = int(255.99 * tonality.R());
+      int ig = int(255.99 * tonality.G());
+      int ib = int(255.99 * tonality.B());
+
+      img.buff += std::to_string(ir) + " " +
+                  std::to_string(ig) + " " +
+                  std::to_string(ib) + "\n";
+    }
+  }
+}
+
 int main( int argc, char *argv[] ) {
 
   if(argc < 2) {
@@ -51,23 +74,8 @@ int main( int argc, char *argv[] ) {
     std::vector<Hitable*> myHitables = {  new Sphere(Point3(0, 0, -1.0), 0.3),
                                           new Sphere(Point3(0, -100.5, -1), 100)};
     World world (myHitables, 0.0, std::numeric_limits<float>::max());
+    Render(img, cam, world);
 
-    for(auto row=img.height-1; row>=0; row--) {
-      for(auto col=0; col<img.width; col++) {
-        float u = float(col) / float(img.width);
-        float v = float(row) / float(img.height);
-        Ray r = cam.ShootRay(u, v);
-        RGB tonality = color(r, world);
-
-        int ir = int(255.99 * tonality.R());
-        int ig = int(255.99 * tonality.G());
-        int ib = int(255.99 * tonality.B());
-
-        img.buff += std::to_string(ir) + " " +
-                    std::to_string(ig) + " " +
-                    std::to_string(ib) + "\n";
-      }
-    }
     std::ofstream file("../" + img.name);
     file << img.Header();
     file << img.buff;
