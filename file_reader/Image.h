@@ -18,6 +18,7 @@ namespace filerd {
       string name;
       string format;
       string cod;
+      // Stores the information of the image (pixel grid)
       string buff;
       int width;
       int height;
@@ -26,6 +27,13 @@ namespace filerd {
       Image( void );
       Image(  string name, string format, string cod, int width, int height,
               int aliasSamples);
+      /*  Returns the standard header of the current file format. For example,
+          if the current Image is a PPM, then this method will return:
+
+          P3
+          width height
+          255
+      */
       string Header();
       string Description();
       void FromContent( vector<string> fileContent );
