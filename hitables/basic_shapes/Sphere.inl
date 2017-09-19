@@ -18,18 +18,18 @@ namespace basicShapes {
     float C = dot(oc, oc) - radius*radius;
     float discriminant = B*B - A*C;
     if(discriminant > 0) {
-      float root = (-B - sqrt(discriminant));
+      float root = (-B - sqrt(discriminant))/A;
       if(root < maxHit && root > minHit) {
         rec.root = root;
         rec.hitPoint = r_.PointAt(rec.root);
-        rec.normal = (rec.hitPoint - origin);
+        rec.normal = UnitVector(rec.hitPoint - origin);
         return true;
       }
-      root = (-B + sqrt(discriminant));
+      root = (-B + sqrt(discriminant))/A;
       if(root < maxHit && root > minHit) {
         rec.root = root;
         rec.hitPoint = r_.PointAt(rec.root);
-        rec.normal = (rec.hitPoint - origin);
+        rec.normal = UnitVector(rec.hitPoint - origin);
         return true;
       }
     }
