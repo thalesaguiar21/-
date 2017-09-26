@@ -3,8 +3,10 @@
 
 #include "../utility/Vector3.h"
 #include "../utility/Ray.h"
+#include "../materials/Material.h"
 #include "HitRecord.h"
 
+using materials::Material;
 using utils::Vector3;
 using utils::Ray;
 
@@ -13,6 +15,7 @@ namespace hitables {
     public:
       // Origin of the object in the world
       Point3 origin;
+      Material *material;
 
       /*  Checks if the given Ray instersect the object and stores
           the hit informations inside the given HitRecord.

@@ -23,6 +23,7 @@ namespace basicShapes {
         rec.root = root;
         rec.hitPoint = r_.PointAt(rec.root);
         rec.normal = UnitVector(rec.hitPoint - origin);
+        rec.material = material;
         return true;
       }
       root = (-B + sqrt(discriminant))/A;
@@ -30,6 +31,7 @@ namespace basicShapes {
         rec.root = root;
         rec.hitPoint = r_.PointAt(rec.root);
         rec.normal = UnitVector(rec.hitPoint - origin);
+        rec.material = material;
         return true;
       }
     }

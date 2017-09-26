@@ -2,8 +2,10 @@
 #define _HITREC_H_
 
 #include "../utility/Vector3.h"
+#include "../materials/Material.h"
 
 using utils::Vector3;
+using materials::Material;
 
 namespace hitables {
   /*  This structure is created to sotre the information of the instersection
@@ -13,6 +15,7 @@ namespace hitables {
     float root;
     Point3 hitPoint;
     Vector3 normal;
+    Material *material;
   };
 } //namespace hitables
 #endif

@@ -7,6 +7,7 @@
 
 #include "utility/Vector3.h"
 #include "utility/Ray.h"
+#include "utility/Gamma.h"
 #include "scene/Camera.h"
 #include "hitables/HitRecord.h"
 #include "hitables/Hitable.h"
@@ -14,10 +15,15 @@
 #include "hitables/World.h"
 #include "file_reader/Image.h"
 #include "file_reader/Reader.h"
+#include "shaders/Shader.h"
+#include "shaders/LambertianShader.h"
+#include "shaders/BlinnPhongShader.h"
+
 
 using namespace utils;
 using namespace hitables;
 using namespace filerd;
+using namespace shade;
 
 using basicShapes::Sphere;
 using std::cout;
@@ -25,29 +31,6 @@ using std::endl;
 using std::string;
 using std::flush;
 using std::vector;
-
-Vector3 RandomInUnitSphere() {
-  Vector3 p;
-  do {
-    p = 2.0 * Vector3(drand48(), drand48(), drand48()) - Vector3(1.0, 1.0, 1.0);
-  } while(dot(p, p) >= 1.0);
-  return p;
-}
-
-RGB color2( Ray r_, World world, int reflections ) {
-  HitRecord rec;
-  if(reflections <= 0){
-    return RGB(0, 0, 0);
-  }
-  if(world.HitAnything(r_, rec)) {
-    Vector3 target = rec.hitPoint + rec.normal + RandomInUnitSphere();
-    return 0.5 * RGB(0.7, 0.0, 0.0) * color2(Ray(rec.hitPoint, target - rec.hitPoint), world, reflections-1);
-  } else {
-    Vector3 unitDirection = UnitVector(r_.Direction());
-    float t = 0.5 * (unitDirection.Y() + 1.0);
-    return (1.0 - t)*RGB(1.0, 1.0, 1.0) + t*RGB(0.5, 0.7, 1.0);
-  }
-}
 
 RGB color( Ray r_, World world ) {
   HitRecord rec;
@@ -77,7 +60,7 @@ void ShowProgress(float num, float denom) {
   cout << string(strRes.length() + 1, '\b') << flush;
 }
 
-void Render(Image &img, Camera cam, World world) {
+void Render(Image &img, Camera cam, World world, Shader *shader) {
   ShowRenderingInfo(img.Description(), "Rendering");
   for(auto row=img.height-1; row>=0; row--) {
     for(auto col=0; col<img.width; col++) {
@@ -86,11 +69,10 @@ void Render(Image &img, Camera cam, World world) {
         float u = float(col + drand48()) / float(img.width);
         float v = float(row + drand48()) / float(img.height);
         Ray r = cam.ShootRay(u, v);
-        tonality += color2(r, world, 5);
-        //tonality += color(r, world);
+        tonality += shader->GetColor(r, world);
       }
       tonality /= img.aliasSamples;
-      tonality = RGB( sqrt(tonality.R()), sqrt(tonality.G()), sqrt(tonality.B()));
+      tonality = GammaCorrection(tonality, 2.0);
 
       int ir = int(255.99 * tonality.R());
       int ig = int(255.99 * tonality.G());
@@ -118,12 +100,15 @@ int main( int argc, char *argv[] ) {
     std::vector<Hitable*> myHitables = {  new Sphere(Point3(0, 0, -1.0), 0.5),
                                           new Sphere(Point3(0, -100.5, -1), 100)};
     World world (myHitables, 0.0, std::numeric_limits<float>::max());
-    Render(img, cam, world);
+    Shader *shader = new LambertianShader();
+    Render(img, cam, world, shader);
 
     std::ofstream file("../" + img.name);
     file << img.Header();
     file << img.buff;
     file.close();
+
+    delete shader;
     return 0;
   }
 }
