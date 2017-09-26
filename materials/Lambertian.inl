@@ -9,9 +9,9 @@ namespace materials {
 	}
 
 	bool Lambertian::diffusion( Ray r_, Ray &diffused, Point3 hitPoint,
-															Vector3 normal ) override {
+															Vector3 normal ) {
 		Vector3 target = hitPoint + normal + RandomInUnitSphere();
-		diffused = (rec.hitPoint, target);
+		diffused = Ray(hitPoint, target);
 		return true;
 	}
 }

@@ -6,9 +6,10 @@ namespace basicShapes {
     radius = 0.f;
   }
 
-  Sphere::Sphere( Point3 center_, float radius_ ) {
+  Sphere::Sphere( Point3 center_, float radius_, Material *material_ ) {
     origin = center_;
     radius = radius_;
+    material = material_;
   }
 
   bool Sphere::Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) {
