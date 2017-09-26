@@ -8,22 +8,29 @@
 #include "utility/Vector3.h"
 #include "utility/Ray.h"
 #include "utility/Gamma.h"
+
 #include "scene/Camera.h"
+
 #include "hitables/HitRecord.h"
 #include "hitables/Hitable.h"
 #include "hitables/basic_shapes/Sphere.h"
 #include "hitables/World.h"
+
 #include "file_reader/Image.h"
 #include "file_reader/Reader.h"
+
 #include "shaders/Shader.h"
 #include "shaders/LambertianShader.h"
 #include "shaders/BlinnPhongShader.h"
 
+#include "materials/Material.h"
+#include "materials/Lambertian.h"
 
 using namespace utils;
 using namespace hitables;
 using namespace filerd;
 using namespace shade;
+using namespace materials;
 
 using basicShapes::Sphere;
 using std::cout;
@@ -97,8 +104,10 @@ int main( int argc, char *argv[] ) {
     Image img;
     img.FromContent(input);
     Camera cam (Point3(0,0,0), Point3(-2, -1, -1), Vector3(4, 0, 0), Vector3(0, 2, 0));
-    std::vector<Hitable*> myHitables = {  new Sphere(Point3(0, 0, -1.0), 0.5),
-                                          new Sphere(Point3(0, -100.5, -1), 100)};
+    Material *mat1 = new Lambertian(RGB(1.0, 0, 0), 0.6);
+    Material *mat2 = new Lambertian(RGB(0, 1.0, 0), 0.3);
+    std::vector<Hitable*> myHitables = {  new Sphere(Point3(0, 0, -1.0), 0.5, mat1),
+                                          new Sphere(Point3(0, -100.5, -1), 100, mat2)};
     World world (myHitables, 0.0, std::numeric_limits<float>::max());
     Shader *shader = new LambertianShader();
     Render(img, cam, world, shader);
@@ -109,6 +118,8 @@ int main( int argc, char *argv[] ) {
     file.close();
 
     delete shader;
+    delete mat1;
+    delete mat2;
     return 0;
   }
 }

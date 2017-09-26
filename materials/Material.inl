@@ -1,7 +1,7 @@
 #include "Material.h"
 
 namespace materials {
-	Vector3 RandomInUnitSphere() {
+	Vector3 Material::RandomInUnitSphere() {
 		Vector3 p;
 		do
 		{
