@@ -109,7 +109,7 @@ int main( int argc, char *argv[] ) {
     std::vector<Hitable*> myHitables = {  new Sphere(Point3(0, 0, -1.0), 0.5, mat1),
                                           new Sphere(Point3(0, -100.5, -1), 100, mat2)};
     World world (myHitables, 0.0, std::numeric_limits<float>::max());
-    Shader *shader = new LambertianShader();
+    Shader *shader = new LambertianShader(5);
     Render(img, cam, world, shader);
 
     std::ofstream file("../" + img.name);

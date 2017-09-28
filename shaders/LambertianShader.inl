@@ -16,7 +16,7 @@ namespace shade {
   RGB LambertianShader::GetColorAux(Ray r_, World world, int maxRef_ ) {
     HitRecord rec;
     if(maxRef_ <= 0){
-      return RGB(0, 0, 0);
+      return RGB(1.0, 1.0, 1.0);
     }
     if(world.HitAnything(r_, rec)) {
       Ray difused (Point3(0, 0, 0), Vector3(0, 0, 0));
