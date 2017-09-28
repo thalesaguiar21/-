@@ -11,6 +11,8 @@ using namespace utils;
 */
 class Camera {
   public:
+    Point3 lookFrom;
+    Point3 lookAt;
     // Origin of the camera. Rays will be shooted from this point.
     Point3 origin;
     // Lower left corner of the camera, or start point of the view plane.
@@ -31,6 +33,7 @@ class Camera {
         @param float The vertical scalar
     */
     Ray ShootRay( float u, float v );
+    void SetFrame( Point3 at, Point3 from, Vector3 up );
 };
 
 #include "Camera.inl"
