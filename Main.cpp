@@ -39,19 +39,6 @@ using std::string;
 using std::flush;
 using std::vector;
 
-RGB color( Ray r_, World world ) {
-  HitRecord rec;
-  RGB tonality (0, 0, 0);
-  if(world.HitAnything(r_, rec)) {
-    tonality =  0.5 * (Vector3(1.0, 1.0, 1.0) + UnitVector(rec.normal));
-  } else {
-    Vector3 unitDirection = UnitVector(r_.Direction());
-    float t = 0.5 * (unitDirection.Y() + 1.0);
-    tonality = (1.0 - t)*RGB(1.0, 1.0, 1.0) + t*RGB(0.5, 0.7, 1.0);
-  }
-  return tonality;
-}
-
 void ShowRenderingInfo(string fileSpecs, string msg) {
   cout << "FILE SPECFICATION:" << endl;
   cout << "-----------------------------" << endl;
