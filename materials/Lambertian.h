@@ -9,6 +9,8 @@ namespace materials {
 		Lambertian ( Vector3 albedo, float absorption );
   	bool diffusion( Ray r_, Ray &diffused, Point3 hitPoint,
 										Vector3 normal ) override;
+	protected:
+		Vector3 Reflect() override;
 	};
 }
 

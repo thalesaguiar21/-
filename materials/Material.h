@@ -15,7 +15,7 @@ namespace materials {
   	bool virtual diffusion( Ray r_, Ray &diffused, Point3 hitPoint,
   												  Vector3 normal ) = 0;
   protected:
-   	Vector3 RandomInUnitSphere();
+   	Vector3 virtual Reflect() = 0;
   };
 } // namespace materials
 
