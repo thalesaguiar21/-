@@ -7,10 +7,10 @@ namespace materials {
 	class Lambertian : public Material {
 	public:
 		Lambertian ( Vector3 albedo, float absorption );
-  	bool diffusion( Ray r_, Ray &diffused, Point3 hitPoint,
+  	bool Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
 										Vector3 normal ) override;
 	protected:
-		Vector3 Reflect() override;
+		Vector3 Reflect( Ray incident, Vector3 normal ) override;
 	};
 }
 

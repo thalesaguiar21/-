@@ -12,10 +12,10 @@ namespace materials {
   public:
   	float refCoef;
   	Vector3 properties;
-  	bool virtual diffusion( Ray r_, Ray &diffused, Point3 hitPoint,
+  	bool virtual Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
   												  Vector3 normal ) = 0;
   protected:
-   	Vector3 virtual Reflect() = 0;
+   	Vector3 virtual Reflect( Ray incident, Vector3 normal ) = 0;
   };
 } // namespace materials
 

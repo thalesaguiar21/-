@@ -8,14 +8,14 @@ namespace materials {
 		refCoef = absortion;
 	}
 
-	bool Lambertian::diffusion( Ray r_, Ray &diffused, Point3 hitPoint,
+	bool Lambertian::Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
 															Vector3 normal ) {
-		Vector3 target = hitPoint + normal + Reflect();
+		Vector3 target = hitPoint + normal + Reflect(incident, normal);
 		diffused = Ray(hitPoint, target);
 		return true;
 	}
 
-	Vector3 Lambertian::Reflect() {
+	Vector3 Lambertian::Reflect( Ray incident, Vector3 normal ) {
 		Vector3 p;
 		do {
 			p = 2.0 * (Vector3(drand48(), drand48(), drand48()) - Vector3(1.0, 1.0, 1.0));

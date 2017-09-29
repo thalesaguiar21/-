@@ -20,7 +20,7 @@ namespace shade {
     }
     if(world.HitAnything(r_, rec)) {
       Ray difused (Point3(0, 0, 0), Vector3(0, 0, 0));
-      rec.material->diffusion(r_, difused, rec.hitPoint, rec.normal);
+      rec.material->Diffusion(r_, difused, rec.hitPoint, rec.normal);
       RGB visColor = rec.material->refCoef * rec.material->properties;
       return visColor * GetColorAux(difused, world, maxRef_-1);
     } else {
