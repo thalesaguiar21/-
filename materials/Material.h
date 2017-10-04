@@ -14,7 +14,7 @@ class Material {
 		bool virtual Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
 													  Vector3 normal ) = 0;
 	protected:
- 		Vector3 virtual Reflect( Ray incident, Vector3 normal ) = 0;
+ 		Vector3 virtual Reflect( Vector3 incident, Vector3 normal ) = 0;
 };
 
 #endif

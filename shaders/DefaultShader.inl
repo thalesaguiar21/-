@@ -26,7 +26,7 @@ RGB DefaultShader::GetColorAux( Ray r_, World world, int maxRef_ ) {
     Ray difused (Point3(0, 0, 0), Vector3(0, 0, 0));
     rec.material->Diffusion(r_, difused, rec.hitPoint, rec.normal);
     RGB visColor = rec.material->refCoef * rec.material->properties;
-    return rec.material->properties * GetColorAux(difused, world, maxRef_-1);
+    return visColor * GetColorAux(difused, world, maxRef_-1);
   } else {
     Vector3 unitDirection = UnitVector(r_.Direction());
     float t = 0.5 * (unitDirection.Y() + 1.0);

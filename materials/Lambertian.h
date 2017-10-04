@@ -9,7 +9,7 @@ public:
 	bool Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
 									Vector3 normal ) override;
 protected:
-	Vector3 Reflect( Ray incident, Vector3 normal ) override;
+	Vector3 Reflect( Vector3 incident, Vector3 normal ) override;
 };
 
 #include "Lambertian.inl"

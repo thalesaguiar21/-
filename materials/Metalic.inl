@@ -7,13 +7,11 @@ Metalic::Metalic( Vector3 albedo, float refCoef_ ) {
 
 bool Metalic::Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
                         Vector3 normal ) {
-  auto unitIncident = Ray(Vector3(0,0,0), UnitVector(incident.Direction()));
-  Vector3 unitNormal = UnitVector(normal);
-  auto reflected = Reflect(unitIncident, unitNormal);
-  auto scatered = Ray(hitPoint, reflected);
-  return dot(scatered.Direction(), normal) > 0;
+	auto reflected = Reflect(UnitVector(incident.Direction()), normal);
+	diffused = Ray(hitPoint, reflected);
+	return (dot(diffused.Direction(), normal) > 0);
 }
 
-Vector3 Metalic::Reflect( Ray incident, Vector3 normal ) {
-  return 2 * dot(incident.Direction(), normal) * normal;
+Vector3 Metalic::Reflect( Vector3 incident, Vector3 normal ) {
+  return incident - 2 * dot(incident, normal) * normal;
 }
