@@ -88,10 +88,10 @@ int main( int argc, char *argv[] ) {
     Image img;
     img.FromContent(input);
     Camera cam (Point3(0,0,0), Point3(-2, -1, -1), Vector3(4, 0, 0), Vector3(0, 2, 0));
-    Material *mat1 = new Lambertian(RGB(1.0, 0, 0), 0.6);
-    Material *mat2 = new Lambertian(RGB(0, 1.0, 0), 0.3);
-    Material *mat3 = new Metalic(RGB(0, 0.6, 0.6), 0.3);
-    Material *mat4 = new Metalic(RGB(0.8, 0.8, 0.8), 0.3);
+    Material *mat1 = new Lambertian(RGB(1.0, 0, 0), 0.5);
+    Material *mat2 = new Lambertian(RGB(0.8, 0.8, 0), 0.5);
+    Material *mat3 = new Metalic(RGB(0, 0.6, 0.6), 0.5);
+    Material *mat4 = new Metalic(RGB(0.8, 0.8, 0.8), 0.5);
     
     std::vector<Hitable*> myHitables = {  
       new Sphere(Point3(0, 0, -1.0), 0.5, mat1),
