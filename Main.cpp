@@ -20,12 +20,12 @@
 #include "file_reader/Reader.h"
 
 #include "shaders/Shader.h"
-#include "shaders/LambertianShader.h"
 #include "shaders/BlinnPhongShader.h"
-#include "shaders/MetalicShading.h"
+#include "shaders/DefaultShader.h"
 
 #include "materials/Material.h"
 #include "materials/Lambertian.h"
+#include "materials/Metalic.h"
 
 using namespace utils;
 using namespace filerd;
@@ -90,10 +90,16 @@ int main( int argc, char *argv[] ) {
     Camera cam (Point3(0,0,0), Point3(-2, -1, -1), Vector3(4, 0, 0), Vector3(0, 2, 0));
     Material *mat1 = new Lambertian(RGB(1.0, 0, 0), 0.6);
     Material *mat2 = new Lambertian(RGB(0, 1.0, 0), 0.3);
-    std::vector<Hitable*> myHitables = {  new Sphere(Point3(0, 0, -1.0), 0.5, mat1),
-                                          new Sphere(Point3(0, -100.5, -1), 100, mat2)};
+    Material *mat3 = new Metalic(RGB(0.8, 0.6, 0.2), 0.3);
+    Material *mat4 = new Metalic(RGB(0.8, 0.8, 0.8), 0.3);
+    std::vector<Hitable*> myHitables = {  
+      new Sphere(Point3(0, 0, -1.0), 0.5, mat1),
+      new Sphere(Point3(0, -100.5, -1), 100, mat2),
+      new Sphere(Point3(1, 0, -1), 0.5, mat3),
+      new Sphere(Point3(-1, 0, -1), 0.5, mat4)
+    };
     World world (myHitables, 0.0, std::numeric_limits<float>::max());
-    Shader *shader = new MetalicShading(10);
+    Shader *shader = new DefaultShader(10);
     Render(img, cam, world, shader);
 
     std::ofstream file("../" + img.name);
@@ -104,6 +110,8 @@ int main( int argc, char *argv[] ) {
     delete shader;
     delete mat1;
     delete mat2;
+    delete mat3;
+    delete mat4;
     return 0;
   }
 }

@@ -1,11 +1,11 @@
-#include "MetalicShading.h"
+#include "DefaultShader.h"
 
 
-MetalicShading::MetalicShading ( void ) {
+DefaultShader::DefaultShader ( void ) {
 	maxRef = 0;
 }
 
-MetalicShading::MetalicShading ( int reflections ) {
+DefaultShader::DefaultShader ( int reflections ) {
 	if (reflections >= 0) {
 		maxRef = reflections;
 	} else {
@@ -13,11 +13,11 @@ MetalicShading::MetalicShading ( int reflections ) {
 	}
 }
 
-RGB MetalicShading::GetColor( Ray r_, World world ) {
+RGB DefaultShader::GetColor( Ray r_, World world ) {
   return GetColorAux(r_, world, maxRef);
 }
 
-RGB MetalicShading::GetColorAux( Ray r_, World world, int maxRef_ ) {
+RGB DefaultShader::GetColorAux( Ray r_, World world, int maxRef_ ) {
 	HitRecord rec;
   if(maxRef_ <= 0){
     return RGB(1.0, 1.0, 1.0);
@@ -26,7 +26,7 @@ RGB MetalicShading::GetColorAux( Ray r_, World world, int maxRef_ ) {
     Ray difused (Point3(0, 0, 0), Vector3(0, 0, 0));
     rec.material->Diffusion(r_, difused, rec.hitPoint, rec.normal);
     RGB visColor = rec.material->refCoef * rec.material->properties;
-    return visColor * GetColorAux(difused, world, maxRef_-1);
+    return rec.material->properties * GetColorAux(difused, world, maxRef_-1);
   } else {
     Vector3 unitDirection = UnitVector(r_.Direction());
     float t = 0.5 * (unitDirection.Y() + 1.0);
