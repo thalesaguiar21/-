@@ -8,16 +8,14 @@
 using utils::Vector3;
 using utils::Ray;
 
-namespace shade {
-  class LambertianShader : public Shader {
-    public:
-      LambertianShader( void );
-      LambertianShader( int maxRef_ );
-      RGB GetColor( Ray r_, World world ) override;
-    private:
-      RGB GetColorAux(Ray r_, World world, int maxReflections );
-  };
-} // namespace shade
+class LambertianShader : public Shader {
+  public:
+    LambertianShader( void );
+    LambertianShader( int maxRef_ );
+    RGB GetColor( Ray r_, World world ) override;
+  private:
+    RGB GetColorAux(Ray r_, World world, int maxReflections );
+};
 
 #include "LambertianShader.inl"
 

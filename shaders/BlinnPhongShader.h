@@ -8,12 +8,10 @@
 using utils::Vector3;
 using utils::Ray;
 
-namespace shade {
-  class BlinnPhongShader : public Shader {
-    public:
-      BlinnPhongShader( Vector3 reflections );
-      RGB GetColor( Ray r_, World world );
-  };
-} // namespace shade
+class BlinnPhongShader : public Shader {
+  public:
+    BlinnPhongShader( Vector3 reflections );
+    RGB GetColor( Ray r_, World world );
+};
 
 #endif

@@ -5,17 +5,15 @@
 #include "../materials/Material.h"
 
 using utils::Vector3;
-using materials::Material;
 
-namespace hitables {
-  /*  This structure is created to sotre the information of the instersection
-      between a Ray and a Hitable object inside the world.
-  */
-  struct HitRecord {
-    float root;
-    Point3 hitPoint;
-    Vector3 normal;
-    Material *material;
-  };
-} //namespace hitables
+/*  This structure is created to sotre the information of the instersection
+    between a Ray and a Hitable object inside the world.
+*/
+struct HitRecord {
+  float root;
+  Point3 hitPoint;
+  Vector3 normal;
+  Material *material;
+};
+
 #endif

@@ -7,17 +7,15 @@
 
 using namespace utils;
 
-namespace materials {
-  class Metalic : public Material {
-  public:
-    Metalic ( void );
-    Metalic ( Vector3 albedo, float refCoef_ = 0.5 );
-    bool Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
-  												  Vector3 normal ) override;
-  protected:
-  	Vector3 Reflect( Ray incident, Vector3 normal ) override;
-  };
-} // namespace materials
+class Metalic : public Material {
+public:
+  Metalic ( void );
+  Metalic ( Vector3 albedo, float refCoef_ = 0.5 );
+  bool Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
+												  Vector3 normal ) override;
+protected:
+	Vector3 Reflect( Ray incident, Vector3 normal ) override;
+};
 
 #include "Metalic.inl"
 

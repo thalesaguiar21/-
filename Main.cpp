@@ -22,17 +22,14 @@
 #include "shaders/Shader.h"
 #include "shaders/LambertianShader.h"
 #include "shaders/BlinnPhongShader.h"
+#include "shaders/MetalicShading.h"
 
 #include "materials/Material.h"
 #include "materials/Lambertian.h"
 
 using namespace utils;
-using namespace hitables;
 using namespace filerd;
-using namespace shade;
-using namespace materials;
 
-using basicShapes::Sphere;
 using std::cout;
 using std::endl;
 using std::string;
@@ -96,7 +93,7 @@ int main( int argc, char *argv[] ) {
     std::vector<Hitable*> myHitables = {  new Sphere(Point3(0, 0, -1.0), 0.5, mat1),
                                           new Sphere(Point3(0, -100.5, -1), 100, mat2)};
     World world (myHitables, 0.0, std::numeric_limits<float>::max());
-    Shader *shader = new LambertianShader(5);
+    Shader *shader = new MetalicShading(10);
     Render(img, cam, world, shader);
 
     std::ofstream file("../" + img.name);
