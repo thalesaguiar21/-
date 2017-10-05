@@ -3,6 +3,7 @@ comp:
 	@rm renderer
 
 render1:
+	@clear
 	@g++ -std=c++11 Main.cpp -o renderer
 	@./renderer inputs/file1.txt
 	@rm renderer
