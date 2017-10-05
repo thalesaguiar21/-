@@ -15,8 +15,10 @@ using utils::Ray;
 
 class BlinnPhongShader : public Shader {
   public:
+  	float power;
+  	
   	BlinnPhongShader ( void );
-    BlinnPhongShader( Vector3 reflections );
+    BlinnPhongShader( float power_ );
     RGB GetColor( Ray r_, World world );
     RGB BlinnColor( );
 };

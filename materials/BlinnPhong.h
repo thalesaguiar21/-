@@ -7,13 +7,8 @@
 
 class BlinnPhong : public Material {
 public:
-	RGB diffuse;
-	RGB spec;
-	float kd; // Diffuse coefficient
-	float ks; // Specular coefficient
-
 	BlinnPhong( void );
-	BlinnPhong( RGB diffuse_, RGB specular_, float kd_, float ks_ );
+	BlinnPhong( RGB diffuse_, RGB specular_, Vector3 properties_ );
   bool Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
                   Vector3 normal ) override;
 protected:

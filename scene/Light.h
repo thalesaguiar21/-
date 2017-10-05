@@ -10,7 +10,7 @@ class Light {
 		Vector3 DiffuseColor;
 		Vector3 SpecularColor;
 		Vector3 Origin;
-		Ray Direction;
+		Vector3 Direction;
 		Vector3 Intensity;
 };
 
