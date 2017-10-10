@@ -25,11 +25,23 @@ RGB BlinnPhongShader::GetColor( Ray r_, World world ) {
 
 			float max = std::max(0.f, dot(rec.normal, lightRay));
 			auto diffuse = rec.material->properties.X() * max * rec.material->diffuseColor;
-			
-			max = std::max(0.f, dot(rec.normal, halfWay));
-			auto specular = rec.material->properties.Y() * std::pow(max, power) * rec.material->specularColor;
 
-			color += (rec.material->properties.Z() * ambient) + specular + diffuse;
+			auto reverseRay = Ray(world.lights[i]->Origin, rec.hitPoint);
+			if(world.HitAnything(reverseRay, tmp)) {
+				float hitToLight = UnitVector(world.lights[i]->Origin - rec.hitPoint).Length();
+				float hitToSurface = UnitVector(tmp.hitPoint - rec.hitPoint).Length();
+				if(hitToSurface < hitToLight) {
+					color += diffuse;
+				} else {
+					max = std::max(0.f, dot(rec.normal, halfWay));
+					auto specular = rec.material->properties.Y() * std::pow(max, power) * rec.material->specularColor;
+					color += (rec.material->properties.Z() * ambient) + specular + diffuse;
+				}
+			} else {
+				max = std::max(0.f, dot(rec.normal, halfWay));
+				auto specular = rec.material->properties.Y() * std::pow(max, power) * rec.material->specularColor;
+				color += (rec.material->properties.Z() * ambient) + specular + diffuse;
+			}
 		}
 		return color;
 	} else {

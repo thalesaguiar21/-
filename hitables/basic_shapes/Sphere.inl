@@ -5,6 +5,15 @@ Sphere::Sphere( void ) {
   radius = 0.f;
 }
 
+float Sphere::Discriminant(Ray r_, float &a, float &b, float &c) {
+  Vector3 oc = r_.origin - origin;
+  a = dot(r_.Direction(), r_.Direction());
+  b = dot(oc, r_.Direction());
+  c = dot(oc, oc) - radius*radius;
+  float discriminant = b*b - a*c;
+  return discriminant;
+}
+
 Sphere::Sphere( Point3 center_, float radius_, Material *material_ ) {
   origin = center_;
   radius = radius_;
@@ -12,11 +21,8 @@ Sphere::Sphere( Point3 center_, float radius_, Material *material_ ) {
 }
 
 bool Sphere::Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) {
-  Vector3 oc = r_.origin - origin;
-  float A = dot(r_.Direction(), r_.Direction());
-  float B = dot(oc, r_.Direction());
-  float C = dot(oc, oc) - radius*radius;
-  float discriminant = B*B - A*C;
+  float A, B, C;
+  float discriminant = Discriminant(r_, A, B, C);
   if(discriminant > 0) {
     float root = (-B - sqrt(discriminant))/A;
     if(root < maxHit && root > minHit) {

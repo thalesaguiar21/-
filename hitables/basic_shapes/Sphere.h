@@ -17,6 +17,8 @@ class Sphere : public Hitable {
     Sphere( void );
     Sphere( Point3 center_, float radius_, Material *material_ );
     bool Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) override;
+  private:
+    float Discriminant(Ray r_, float &a, float &b, float &c);
 };
 
 
