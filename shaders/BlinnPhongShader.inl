@@ -26,11 +26,12 @@ RGB BlinnPhongShader::GetColor( Ray r_, World world ) {
 			float max = std::max(0.f, dot(rec.normal, lightRay));
 			auto diffuse = rec.material->properties.X() * max * rec.material->diffuseColor;
 
-			auto reverseRay = Ray(world.lights[i]->Origin, rec.hitPoint);
+			auto reverseRay = Ray(rec.hitPoint, world.lights[i]->Origin);
 			if(world.HitAnything(reverseRay, tmp)) {
-				float hitToLight = UnitVector(world.lights[i]->Origin - rec.hitPoint).Length();
-				float hitToSurface = UnitVector(tmp.hitPoint - rec.hitPoint).Length();
+				float hitToLight = UnitVector(tmp.hitPoint - rec.hitPoint).Length();
+				float hitToSurface = UnitVector(world.lights[i]->Origin - rec.hitPoint).Length();
 				if(hitToSurface < hitToLight) {
+					// std::cout << hitToSurface << " < " << hitToLight << std::endl;
 					color += diffuse;
 				} else {
 					max = std::max(0.f, dot(rec.normal, halfWay));
