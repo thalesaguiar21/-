@@ -1,15 +1,19 @@
 #ifndef _WORLD_H_
 #define _WORLD_H_
 
+#include <vector>
+
 #include "Hitable.h"
 #include "HitRecord.h"
-#include <vector>
+
+#include "../scene/Light.h"
 
 using std::vector;
 
 class World {
   public:
     vector<Hitable*> hitables;
+    vector<Light*> lights;
     float start;
     float depth;
 

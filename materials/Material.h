@@ -11,6 +11,8 @@ class Material {
 	public:
 		float refCoef;
 		Vector3 properties;
+		RGB diffuseColor;
+		RGB specularColor;
 		bool virtual Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
 													  Vector3 normal ) = 0;
 	protected:
