@@ -2,7 +2,7 @@
 
 
 Lambertian::Lambertian( Vector3 albedo, float absortion ) {
-	properties = albedo;
+	prop = albedo;
 	refCoef = absortion;
 }
 

@@ -7,11 +7,25 @@ using utils::Vector3;
 
 class Light {
 	public:
-		Vector3 DiffuseColor;
-		Vector3 SpecularColor;
 		Vector3 Origin;
-		Vector3 Direction;
-		Vector3 Intensity;
+		float Intensity;
+
+		Light( void ) {
+			// nothing
+		}
+
+		Light( Vector3 origin, float intensity ) {
+			Origin = origin;
+			Intensity = intensity;
+		}
+
+		bool virtual IsIlluminating( Point3 point ) {
+			return true;
+		}
+
+		Ray virtual GetShadowRay( Point3 surface ) {
+			return Ray(surface, Origin);
+		}
 };
 
 #endif

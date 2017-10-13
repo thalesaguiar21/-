@@ -20,6 +20,8 @@ class World {
     World( void );
     /*  Create a world limited from start to depth */
     World( vector<Hitable*> hitables_, float start, float depth);
+    World( vector<Hitable*> hitables_, vector<Light*> lights_, float start,
+           float depth);
 
     /*  Checks if the given Ray hit any hitable object on the world.
         The information of the first object that was hit is stored on

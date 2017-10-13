@@ -10,9 +10,9 @@ using utils::Ray;
 class Material {
 	public:
 		float refCoef;
-		Vector3 properties;
-		RGB diffuseColor;
-		RGB specularColor;
+		Vector3 prop;
+		RGB diffCol;
+		RGB specCol;
 		bool virtual Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
 													  Vector3 normal ) = 0;
 	protected:

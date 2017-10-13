@@ -164,7 +164,7 @@ namespace utils {
 
   inline Vector3 Cross( const Vector3 & v1, const Vector3 & v2 ) {
     return Vector3 ( v1.e[Vector3::Cy] * v2.e[Vector3::Cz] - v1.e[Vector3::Cz] * v2.e[Vector3::Cy],
-                    - (v1.e[Vector3::Cx] * v2.e[Vector3::Cz] - v1.e[Vector3::Cz] * v2.e[Vector3::Cx]),
+                    (- (v1.e[Vector3::Cx] * v2.e[Vector3::Cz] - v1.e[Vector3::Cz] * v2.e[Vector3::Cx])),
                     v1.e[Vector3::Cx] * v2.e[Vector3::Cy] - v1.e[Vector3::Cy] * v2.e[Vector3::Cx] );
   }
 

@@ -13,35 +13,25 @@ RGB BlinnPhongShader::GetColor( Ray r_, World world ) {
 	HitRecord rec;
 	RGB ambient (1.0, 1.0, 1.0);
 	if(world.HitAnything(r_, rec)) {
-		RGB color(0.0, 0.0, 0.0);
-		for(int i = 0; i < world.lights.size(); i++) {
-			HitRecord tmp;
-			// L
-			auto lightRay = UnitVector(world.lights[i]->Origin - rec.hitPoint);
-			// V
-			auto viewDir = UnitVector(r_.origin - rec.hitPoint);
-			// H
-			auto halfWay = UnitVector(viewDir + lightRay);
-
-			float max = std::max(0.f, dot(rec.normal, lightRay));
-			auto diffuse = rec.material->properties.X() * max * rec.material->diffuseColor;
-
-			auto reverseRay = Ray(rec.hitPoint, world.lights[i]->Origin);
-			if(world.HitAnything(reverseRay, tmp)) {
-				float hitToLight = UnitVector(tmp.hitPoint - rec.hitPoint).Length();
-				float hitToSurface = UnitVector(world.lights[i]->Origin - rec.hitPoint).Length();
-				if(hitToSurface < hitToLight) {
-					// std::cout << hitToSurface << " < " << hitToLight << std::endl;
-					color += diffuse;
-				} else {
+		RGB color (0,0,0);//= rec.material->prop.Z() * ambient;
+		vector<Light*> lights = world.lights;
+		for(int i = 0; i < lights.size(); i++) {
+			if(lights[i]->IsIlluminating(rec.hitPoint)){
+				HitRecord tmp;
+				// L
+				auto lightRay = UnitVector(lights[i]->Origin - rec.hitPoint);
+				// V
+				auto viewDir = UnitVector(r_.origin - rec.hitPoint);
+				// H
+				auto halfWay = UnitVector(viewDir + lightRay);
+				float max = std::max(0.f, dot(rec.normal, lightRay));
+				auto diffuse = rec.material->prop.X() * max * rec.material->diffCol;
+				auto shadowRay =  lights[i]->GetShadowRay(rec.hitPoint);//(rec.hitPoint, lights[i]->Origin);
+				if(!world.HitAnything(shadowRay, tmp)) {
 					max = std::max(0.f, dot(rec.normal, halfWay));
-					auto specular = rec.material->properties.Y() * std::pow(max, power) * rec.material->specularColor;
-					color += (rec.material->properties.Z() * ambient) + specular + diffuse;
+					auto specular = rec.material->prop.Y() * std::pow(max, power) * rec.material->specCol;
+					color += (rec.material->prop.Z() * ambient) + specular + diffuse;
 				}
-			} else {
-				max = std::max(0.f, dot(rec.normal, halfWay));
-				auto specular = rec.material->properties.Y() * std::pow(max, power) * rec.material->specularColor;
-				color += (rec.material->properties.Z() * ambient) + specular + diffuse;
 			}
 		}
 		return color;

@@ -2,7 +2,7 @@
 
 Metalic::Metalic( Vector3 albedo, float refCoef_ ) {
   refCoef = refCoef_;
-  properties = albedo;
+  prop = albedo;
 }
 
 bool Metalic::Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,

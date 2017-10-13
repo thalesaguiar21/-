@@ -10,6 +10,14 @@ World::World( vector<Hitable*> hitables_, float start_, float depth_ ) {
   depth = depth_;
 }
 
+World::World( vector<Hitable*> hitables_, vector<Light*> lights_, float start_,
+              float depth_ ) {
+  hitables = hitables_;
+  start = start_;
+  depth = depth_;
+  lights = lights_;
+}
+
 bool World::HitAnything( Ray r_, HitRecord &rec ) {
   HitRecord tmpRecord;
   double closest = depth;

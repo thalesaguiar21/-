@@ -1,10 +1,10 @@
 #include "Camera.h"
 
 Camera::Camera( void ) {
-  origin = Point3(0, 0 ,0);
-  llc = Point3(0, 0, 0);
-  horizontal = Vector3(0, 0, 0);
-  vertical = Vector3(0, 0, 0);
+  origin = Point3(0, 0 , 0);
+  llc = Point3(-2, -1, -1);
+  horizontal = Vector3(4, 0, 0);
+  vertical = Vector3(0, 2, 0);
 }
 
 Camera::Camera( Vector3 lookFrom_, Vector3 lookAt_, Vector3 vup, float fov, float aspect ) {
