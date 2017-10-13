@@ -89,7 +89,7 @@ int main( int argc, char *argv[] ) {
     vector<string> input = ReadFile(argv[1]);
     Image img;
     img.FromContent(input);
-    Camera cam (Point3(0,0,0), Point3(-2, -1, -1), Vector3(4, 0, 0), Vector3(0, 2, 0));
+    Camera cam2 (Vector3(0,0,0), Vector3(0,0,-1), Vector3(0,1,0), 90, float(img.width)/float(img.height));
 
     Light *light1 = new Light();
     light1->Origin = Vector3(0, 0, -2.0);
@@ -99,9 +99,9 @@ int main( int argc, char *argv[] ) {
 
     std::vector<Light*> lights = { light1 };
 
-    Material *mat1 = new BlinnPhong(RGB(1.0, 0.0, 0.0), RGB(1.0, 1.0, 1.0), Vector3(1.0, 1.0, 0.1));
-    Material *mat3 = new BlinnPhong(RGB(0.0, 1.0, 0.0), RGB(1.0, 1.0, 1.0), Vector3(0.8, 2.0, 0.1));
-    Material *mat4 = new BlinnPhong(RGB(0.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0), Vector3(1.8, 1.0, 0.1));
+    Material *mat1 = new Lambertian(RGB(1.0, 0.0, 0.0), 0.5);
+    Material *mat3 = new Lambertian(RGB(0.0, 1.0, 0.0), 0.5);
+    Material *mat4 = new Lambertian(RGB(0.0, 0.0, 1.0), 0.5);
     Material *mat5 = new BlinnPhong(RGB(0.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0), Vector3(1.8, 1.0, 0.1));
 
     Material *mat2 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 0.0, 1.0), Vector3(0.5, 1.0, 0.1));
@@ -111,19 +111,19 @@ int main( int argc, char *argv[] ) {
     // Material *mat2 = new Lambertian(RGB(0.8, 0.8, 0), 0.5);
     // Material *mat3 = new Metalic(RGB(0, 0.6, 0.6), 0.5);
     // Material *mat4 = new Metalic(RGB(0.8, 0.8, 0.8), 0.5);
-
+    float R = cos(3.14159/4);
     std::vector<Hitable*> myHitables = {
-      new Sphere(Point3(0, 0, -3.0), 0.5, mat1),
-      new Sphere(Point3(1, 0, -2), 0.5, mat3),
-      new Sphere(Point3(-1, 0, -2), 0.5, mat4),
+      new Sphere(Point3(-R, 0, -1), R, mat1),
+      new Sphere(Point3(R, 0, -1), R, mat3),
+      // new Sphere(Point3(-1, 0, -2), 0.5, mat4),
       // new Sphere(Point3(0, 1, -2), 0.5, mat5),
-      new Sphere(Point3(0, -100.5, -2), 100, mat2)
+      new Sphere(Point3(0, -100.5, -2), 100, mat4)
     };
 
     World world (myHitables, 0.0, std::numeric_limits<float>::max());
     world.lights = lights;
-    Shader *shader = new BlinnPhongShader(100.0);
-    Render(img, cam, world, shader);
+    Shader *shader = new DefaultShader(5);
+    Render(img, cam2, world, shader);
 
     std::ofstream file("../" + img.name);
     file << img.Header();
