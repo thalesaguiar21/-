@@ -24,6 +24,7 @@
 #include "shaders/Shader.h"
 #include "shaders/BlinnPhongShader.h"
 #include "shaders/DefaultShader.h"
+#include "shaders/CoolToWarm.h"
 
 #include "materials/Material.h"
 #include "materials/Lambertian.h"
@@ -91,26 +92,36 @@ int main( int argc, char *argv[] ) {
     Image img;
     img.FromContent(input);
 
-    Material *mat1 = new BlinnPhong(RGB(0.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0), Vector3(1.8, 1.0, 0.1));
-    Material *mat2 = new BlinnPhong(RGB(0.0, 1.0, 0.0), RGB(1.0, 0.0, 1.0), Vector3(0.5, 1.0, 0.1));
-    Material *mat3 = new BlinnPhong(RGB(1.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0), Vector3(1.8, 1.0, 0.1));
-    Material *mat4 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 0.0, 1.0), Vector3(0.5, 1.0, 0.1));
-    Material *mat5 = new BlinnPhong(RGB(0.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0), Vector3(1.8, 1.0, 0.1));
+    Material *mat1 = new BlinnPhong(RGB(0.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
+                                    Vector3(0.5, 0.4, 0.1));
+
+    Material *mat2 = new BlinnPhong(RGB(0.0, 1.0, 0.0), RGB(1.0, 1.0, 1.0), 
+                                    Vector3(0.5, 1.0, 0.1));
+
+    Material *mat3 = new BlinnPhong(RGB(1.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
+                                    Vector3(1.8, 1.0, 0.1));
+
+    Material *mat4 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 0.0, 1.0),
+                                    Vector3(0.5, 1.0, 0.1));
+
+    Material *mat5 = new BlinnPhong(RGB(0.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
+                                    Vector3(1.8, 1.0, 0.1));
     // Material *mat1 = new Lambertian(RGB(1.0, 0, 0), 0.5);
     // Material *mat2 = new Lambertian(RGB(0.8, 0.8, 0), 0.5);
     // Material *mat3 = new Metalic(RGB(0, 0.6, 0.6), 0.5);
     // Material *mat4 = new Metalic(RGB(0.8, 0.8, 0.8), 0.5);
 
     Camera cam = Camera();
+    Camera cam2 = Camera(Point3(-2,2,1), Point3(0,0,-1), Vector3(0,1,0), 90, float(img.width)/float(img.height));
     std::vector<Hitable*> myHitables = {
-      new Sphere(Point3(0, 0, -2), 0.75, mat1),
-      new Sphere(Point3(2, 0, -4), 0.5, mat2),
-      new Sphere(Point3(-2, 0, -3), 0.5, mat3),
+      new Sphere(Point3(0, 0, -2), 0.5, mat1),
+      new Sphere(Point3(-1, 0, -2), 0.5, mat2),
+      new Sphere(Point3(1, 0, -2), 0.5, mat3),
       // new Sphere(Point3(0, 1, -2), 0.5, mat5),
       new Sphere(Point3(0, -100.5, -3), 100, mat4)};
     std::vector<Light*> lights = {
-      // new Light(Point3(-5, 5, -2), 10.0)
-      new SpotLight(Point3(0,4,-2), Vector3(0,-1,0), 10, 1, 15)
+      new Light(Point3(0, 4, -1), 10.0)
+      // new SpotLight(Point3(0,2,-2), Vector3(-0.3,-1,0), 10, 1, 40)
     };
     Shader *shader = new BlinnPhongShader(100.0);
     World world (myHitables,lights, 0.0, std::numeric_limits<float>::max());

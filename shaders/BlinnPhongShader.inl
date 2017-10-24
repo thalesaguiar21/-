@@ -11,9 +11,9 @@ BlinnPhongShader::BlinnPhongShader( float power_ ) {
 RGB BlinnPhongShader::GetColor( Ray r_, World world ) {
 
 	HitRecord rec;
-	RGB ambient (1.0, 1.0, 1.0);
+	RGB ambient (0.8, 0.3, 0.5);
 	if(world.HitAnything(r_, rec)) {
-		RGB color (0,0,0);//= rec.material->prop.Z() * ambient;
+		RGB color = rec.material->prop.Z() * ambient;
 		vector<Light*> lights = world.lights;
 		for(int i = 0; i < lights.size(); i++) {
 			if(lights[i]->IsIlluminating(rec.hitPoint)){
@@ -24,13 +24,14 @@ RGB BlinnPhongShader::GetColor( Ray r_, World world ) {
 				auto viewDir = UnitVector(r_.origin - rec.hitPoint);
 				// H
 				auto halfWay = UnitVector(viewDir + lightRay);
-				float max = std::max(0.f, dot(rec.normal, lightRay));
-				auto diffuse = rec.material->prop.X() * max * rec.material->diffCol;
-				auto shadowRay =  lights[i]->GetShadowRay(rec.hitPoint);//(rec.hitPoint, lights[i]->Origin);
+				float nlDot = std::max(0.f, dot(rec.normal, lightRay));
+				auto diffuse = rec.material->prop.X() * nlDot * rec.material->diffCol;
+				auto shadowRay =  lights[i]->GetShadowRay(rec.hitPoint);
+
 				if(!world.HitAnything(shadowRay, tmp)) {
-					max = std::max(0.f, dot(rec.normal, halfWay));
-					auto specular = rec.material->prop.Y() * std::pow(max, power) * rec.material->specCol;
-					color += (rec.material->prop.Z() * ambient) + specular + diffuse;
+					float nhDot = std::max(0.f, dot(rec.normal, halfWay));
+					auto specular = rec.material->prop.Y() * std::pow(nhDot, power) * rec.material->specCol;
+					color += specular + diffuse;
 				}
 			}
 		}
