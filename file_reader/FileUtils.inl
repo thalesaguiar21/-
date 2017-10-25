@@ -1,41 +1,8 @@
-#include "Reader.h"
+#include "FileUtils.h"
 
 namespace filerd {
 
-  vector<string> ReadFile( string file_name ) {
-    vector<string> file_lines;
-    cout << "Opening file...";
-    std::ifstream myfile(file_name);
-    if( myfile.is_open() ) {
-      string line;
-      while( getline(myfile, line) ) {
-        file_lines.push_back(line);
-      }
-    } else {
-      cout << "[ERROR] Could not open the file " << file_name << endl;
-    }
-    myfile.close();
-    cout << "Done!" << endl;
-    return file_lines;
-  }
-
-  vector<int> GetValues(string str) {
-    int size = str.length();
-    string num = "";
-    vector<int> values;
-
-    for(int i = 0; i < size; ++i) {
-      if(str[i] != ' ') {
-        num += str[i];
-      } else if(values.size() < 3) {
-        values.push_back(std::stoi(num, nullptr));
-        num = "";
-      }
-    }
-    return values;
-  }
-
-  vector<string> RemoveComents(vector<string> fileContent) {
+	vector<string> RemoveComents(vector<string> fileContent) {
     for(int i = 0; i < fileContent.size(); ++i) {
       int comment_pos = fileContent[i].find_first_of(COMMENT_CHAR);
       fileContent[i] = fileContent[i].substr(0, comment_pos);
@@ -73,19 +40,5 @@ namespace filerd {
     }
     cout << "Success!" << endl;
     return valid;
-  }
-
-  void WriteOnFile(Image img) {
-    std::ofstream file("../" + img.name);
-    file << img.Header();
-    int a;
-    for(auto lin=img.height-1; lin >= 0; lin--) {
-      for (auto col = 0; col < 3*img.width; col++) {
-        file << img.content[lin][col];
-        string tmp = ((col+1) % 3 == 0) ? ("\n") : (" ");
-        file << tmp;
-      }
-    }
-    file.close();
   }
 } // namespace filerd

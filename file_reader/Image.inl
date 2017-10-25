@@ -16,7 +16,7 @@ namespace filerd {
     cod = cod_;
     width = (width_ < 0) ? (0) : (width_);
     height = (height_ < 0) ? (0) : (height_);
-    aliasSamples = (aliasSamples_ <= 0) ? (1) : (aliasSamples_);
+    aliasSamples = std::max(1, aliasSamples_);
   }
 
   string Image::Header() {
@@ -55,6 +55,11 @@ namespace filerd {
 
       int aliasLength = tmpContnt[ALIAS].length();
       aliasSamples = std::stoi(tmpContnt[ALIAS].substr(8, aliasLength), nullptr);
+
+      content = new int*[height];
+      for(auto i = 0; i < height; i++) {
+        content[i] = new int[3*width];
+      }
 
       if(aliasSamples <= 0) {
         aliasSamples = 1;

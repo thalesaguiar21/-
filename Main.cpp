@@ -57,6 +57,8 @@ void ShowProgress(float num, float denom) {
 
 void Render(Image &img, Camera cam, World world, Shader *shader) {
   ShowRenderingInfo(img.Description(), "Rendering");
+  
+  int kj = 0;
   for(auto row=img.height-1; row>=0; row--) {
     for(auto col=0; col<img.width; col++) {
       RGB tonality (0, 0, 0);
@@ -66,17 +68,15 @@ void Render(Image &img, Camera cam, World world, Shader *shader) {
         Ray r = cam.ShootRay(u, v);
         tonality += shader->GetColor(r, world);
       }
+
       tonality /= img.aliasSamples;
       tonality = GammaCorrection(tonality, 2.0);
 
-      int ir = int(255.99 * tonality.R());
-      int ig = int(255.99 * tonality.G());
-      int ib = int(255.99 * tonality.B());
-
-      img.buff += std::to_string(ir) + " " +
-                  std::to_string(ig) + " " +
-                  std::to_string(ib) + "\n";
+      img.content[row][kj++] = int(255.99 * tonality.R());      
+      img.content[row][kj++] = int(255.99 * tonality.G());
+      img.content[row][kj++] = int(255.99 * tonality.B());
     }
+    kj = 0;
     ShowProgress(img.height - row, img.height);
   }
   cout << endl;
@@ -126,11 +126,7 @@ int main( int argc, char *argv[] ) {
     Shader *shader = new BlinnPhongShader(100.0);
     World world (myHitables,lights, 0.0, std::numeric_limits<float>::max());
     Render(img, cam, world, shader);
-
-    std::ofstream file("../" + img.name);
-    file << img.Header();
-    file << img.buff;
-    file.close();
+    //WriteOnFile(img);
 
     delete shader;
     delete mat1;

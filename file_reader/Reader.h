@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "FileUtils.h"
+
 using std::vector;
 using std::string;
 using std::cout;
@@ -21,24 +23,12 @@ using std::endl;
  */
 
 namespace filerd {
-  // Namespace constants
-  // Error messages
-  const string UNSUPPORTED_FORMAT  = "[ERROR] Format is not supported!";
-  const string NO_CONTENT          = "[ERROR] No content given!";
-  const string INVALID_SIZE        = "[ERROR] Insuficient information, or file is too big!";
-  const string INSUFICIENT_CONTENT = "[ERROR] No information given: ";
-  // Valid file attributes
-  const char COMMENT_CHAR   = '#';
-  const int VALID_FILE_SIZE = 6;
-  // Atributes position
-  enum attr_position { NAME, TYPE, CODIFICATION, WIDTH, HEIGHT, ALIAS };
-  // Supported formats
-  enum imgFormats { PPM };
   // Reads a file with a given name and creates a Image object with its content.
   vector<string> ReadFile( string fileName );
   vector<int> GetValues(string str);
   vector<string> RemoveComents( vector<string> fileContent );
   bool ValidateContent( vector<string> fileContent );
+  void WriteOnFile( Image img );
 } // namespace filerd
 
 #include "Reader.inl"

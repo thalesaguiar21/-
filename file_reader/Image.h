@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "Reader.h"
+#include "FileUtils.h"
 
 using std::string;
 using std::vector;
@@ -15,18 +15,18 @@ using std::endl;
 namespace filerd {
   class Image {
     public:
+      int **content;
       string name;
       string format;
       string cod;
-      // Stores the information of the image (pixel grid)
-      string buff;
       int width;
       int height;
       int aliasSamples;
 
       Image( void );
-      Image(  string name, string format, string cod, int width, int height,
-              int aliasSamples);
+      Image( string name, string format, string cod, int width, int height,
+             int aliasSamples);
+      
       /*  Returns the standard header of the current file format. For example,
           if the current Image is a PPM, then this method will return:
 
@@ -35,6 +35,7 @@ namespace filerd {
           255
       */
       string Header();
+      
       string Description();
       void FromContent( vector<string> fileContent );
   };
