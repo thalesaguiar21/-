@@ -4,6 +4,7 @@
 #include <string>
 #include <limits>
 #include <iomanip>
+#include <thread>
 
 #include "utility/Vector3.h"
 #include "utility/Ray.h"
@@ -25,6 +26,7 @@
 #include "shaders/BlinnPhongShader.h"
 #include "shaders/DefaultShader.h"
 #include "shaders/CoolToWarm.h"
+#include "shaders/NormalToColor.h"
 
 #include "materials/Material.h"
 #include "materials/Lambertian.h"
@@ -39,6 +41,7 @@ using std::endl;
 using std::string;
 using std::flush;
 using std::vector;
+using std::thread;
 
 void ShowRenderingInfo(string fileSpecs, string msg) {
   cout << "FILE SPECFICATION:" << endl;
@@ -55,30 +58,41 @@ void ShowProgress(float num, float denom) {
   cout << string(strRes.length() + 1, '\b') << flush;
 }
 
-void Render(Image &img, Camera cam, World world, Shader *shader) {
-  ShowRenderingInfo(img.Description(), "Rendering");
-  
+void RenderLine( int *linha, int width, int height, int row, int aliasSamples,               Camera cam, World world, Shader *shader) {
   int kj = 0;
-  for(auto row=img.height-1; row>=0; row--) {
-    for(auto col=0; col<img.width; col++) {
-      RGB tonality (0, 0, 0);
-      for(auto s=0; s<img.aliasSamples; s++) {
-        float u = float(col + drand48()) / float(img.width);
-        float v = float(row + drand48()) / float(img.height);
-        Ray r = cam.ShootRay(u, v);
-        tonality += shader->GetColor(r, world);
-      }
-
-      tonality /= img.aliasSamples;
-      tonality = GammaCorrection(tonality, 2.0);
-
-      img.content[row][kj++] = int(255.99 * tonality.R());      
-      img.content[row][kj++] = int(255.99 * tonality.G());
-      img.content[row][kj++] = int(255.99 * tonality.B());
+  for(auto col = 0; col < width; col++) {
+    RGB tonality (0, 0, 0);
+    for(auto s = 0; s < aliasSamples; s++) {
+      float u = float(col + drand48()) / float(width);
+      float v = float(row + drand48()) / float(height);
+      Ray r = cam.ShootRay(u, v);
+      tonality += shader->GetColor(r, world);
     }
-    kj = 0;
-    ShowProgress(img.height - row, img.height);
+
+    tonality /= aliasSamples;
+    tonality = GammaCorrection(tonality, 2.0);
+
+    linha[kj++] = int(255.99 * tonality.R());      
+    linha[kj++] = int(255.99 * tonality.G());
+    linha[kj++] = int(255.99 * tonality.B());
+  } 
+}
+
+void Render(Image img, Camera cam, World world, Shader *shader) {
+  ShowRenderingInfo(img.Description(), "Rendering");
+
+  vector<thread> threadPool;
+  // Initialize rendering with a thread pool
+  for(auto row=img.height-1; row>=0; row--) {
+    threadPool.push_back(thread (RenderLine, std::ref(img.content[row]), img.width, img.height, row, img.aliasSamples, cam, world, shader));
   }
+
+  // Wait for threads to finish
+  for(auto th = 0; th < threadPool.size(); th++){
+    threadPool[th].join();
+  }
+
+  // ShowProgress(img.height - row, img.height);
   cout << endl;
 }
 
@@ -117,7 +131,7 @@ int main( int argc, char *argv[] ) {
       new Sphere(Point3(0, 0, -2), 0.5, mat1),
       new Sphere(Point3(-1, 0, -2), 0.5, mat2),
       new Sphere(Point3(1, 0, -2), 0.5, mat3),
-      // new Sphere(Point3(0, 1, -2), 0.5, mat5),
+      new Sphere(Point3(0, 1, -2), 0.5, mat5),
       new Sphere(Point3(0, -100.5, -3), 100, mat4)};
     std::vector<Light*> lights = {
       new Light(Point3(0, 4, -1), 10.0)
@@ -126,14 +140,16 @@ int main( int argc, char *argv[] ) {
     Shader *shader = new BlinnPhongShader(100.0);
     World world (myHitables,lights, 0.0, std::numeric_limits<float>::max());
     Render(img, cam, world, shader);
-    //WriteOnFile(img);
-
+    WriteOnFile(img);
+    
+    // Unlocking memory
     delete shader;
     delete mat1;
     delete mat2;
     delete mat3;
     delete mat4;
     delete mat5;
+    
     return 0;
   }
 }

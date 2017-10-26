@@ -1,5 +1,9 @@
 #include "NormalToColor.h"
 
+NormalToColor::NormalToColor( void ) {
+	//
+}
+
 RGB NormalToColor::GetColor(Ray t_, World world) {
 	HitRecord record;
 	if(world.HitAnything(t_, record)){
