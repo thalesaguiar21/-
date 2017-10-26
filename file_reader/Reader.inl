@@ -14,11 +14,11 @@ namespace filerd {
       while( getline(myfile, line) ) {
         file_lines.push_back(line);
       }
+      cout << "Done!" << endl;
     } else {
       cout << "[ERROR] Could not open the file " << file_name << endl;
     }
     myfile.close();
-    cout << "Done!" << endl;
     return file_lines;
   }
 
