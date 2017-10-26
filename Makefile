@@ -2,13 +2,7 @@ comp:
 	@g++ -pthread -std=c++11 Main.cpp -o renderer
 	@rm renderer
 
-render1:
-	@clear
+render:
 	@g++ -pthread -std=c++11 Main.cpp -o renderer
-	@./renderer inputs/file1.txt
-	@rm renderer
-
-render2:
-	@g++ -pthread -std=c++11 Main.cpp -o renderer
-	@./renderer inputs/file2.txt
+	@./renderer $(filepath)
 	@rm renderer
