@@ -7,6 +7,9 @@ namespace filerd {
     cout << "Opening file...";
     std::ifstream myfile(file_name);
     if( myfile.is_open() ) {
+      cout << "Success!" << endl;
+
+      cout << "Reading file... ";
       string line;
       while( getline(myfile, line) ) {
         file_lines.push_back(line);
@@ -76,6 +79,7 @@ namespace filerd {
   }
 
   void WriteOnFile(Image img) {
+    cout << "\nWriting result into " << img.name << "... ";
     std::ofstream file("../" + img.name);
     file << img.Header();
     int a;
@@ -87,5 +91,6 @@ namespace filerd {
       }
     }
     file.close();
+    cout << "Done!" << endl;
   }
 } // namespace filerd

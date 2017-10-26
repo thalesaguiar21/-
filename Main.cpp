@@ -44,11 +44,11 @@ using std::vector;
 using std::thread;
 
 void ShowRenderingInfo(string fileSpecs, string msg) {
-  cout << "FILE SPECFICATION:" << endl;
+  cout << "\nFILE SPECFICATION:" << endl;
   cout << "-----------------------------" << endl;
   cout << fileSpecs << endl;
   cout << "-----------------------------" << endl;
-  cout << msg << " >>> " << flush;
+  cout << msg << "..." <<flush;
 }
 
 void ShowProgress(float num, float denom) {
@@ -80,7 +80,6 @@ void RenderLine( int *linha, int width, int height, int row, int aliasSamples,  
 
 void Render(Image img, Camera cam, World world, Shader *shader) {
   ShowRenderingInfo(img.Description(), "Rendering");
-
   vector<thread> threadPool;
   // Initialize rendering with a thread pool
   for(auto row=img.height-1; row>=0; row--) {
@@ -92,8 +91,7 @@ void Render(Image img, Camera cam, World world, Shader *shader) {
     threadPool[th].join();
   }
 
-  // ShowProgress(img.height - row, img.height);
-  cout << endl;
+  cout << "Done!" << endl;
 }
 
 int main( int argc, char *argv[] ) {
@@ -106,6 +104,7 @@ int main( int argc, char *argv[] ) {
     Image img;
     img.FromContent(input);
 
+    //==== Create the Materials
     Material *mat1 = new BlinnPhong(RGB(0.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
                                     Vector3(0.5, 0.4, 0.1));
 
@@ -125,21 +124,30 @@ int main( int argc, char *argv[] ) {
     // Material *mat3 = new Metalic(RGB(0, 0.6, 0.6), 0.5);
     // Material *mat4 = new Metalic(RGB(0.8, 0.8, 0.8), 0.5);
 
+    //==== Create the Camera
     Camera cam = Camera();
     Camera cam2 = Camera(Point3(-2,2,1), Point3(0,0,-1), Vector3(0,1,0), 90, float(img.width)/float(img.height));
+    
+    //==== Create the hitable objects
     std::vector<Hitable*> myHitables = {
       new Sphere(Point3(0, 0, -2), 0.5, mat1),
       new Sphere(Point3(-1, 0, -2), 0.5, mat2),
       new Sphere(Point3(1, 0, -2), 0.5, mat3),
       new Sphere(Point3(0, 1, -2), 0.5, mat5),
       new Sphere(Point3(0, -100.5, -3), 100, mat4)};
+    
+    //==== Create the world lights
     std::vector<Light*> lights = {
-      new Light(Point3(0, 4, -1), 10.0)
+      new Light(Point3(0, 2, -1), 10.0)
       // new SpotLight(Point3(0,2,-2), Vector3(-0.3,-1,0), 10, 1, 40)
     };
+
+    //==== Create the Shader
     Shader *shader = new BlinnPhongShader(100.0);
     World world (myHitables,lights, 0.0, std::numeric_limits<float>::max());
     Render(img, cam, world, shader);
+
+    //==== Write the reult into a file
     WriteOnFile(img);
     
     // Unlocking memory
