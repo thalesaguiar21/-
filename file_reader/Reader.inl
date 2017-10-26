@@ -2,8 +2,8 @@
 
 namespace filerd {
 
-  vector<string> ReadFile( string file_name ) {
-    vector<string> file_lines;
+  bool ReadFile( string file_name, vector<string> content) {
+    bool hasErros = false;
     cout << "Opening file...";
     std::ifstream myfile(file_name);
     if( myfile.is_open() ) {
@@ -12,14 +12,15 @@ namespace filerd {
       cout << "Reading file... ";
       string line;
       while( getline(myfile, line) ) {
-        file_lines.push_back(line);
+        content.push_back(line);
       }
       cout << "Done!" << endl;
     } else {
-      cout << "[ERROR] Could not open the file " << file_name << endl;
+      cout << "[ERROR] Could not open the file \"" << file_name << "\"" << endl;
+      hasErros = true;
     }
     myfile.close();
-    return file_lines;
+    return hasErros;
   }
 
   vector<int> GetValues(string str) {
