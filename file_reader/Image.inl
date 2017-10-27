@@ -24,7 +24,7 @@ namespace filerd {
       return  "P3\n" + std::to_string(width) + " "
               + std::to_string(height) + "\n255\n";
     } else {
-      cout << file_utils::UNSUPPORTED_FORMAT << endl;
+      cout << UNSUPPORTED_FORMAT << endl;
       return "";
     }
   }
@@ -36,6 +36,33 @@ namespace filerd {
     descr += std::to_string(height) + "\n";
     descr += "ALIAS:\t" + std::to_string(aliasSamples);
     return descr;
+  }
+
+  bool Image::IsFormatSupported( string format ) {
+    for(string & sFormat : imgFormats) {
+      if(sFormat.compare(format)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool Image::VerifyValues() {
+    cout << "Verifying values of image description...";;
+    bool isValid = false;
+    if(!IsFormatSupported(cod)) {
+      cout << UNSUPPORTED_FORMAT << endl;
+    } else if (width <= 0) {
+      cout << INVALID_VALUE << " WIDTH." << endl;
+    } else if (height <= 0) {
+      cout << INVALID_VALUE << " HEIGHT." << endl;
+    } else if (aliasSamples <= 0) {
+      cout << INVALID_VALUE << " ANTI-ALIASING SAMPLES." << endl;
+    } else {
+      cout << "Done!" << endl;
+      isValid = true;
+    }
+    return isValid;
   }
 
   bool Image::FromContent( vector<string> fileContent ) {
@@ -50,7 +77,7 @@ namespace filerd {
 
       int codLength = tmpContnt[file_utils::CODIFICATION].length();
       cod = tmpContnt[file_utils::CODIFICATION].substr(15, codLength);
-
+      
       int widthLength = tmpContnt[file_utils::WIDTH].length();
       width = std::stoi(tmpContnt[file_utils::WIDTH].substr(8, 
         widthLength), nullptr);
@@ -67,10 +94,7 @@ namespace filerd {
       for(auto i = 0; i < height; i++) {
         content[i] = new int[3*width];
       }
-
-      if(aliasSamples <= 0) {
-        aliasSamples = 1;
-      }
+      isValid = VerifyValues();
     }
     return isValid;
   }
