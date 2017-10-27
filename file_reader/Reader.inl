@@ -85,7 +85,7 @@ namespace filerd {
 
   void WriteOnFile(Image img) {
     cout << "\nWriting result into " << img.name << "... ";
-    std::ofstream file("../" + img.name);
+    std::ofstream file("imgs/" + img.name);
     file << img.Header();
     int a;
     for(auto lin=img.height-1; lin >= 0; lin--) {

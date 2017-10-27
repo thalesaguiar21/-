@@ -4,5 +4,5 @@ comp:
 
 render:
 	@g++ -pthread -std=c++11 Main.cpp -o renderer
-	@./renderer $(filepath)
+	@./renderer $(input)
 	@rm renderer

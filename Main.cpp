@@ -91,8 +91,8 @@ void Render(Image img, Camera cam, World world, Shader *shader) {
   std::clock_t before, after;
   ShowRenderingInfo(img.Description(), "\nRendering");
   vector<thread> threadPool;
-  // Initialize rendering with a thread pool
 
+  // Initialize rendering with a thread pool
   before = std::clock();
   for(auto row=img.height-1; row>=0; row--) {
     threadPool.push_back(thread (RenderLine, std::ref(img.content[row]), 
@@ -104,6 +104,7 @@ void Render(Image img, Camera cam, World world, Shader *shader) {
     threadPool[th].join();
   }
   after = std::clock();
+  
   cout << "Done!" << endl;
   PrintExecutionTime(float(after) - float(before));
 }
