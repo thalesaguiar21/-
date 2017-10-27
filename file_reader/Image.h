@@ -37,7 +37,7 @@ namespace filerd {
       string Header();
       
       string Description();
-      void FromContent( vector<string> fileContent );
+      bool FromContent( vector<string> fileContent );
   };
 } // namespace filerd
 

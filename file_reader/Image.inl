@@ -38,8 +38,9 @@ namespace filerd {
     return descr;
   }
 
-  void Image::FromContent( vector<string> fileContent ) {
-    if (ValidateContent(fileContent)) {
+  bool Image::FromContent( vector<string> fileContent ) {
+    bool isValid = ValidateContent(fileContent);
+    if (isValid) {
       vector<string> tmpContnt = RemoveComents(fileContent);
       name = tmpContnt[NAME].substr(7, tmpContnt[NAME].length());
       format = tmpContnt[TYPE].substr(7, tmpContnt[TYPE].length());
@@ -65,6 +66,7 @@ namespace filerd {
         aliasSamples = 1;
       }
     }
+    return isValid;
   }
 
 } // namespace filerd

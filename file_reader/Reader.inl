@@ -47,6 +47,9 @@ namespace filerd {
     return fileContent;
   }
 
+  /*  
+      Returns true if the file has no erros, false otherwise
+  */
   bool ValidateContent( vector<string> content ) {
     cout << "Checking file format...";
     bool valid = true;

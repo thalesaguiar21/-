@@ -58,7 +58,8 @@ void ShowProgress(float num, float denom) {
   cout << string(strRes.length() + 1, '\b') << flush;
 }
 
-void RenderLine( int *linha, int width, int height, int row, int aliasSamples,               Camera cam, World world, Shader *shader) {
+void RenderLine( int *linha, int width, int height, int row, int aliasSamples,               
+                 Camera cam, World world, Shader *shader) {
   int kj = 0;
   for(auto col = 0; col < width; col++) {
     RGB tonality (0, 0, 0);
@@ -83,7 +84,8 @@ void Render(Image img, Camera cam, World world, Shader *shader) {
   vector<thread> threadPool;
   // Initialize rendering with a thread pool
   for(auto row=img.height-1; row>=0; row--) {
-    threadPool.push_back(thread (RenderLine, std::ref(img.content[row]), img.width, img.height, row, img.aliasSamples, cam, world, shader));
+    threadPool.push_back(thread (RenderLine, std::ref(img.content[row]), 
+             img.width, img.height, row, img.aliasSamples, cam, world, shader));
   }
 
   // Wait for threads to finish
@@ -104,62 +106,64 @@ int main( int argc, char *argv[] ) {
 
     //==== Checks if the file reading was sccessfull
     if(!ReadFile(argv[1], input)){
-      
+      //==== Checks if the content in the input file is correct
       Image img;
-      img.FromContent(input);
-      //==== Create the Materials
-      Material *mat1 = new BlinnPhong(RGB(0.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
-                                      Vector3(0.5, 0.4, 0.1));
+      if(img.FromContent(input)) {
+        //==== Create the Materials
+        Material *mat1 = new BlinnPhong(RGB(0.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
+                                        Vector3(0.5, 0.4, 0.1));
 
-      Material *mat2 = new BlinnPhong(RGB(0.0, 1.0, 0.0), RGB(1.0, 1.0, 1.0), 
-                                      Vector3(0.5, 1.0, 0.1));
+        Material *mat2 = new BlinnPhong(RGB(0.0, 1.0, 0.0), RGB(1.0, 1.0, 1.0), 
+                                        Vector3(0.5, 1.0, 0.1));
 
-      Material *mat3 = new BlinnPhong(RGB(1.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
-                                      Vector3(1.8, 1.0, 0.1));
+        Material *mat3 = new BlinnPhong(RGB(1.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
+                                        Vector3(1.8, 1.0, 0.1));
 
-      Material *mat4 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 0.0, 1.0),
-                                      Vector3(0.5, 1.0, 0.1));
+        Material *mat4 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 0.0, 1.0),
+                                        Vector3(0.5, 1.0, 0.1));
 
-      Material *mat5 = new BlinnPhong(RGB(1.0, 0.0, 0.0), RGB(1.0, 1.0, 1.0),
-                                      Vector3(1.8, 1.0, 0.1));
-      // Material *mat1 = new Lambertian(RGB(1.0, 0, 0), 0.5);
-      // Material *mat2 = new Lambertian(RGB(0.8, 0.8, 0), 0.5);
-      // Material *mat3 = new Metalic(RGB(0, 0.6, 0.6), 0.5);
-      // Material *mat4 = new Metalic(RGB(0.8, 0.8, 0.8), 0.5);
+        Material *mat5 = new BlinnPhong(RGB(1.0, 0.0, 0.0), RGB(1.0, 1.0, 1.0),
+                                        Vector3(1.8, 1.0, 0.1));
+        // Material *mat1 = new Lambertian(RGB(1.0, 0, 0), 0.5);
+        // Material *mat2 = new Lambertian(RGB(0.8, 0.8, 0), 0.5);
+        // Material *mat3 = new Metalic(RGB(0, 0.6, 0.6), 0.5);
+        // Material *mat4 = new Metalic(RGB(0.8, 0.8, 0.8), 0.5);
 
-      //==== Create the Camera
-      Camera cam = Camera();
-      Camera cam2 = Camera(Point3(-2,2,1), Point3(0,0,-1), Vector3(0,1,0), 90, float(img.width)/float(img.height));
-      
-      //==== Create the hitable objects
-      std::vector<Hitable*> myHitables = {
-        new Sphere(Point3(0, 0, -2), 0.5, mat1),
-        new Sphere(Point3(-1, 0, -2), 0.5, mat2),
-        new Sphere(Point3(1, 0, -2), 0.5, mat3),
-        new Sphere(Point3(0, 1, -2), 0.5, mat5),
-        new Sphere(Point3(0, -100.5, -3), 100, mat4)};
-      
-      //==== Create the world lights
-      std::vector<Light*> lights = {
-        new Light(Point3(0, 2, -1), 10.0)
-        // new SpotLight(Point3(0,2,-2), Vector3(-0.3,-1,0), 10, 1, 40)
-      };
+        //==== Create the Camera
+        Camera cam = Camera();
+        Camera cam2 = Camera( Point3(-2,2,1), Point3(0,0,-1), Vector3(0,1,0), 90, 
+                              float(img.width)/float(img.height));
+        
+        //==== Create the hitable objects
+        std::vector<Hitable*> myHitables = {
+          new Sphere(Point3(0, 0, -2), 0.5, mat1),
+          new Sphere(Point3(-1, 0, -2), 0.5, mat2),
+          new Sphere(Point3(1, 0, -2), 0.5, mat3),
+          new Sphere(Point3(0, 1, -2), 0.5, mat5),
+          new Sphere(Point3(0, -100.5, -3), 100, mat4)};
+        
+        //==== Create the world lights
+        std::vector<Light*> lights = {
+          new Light(Point3(0, 2, -1), 10.0)
+          // new SpotLight(Point3(0,2,-2), Vector3(-0.3,-1,0), 10, 1, 40)
+        };
 
-      //==== Create the Shader
-      Shader *shader = new BlinnPhongShader(100.0);
-      World world (myHitables,lights, 0.0, std::numeric_limits<float>::max());
-      Render(img, cam, world, shader);
+        //==== Create the Shader
+        Shader *shader = new BlinnPhongShader(100.0);
+        World world (myHitables,lights, 0.0, std::numeric_limits<float>::max());
+        Render(img, cam, world, shader);
 
-      //==== Write the reult into a file
-      WriteOnFile(img);
-      
-      // Unlocking memory
-      delete shader;
-      delete mat1;
-      delete mat2;
-      delete mat3;
-      delete mat4;
-      delete mat5;
+        //==== Write the reult into a file
+        WriteOnFile(img);
+        
+        // Unlocking memory
+        delete shader;
+        delete mat1;
+        delete mat2;
+        delete mat3;
+        delete mat4;
+        delete mat5;
+      }
     }    
     return 0;
   }
