@@ -163,7 +163,7 @@ int main( int argc, char *argv[] ) {
 
         //==== Create the Shader
         Shader *shader = new BlinnPhongShader(100.0);
-        World world (myHitables,lights, 0.0, std::numeric_limits<float>::max());
+        World world (myHitables,lights, 0.00001f, std::numeric_limits<float>::max());
         Render(img, cam, world, shader);
 
         //==== Write the reult into a file

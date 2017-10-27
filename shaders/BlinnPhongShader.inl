@@ -24,12 +24,12 @@ RGB BlinnPhongShader::GetColor( Ray r_, World world ) {
 				auto viewDir = UnitVector(r_.origin - rec.hitPoint);
 				// H
 				auto halfWay = UnitVector(viewDir + lightRay);
-				float nlDot = std::max(0.f, dot(rec.normal, lightRay));
+				float nlDot = std::max(0.000001f, dot(rec.normal, lightRay));
 				auto diffuse = rec.material->prop.X() * nlDot * rec.material->diffCol;
 				auto shadowRay =  lights[i]->GetShadowRay(rec.hitPoint);
 
 				if(!world.HitAnything(shadowRay, tmp)) {
-					float nhDot = std::max(0.f, dot(rec.normal, halfWay));
+					float nhDot = std::max(0.000001f, dot(rec.normal, halfWay));
 					auto specular = rec.material->prop.Y() * std::pow(nhDot, power) * rec.material->specCol;
 					color += specular + diffuse;
 				}
