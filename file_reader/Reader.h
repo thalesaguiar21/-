@@ -4,8 +4,6 @@
 #include <vector>
 #include <string>
 
-#include "FileUtils.h"
-
 using std::vector;
 using std::string;
 using std::cout;
@@ -26,8 +24,6 @@ namespace filerd {
   // Reads a file with a given name and creates a Image object with its content.
   bool ReadFile( string file_name, vector<string> &content );
   vector<int> GetValues(string str);
-  vector<string> RemoveComents( vector<string> fileContent );
-  bool ValidateContent( vector<string> fileContent );
   void WriteOnFile( Image img );
 } // namespace filerd
 

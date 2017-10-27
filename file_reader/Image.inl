@@ -24,7 +24,7 @@ namespace filerd {
       return  "P3\n" + std::to_string(width) + " "
               + std::to_string(height) + "\n255\n";
     } else {
-      cout << UNSUPPORTED_FORMAT << endl;
+      cout << file_utils::UNSUPPORTED_FORMAT << endl;
       return "";
     }
   }
@@ -39,23 +39,29 @@ namespace filerd {
   }
 
   bool Image::FromContent( vector<string> fileContent ) {
-    bool isValid = ValidateContent(fileContent);
+    bool isValid = file_utils::ValidateContent(fileContent);
     if (isValid) {
-      vector<string> tmpContnt = RemoveComents(fileContent);
-      name = tmpContnt[NAME].substr(7, tmpContnt[NAME].length());
-      format = tmpContnt[TYPE].substr(7, tmpContnt[TYPE].length());
+      vector<string> tmpContnt = file_utils::RemoveComents(fileContent);
+      name = tmpContnt[file_utils::NAME].substr(7, 
+        tmpContnt[file_utils::NAME].length());
+      
+      format = tmpContnt[file_utils::TYPE].substr(7, 
+        tmpContnt[file_utils::TYPE].length());
 
-      int codLength = tmpContnt[CODIFICATION].length();
-      cod = tmpContnt[CODIFICATION].substr(15, codLength);
+      int codLength = tmpContnt[file_utils::CODIFICATION].length();
+      cod = tmpContnt[file_utils::CODIFICATION].substr(15, codLength);
 
-      int widthLength = tmpContnt[WIDTH].length();
-      width = std::stoi(tmpContnt[WIDTH].substr(8, widthLength), nullptr);
+      int widthLength = tmpContnt[file_utils::WIDTH].length();
+      width = std::stoi(tmpContnt[file_utils::WIDTH].substr(8, 
+        widthLength), nullptr);
 
-      int heightLength = tmpContnt[HEIGHT].length();
-      height = std::stoi(tmpContnt[HEIGHT].substr(9, heightLength), nullptr);
+      int heightLength = tmpContnt[file_utils::HEIGHT].length();
+      height = std::stoi(tmpContnt[file_utils::HEIGHT].substr(9, 
+        heightLength), nullptr);
 
-      int aliasLength = tmpContnt[ALIAS].length();
-      aliasSamples = std::stoi(tmpContnt[ALIAS].substr(8, aliasLength), nullptr);
+      int aliasLength = tmpContnt[file_utils::ALIAS].length();
+      aliasSamples = std::stoi(tmpContnt[file_utils::ALIAS].substr(8, 
+        aliasLength), nullptr);
 
       content = new int*[height];
       for(auto i = 0; i < height; i++) {

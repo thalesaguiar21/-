@@ -20,6 +20,7 @@
 #include "hitables/basic_shapes/Sphere.h"
 #include "hitables/World.h"
 
+#include "file_reader/FileUtils.h"
 #include "file_reader/Image.h"
 #include "file_reader/Reader.h"
 

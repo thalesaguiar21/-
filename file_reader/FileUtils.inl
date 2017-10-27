@@ -1,18 +1,34 @@
 #include "FileUtils.h"
 
-namespace filerd {
+namespace file_utils {
 
-	vector<string> RemoveComents(vector<string> fileContent) {
+  vector<string> RemoveComents(vector<string> &fileContent) {
+    vector<short> commentPos;
+    
     for(int i = 0; i < fileContent.size(); ++i) {
       int comment_pos = fileContent[i].find_first_of(COMMENT_CHAR);
+      // Ignore the line starting from the comment character
       fileContent[i] = fileContent[i].substr(0, comment_pos);
+      if(fileContent[i].length() == 0) {
+        commentPos.push_back(i);
+      }
     }
+
+    // Remove lines that are comment only
+    for(short & comment : commentPos) {
+      fileContent.erase(fileContent.begin() + comment);
+    }
+
     return fileContent;
   }
 
+   /*  
+      Returns true if the file has no erros, false otherwise
+  */
   bool ValidateContent( vector<string> content ) {
     cout << "Checking file format...";
     bool valid = true;
+    RemoveComents(content);
     if(content.empty()){
       cout << NO_CONTENT << endl;
       valid = false;
@@ -37,8 +53,9 @@ namespace filerd {
     } else if (content[ALIAS].substr(0, 5).compare("ALIAS") != 0) {
       cout << INSUFICIENT_CONTENT << "ALIAS" << endl;
       valid = false;
+    } else {
+      cout << "Success!" << endl;  
     }
-    cout << "Success!" << endl;
     return valid;
   }
-} // namespace filerd
+} // namespace file_utils
