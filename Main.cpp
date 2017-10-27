@@ -5,6 +5,7 @@
 #include <limits>
 #include <iomanip>
 #include <thread>
+#include <time.h>
 
 #include "utility/Vector3.h"
 #include "utility/Ray.h"
@@ -44,10 +45,9 @@ using std::vector;
 using std::thread;
 
 void ShowRenderingInfo(string fileSpecs, string msg) {
-  cout << "\nFILE SPECFICATION:" << endl;
-  cout << "-----------------------------" << endl;
+  cout << "\n------- FILE SPECFICATION -------" << endl;
   cout << fileSpecs << endl;
-  cout << "-----------------------------" << endl;
+  cout << "---------------------------------" << endl;
   cout << msg << "..." <<flush;
 }
 
@@ -56,6 +56,14 @@ void ShowProgress(float num, float denom) {
   string strRes = std::to_string(int(result));
   cout << strRes << "%" << flush;
   cout << string(strRes.length() + 1, '\b') << flush;
+}
+
+void PrintExecutionTime(float time) {
+  int min = int(time / CLOCKS_PER_SEC) / 60;
+  float sec = (time / CLOCKS_PER_SEC) - (min * 60);
+  cout << "\n------------ TIME ---------------" << endl;
+  cout << "Rendered file for " << min << "min " << sec << "s" << endl;
+  cout << "---------------------------------" << endl;
 }
 
 void RenderLine( int *linha, int width, int height, int row, int aliasSamples,               
@@ -80,9 +88,12 @@ void RenderLine( int *linha, int width, int height, int row, int aliasSamples,
 }
 
 void Render(Image img, Camera cam, World world, Shader *shader) {
-  ShowRenderingInfo(img.Description(), "Rendering");
+  std::clock_t before, after;
+  ShowRenderingInfo(img.Description(), "\nRendering");
   vector<thread> threadPool;
   // Initialize rendering with a thread pool
+
+  before = std::clock();
   for(auto row=img.height-1; row>=0; row--) {
     threadPool.push_back(thread (RenderLine, std::ref(img.content[row]), 
              img.width, img.height, row, img.aliasSamples, cam, world, shader));
@@ -92,8 +103,9 @@ void Render(Image img, Camera cam, World world, Shader *shader) {
   for(auto th = 0; th < threadPool.size(); th++){
     threadPool[th].join();
   }
-
+  after = std::clock();
   cout << "Done!" << endl;
+  PrintExecutionTime(float(after) - float(before));
 }
 
 int main( int argc, char *argv[] ) {
@@ -137,9 +149,9 @@ int main( int argc, char *argv[] ) {
         //==== Create the hitable objects
         std::vector<Hitable*> myHitables = {
           new Sphere(Point3(0, 0, -2), 0.5, mat1),
-          new Sphere(Point3(-1, 0, -2), 0.5, mat2),
-          new Sphere(Point3(1, 0, -2), 0.5, mat3),
-          new Sphere(Point3(0, 1, -2), 0.5, mat5),
+          // new Sphere(Point3(-1, 0, -2), 0.5, mat2),
+          // new Sphere(Point3(1, 0, -2), 0.5, mat3),
+          // new Sphere(Point3(0, 1, -2), 0.5, mat5),
           new Sphere(Point3(0, -100.5, -3), 100, mat4)};
         
         //==== Create the world lights
