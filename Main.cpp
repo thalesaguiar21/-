@@ -138,10 +138,6 @@ int main( int argc, char *argv[] ) {
 
         Material *mat5 = new BlinnPhong(RGB(1.0, 0.0, 0.0), RGB(1.0, 1.0, 1.0),
                                         Vector3(1.8, 1.0, 0.1));
-        // Material *mat1 = new Lambertian(RGB(1.0, 0, 0), 0.5);
-        // Material *mat2 = new Lambertian(RGB(0.8, 0.8, 0), 0.5);
-        // Material *mat3 = new Metalic(RGB(0, 0.6, 0.6), 0.5);
-        // Material *mat4 = new Metalic(RGB(0.8, 0.8, 0.8), 0.5);
 
         //==== Create the Camera
         Camera cam = Camera();
@@ -158,13 +154,15 @@ int main( int argc, char *argv[] ) {
         
         //==== Create the world lights
         std::vector<Light*> lights = {
-          new Light(Point3(0, 2, -1), 10.0)
-          // new SpotLight(Point3(0,2,-2), Vector3(-0.3,-1,0), 10, 1, 40)
+          // new Light(Point3(0, 2, -1), 10.0)
+          new SpotLight(Point3(0,2,-2), Vector3(0,-1,0), 10, 1, 20),
+          new SpotLight(Point3(2,2,-2), Vector3(-1,-1,0), 10, 1, 30)
         };
 
         //==== Create the Shader
         Shader *shader = new BlinnPhongShader(100.0);
-        World world (myHitables,lights, 0.00001f, std::numeric_limits<float>::max());
+        World world (myHitables,lights, 0.00001f, 
+          std::numeric_limits<float>::max());
         Render(img, cam, world, shader);
 
         //==== Write the reult into a file
