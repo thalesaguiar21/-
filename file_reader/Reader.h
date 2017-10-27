@@ -24,7 +24,7 @@ using std::endl;
 
 namespace filerd {
   // Reads a file with a given name and creates a Image object with its content.
-  vector<string> ReadFile( string fileName );
+  bool ReadFile( string file_name, vector<string> &content );
   vector<int> GetValues(string str);
   vector<string> RemoveComents( vector<string> fileContent );
   bool ValidateContent( vector<string> fileContent );

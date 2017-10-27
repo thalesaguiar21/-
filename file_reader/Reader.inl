@@ -2,7 +2,7 @@
 
 namespace filerd {
 
-  bool ReadFile( string file_name, vector<string> content) {
+  bool ReadFile( string file_name, vector<string> &content) {
     bool hasErros = false;
     cout << "Opening file...";
     std::ifstream myfile(file_name);
@@ -74,8 +74,9 @@ namespace filerd {
     } else if (content[ALIAS].substr(0, 5).compare("ALIAS") != 0) {
       cout << INSUFICIENT_CONTENT << "ALIAS" << endl;
       valid = false;
+    } else {
+      cout << "Success!" << endl;  
     }
-    cout << "Success!" << endl;
     return valid;
   }
 

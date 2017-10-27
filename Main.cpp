@@ -120,7 +120,7 @@ int main( int argc, char *argv[] ) {
       Material *mat4 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 0.0, 1.0),
                                       Vector3(0.5, 1.0, 0.1));
 
-      Material *mat5 = new BlinnPhong(RGB(0.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
+      Material *mat5 = new BlinnPhong(RGB(1.0, 0.0, 0.0), RGB(1.0, 1.0, 1.0),
                                       Vector3(1.8, 1.0, 0.1));
       // Material *mat1 = new Lambertian(RGB(1.0, 0, 0), 0.5);
       // Material *mat2 = new Lambertian(RGB(0.8, 0.8, 0), 0.5);
