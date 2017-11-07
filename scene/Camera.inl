@@ -7,7 +7,8 @@ Camera::Camera( void ) {
   vertical = Vector3(0, 2, 0);
 }
 
-Camera::Camera( Vector3 lookFrom_, Vector3 lookAt_, Vector3 vup, float fov, float aspect ) {
+Camera::Camera( Vector3 lookFrom_, Vector3 lookAt_, Vector3 vup, float fov, 
+      float aspect ) {
   Vector3 u, v, w;
   float theta = fov * 3.14159/180.0;
   float half_height = tan(theta/2);
@@ -16,8 +17,7 @@ Camera::Camera( Vector3 lookFrom_, Vector3 lookAt_, Vector3 vup, float fov, floa
   w = UnitVector(lookFrom_ - lookAt_);
   u = UnitVector(Cross(vup, w));
   v = Cross(w, u);
-  llc = Vector3(-half_width, -half_height, -1);
-  llc = half_width*u  - half_height*v - w;
+  llc = origin - half_width*u  - half_height*v - w;
   horizontal = 2 * half_width * u;
   vertical = 2 * half_height * v;
 }

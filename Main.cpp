@@ -141,29 +141,29 @@ int main( int argc, char *argv[] ) {
 
         //==== Create the Camera
         Camera cam = Camera();
-        Camera cam2 = Camera( Point3(-2,2,1), Point3(0,0,-1), Vector3(0,1,0), 90, 
+        Camera cam2 = Camera( Point3(3,1,2), Point3(0,0,-2), Vector3(0,1,0), 50, 
                               float(img.width)/float(img.height));
         
         //==== Create the hitable objects
         std::vector<Hitable*> myHitables = {
           new Sphere(Point3(0, 0, -2), 0.5, mat1),
-          // new Sphere(Point3(-1, 0, -2), 0.5, mat2),
-          // new Sphere(Point3(1, 0, -2), 0.5, mat3),
+          new Sphere(Point3(-1, 0, -2), 0.5, mat2),
+          new Sphere(Point3(2, 0, -2), 0.5, mat3),
           // new Sphere(Point3(0, 1, -2), 0.5, mat5),
           new Sphere(Point3(0, -100.5, -3), 100, mat4)};
         
         //==== Create the world lights
         std::vector<Light*> lights = {
           // new Light(Point3(0, 2, -1), 10.0)
-          new SpotLight(Point3(0,2,-2), Vector3(0,-1,0), 10, 1, 20),
-          new SpotLight(Point3(2,2,-2), Vector3(-1,-1,0), 10, 1, 30)
+          new SpotLight(Point3(0,2,-3), Vector3(0,-1,0), 10, 1, 20),
+          new SpotLight(Point3(0,2,-2), Vector3(0,-1,0), 10, 1, 60)
         };
 
         //==== Create the Shader
         Shader *shader = new BlinnPhongShader(100.0);
         World world (myHitables,lights, 0.00001f, 
           std::numeric_limits<float>::max());
-        Render(img, cam, world, shader);
+        Render(img, cam2, world, shader);
 
         //==== Write the reult into a file
         WriteOnFile(img);

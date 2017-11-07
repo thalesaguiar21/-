@@ -17,7 +17,7 @@ namespace utils {
   }
 
   inline Point3 Ray::PointAt(float t) {
-    return origin + t*terminal;
+    return origin + t*Direction();
   }
 
 } // namespace utils
