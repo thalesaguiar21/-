@@ -24,11 +24,15 @@ class Camera {
     // Vertical direction of the view plane
     Vector3 vertical;
     float fov; //Field of View
+    float lens_radius;
+    Vector3 u, v, w;
 
     //  Create a camera with all points and directions initialized at (0,0,0).
     Camera( void );
     Camera( Vector3 lookFrom_, Vector3 lookAt_, Vector3 vup, float fov, float aspect );
     Camera( Point3 origin, Point3 llc, Vector3 horizontal, Vector3 vertical );
+    Camera( Vector3 lookFrom_, Vector3 lookAt_, Vector3 vup, float fov, 
+      float aspect, float aperture, float focus_dist);
 
     /*  Create a ray by lerping the the horizontal and vertical axis of the
         view plane with the given u and v scalars.
@@ -37,6 +41,7 @@ class Camera {
         @param float The vertical scalar
     */
     Ray ShootRay( float u, float v );
+    Vector3 randomInUnitDisk();
     void SetFrame( Point3 at, Point3 from, Vector3 up );
 };
 

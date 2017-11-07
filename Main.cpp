@@ -143,6 +143,10 @@ int main( int argc, char *argv[] ) {
         Camera cam = Camera();
         Camera cam2 = Camera( Point3(3,1,2), Point3(0,0,-2), Vector3(0,1,0), 50, 
                               float(img.width)/float(img.height));
+
+        float dist = (Point3(3,1,2) - Point3(0,0,-2)).Length();
+        Camera cam3 = Camera( Point3(3,1,2), Point3(0,0,-2), Vector3(0,1,0), 50, 
+                              float(img.width)/float(img.height), 2.0, 4);
         
         //==== Create the hitable objects
         std::vector<Hitable*> myHitables = {
