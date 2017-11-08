@@ -146,7 +146,7 @@ int main( int argc, char *argv[] ) {
 
         float dist = (Point3(3,1,2) - Point3(0,0,-2)).Length();
         Camera cam3 = Camera( Point3(3,1,2), Point3(0,0,-2), Vector3(0,1,0), 50, 
-                              float(img.width)/float(img.height), 2.0, 4);
+                              float(img.width)/float(img.height), 2.0, 6);
         
         //==== Create the hitable objects
         std::vector<Hitable*> myHitables = {
@@ -167,7 +167,7 @@ int main( int argc, char *argv[] ) {
         Shader *shader = new BlinnPhongShader(100.0);
         World world (myHitables,lights, 0.00001f, 
           std::numeric_limits<float>::max());
-        Render(img, cam2, world, shader);
+        Render(img, cam3, world, shader);
 
         //==== Write the reult into a file
         WriteOnFile(img);

@@ -4,7 +4,7 @@
 #include "../utility/Vector3.h"
 #include "../utility/Ray.h"
 
-const double pi = 3.1415;
+#define PI 3.141592;
 
 using namespace utils;
 /*
@@ -13,8 +13,6 @@ using namespace utils;
 */
 class Camera {
   public:
-    Point3 lookFrom;
-    Point3 lookAt;
     // Origin of the camera. Rays will be shooted from this point.
     Point3 origin;
     // Lower left corner of the camera, or start point of the view plane.

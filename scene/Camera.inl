@@ -11,7 +11,7 @@ Camera::Camera( Vector3 lookFrom_, Vector3 lookAt_, Vector3 vup, float fov,
       float aspect ) {
   Vector3 u, v, w;
   lens_radius = 1;
-  float theta = fov * 3.14159/180.0;
+  float theta = fov * M_PI/180.0;
   float half_height = tan(theta/2);
   float half_width = aspect * half_height;
   origin = lookFrom_;
@@ -26,7 +26,7 @@ Camera::Camera( Vector3 lookFrom_, Vector3 lookAt_, Vector3 vup, float fov,
 Camera::Camera( Vector3 lookFrom_, Vector3 lookAt_, Vector3 vup, float fov, 
       float aspect, float aperture, float focus_dist) {
   lens_radius = aperture / 2.0;
-  float theta = fov * 3.14159/180.0;
+  float theta = fov * M_PI/180.0;
   float half_height = tan(theta/2);
   float half_width = aspect * half_height;
   origin = lookFrom_;
