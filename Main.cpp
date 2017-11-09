@@ -14,6 +14,8 @@
 #include "scene/Camera.h"
 #include "scene/Light.h"
 #include "scene/SpotLight.h"
+#include "scene/ParallelCamera.h"
+#include "scene/PerspectiveCamera.h"
 
 #include "hitables/HitRecord.h"
 #include "hitables/Hitable.h"
@@ -73,14 +75,14 @@ void PrintExecutionTime(float time) {
 }
 
 void RenderLine( int *linha, int width, int height, int row, int aliasSamples,               
-                 Camera cam, World world, Shader *shader) {
+                 Camera *cam, World world, Shader *shader) {
   int kj = 0;
   for(auto col = 0; col < width; col++) {
     RGB tonality (0, 0, 0);
     for(auto s = 0; s < aliasSamples; s++) {
       float u = float(col + drand48()) / float(width);
       float v = float(row + drand48()) / float(height);
-      Ray r = cam.ShootRay(u, v);
+      Ray r = cam->shootRay(u, v);
       tonality += shader->GetColor(r, world);
     }
 
@@ -93,7 +95,7 @@ void RenderLine( int *linha, int width, int height, int row, int aliasSamples,
   } 
 }
 
-void Render(Image img, Camera cam, World world, Shader *shader) {
+void Render(Image img, Camera *cam, World world, Shader *shader) {
   std::clock_t before, after;
   ShowRenderingInfo(img.Description(), "\nRendering");
   vector<thread> threadPool;
@@ -147,9 +149,8 @@ int main( int argc, char *argv[] ) {
         //==== Create the Camera
         // Defocus cam
         float dist = (Point3(3,1,2) - Point3(0,0,-2)).Length();
-        Camera cam3 = Camera( Point3(3,0,0), Point3(0,0,-2), Vector3(0,1,0), 90, 
-                              float(img.width)/float(img.height), 2.0, dist);
-        cam3.setParallel( -800, 800, -400, 400, img.width, img.height );
+        Camera *cam3 = new PerspectiveCamera( Point3(3,1,1), Point3(0,0,-2), Vector3(0,1,0), 90, 
+                              float(img.width)/float(img.height), 0, dist);
         
         //==== Create the hitable objects
         Point3 center (0, 0, -2);
@@ -163,8 +164,8 @@ int main( int argc, char *argv[] ) {
 
         std::vector<Hitable*> myHitables = {
           new Sphere(center, 0.5, mat1),
-          new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
-          new Sphere(Point3(2, 0, -2), 0.5, mat3),
+          // new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
+          // new Sphere(Point3(2, 0, -2), 0.5, mat3),
           // new Sphere(Point3(0, 1, -2), 0.5, mat5),
           new Sphere(Point3(0, -100.5, -3), 100, mat4)};
         
@@ -186,6 +187,7 @@ int main( int argc, char *argv[] ) {
         
         // Unlocking memory
         delete shader;
+        delete cam3;
         delete mat1;
         delete mat2;
         delete mat3;
