@@ -15,12 +15,9 @@ class Camera {
 		Point3 from;
 		Point3 at;
 		Vector3 vup;
-		Vector3 lowerLeftCorner;
 		Vector3 u;
 		Vector3 v;
 		Vector3 w;
-		Vector3 horizontal;
-		Vector3 vertical;
 		float lensRadius;
 
 	public:

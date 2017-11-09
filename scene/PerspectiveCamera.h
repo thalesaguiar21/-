@@ -6,6 +6,9 @@
 
 class PerspectiveCamera : public Camera {
 private:
+	Vector3 horizontal;
+	Vector3 vertical;
+	Vector3 lowerLeftCorner;
 	Vector3 randomInUnitDisk();
 public:
 	PerspectiveCamera( void );
