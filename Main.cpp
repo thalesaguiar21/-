@@ -35,6 +35,11 @@
 #include "materials/Metalic.h"
 #include "materials/BlinnPhong.h"
 
+
+// vec3, vec4, ivec4, mat4
+#include "external/glm/glm.hpp"
+// translate, rotate, scale, perspective
+#include "external/glm/gtc/matrix_transform.hpp"
 using namespace utils;
 using namespace filerd;
 
@@ -75,7 +80,7 @@ void RenderLine( int *linha, int width, int height, int row, int aliasSamples,
     for(auto s = 0; s < aliasSamples; s++) {
       float u = float(col + drand48()) / float(width);
       float v = float(row + drand48()) / float(height);
-      Ray r = cam.ShootParallelRay(u, v);
+      Ray r = cam.ShootRay(u, v);
       tonality += shader->GetColor(r, world);
     }
 
@@ -140,36 +145,41 @@ int main( int argc, char *argv[] ) {
                                         Vector3(1.8, 1.0, 0.1));
 
         //==== Create the Camera
-        Camera cam = Camera();
-
-        Camera cam2 = Camera( Point3(3,1,2), Point3(0,0,-2), Vector3(0,1,0), 50, 
-                              float(img.width)/float(img.height));
-        cam2.setParallel(-1, 1, -1, 1, img.width, img.height);
         // Defocus cam
         float dist = (Point3(3,1,2) - Point3(0,0,-2)).Length();
-        Camera cam3 = Camera( Point3(3,1,2), Point3(0,0,-2), Vector3(0,1,0), 50, 
-                              float(img.width)/float(img.height), 2.0, 6);
+        Camera cam3 = Camera( Point3(3,0,0), Point3(0,0,-2), Vector3(0,1,0), 90, 
+                              float(img.width)/float(img.height), 2.0, dist);
+        cam3.setParallel( -800, 800, -400, 400, img.width, img.height );
         
         //==== Create the hitable objects
+        Point3 center (0, 0, -2);
+        glm::vec4 p1(0, 2, 0, 1);
+        glm::vec3 translation = glm::vec3(center.X(), center.Y(), center.Z());
+
+
+        glm::mat4 tMatrix = glm::translate(glm::mat4(1.0f), translation);
+        glm::vec4 centerT = tMatrix * p1;
+
+
         std::vector<Hitable*> myHitables = {
-          new Sphere(Point3(0, 0, -2), 0.5, mat1),
-          new Sphere(Point3(-1, 0, -2), 0.5, mat2),
+          new Sphere(center, 0.5, mat1),
+          new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
           new Sphere(Point3(2, 0, -2), 0.5, mat3),
           // new Sphere(Point3(0, 1, -2), 0.5, mat5),
           new Sphere(Point3(0, -100.5, -3), 100, mat4)};
         
         //==== Create the world lights
         std::vector<Light*> lights = {
-          // new Light(Point3(0, 2, -1), 10.0)
-          new SpotLight(Point3(0,2,-3), Vector3(0,-1,0), 10, 1, 20),
-          new SpotLight(Point3(0,2,-2), Vector3(0,-1,0), 10, 1, 60)
+          new Light(Point3(0, 2, -1), 10.0)
+          // new SpotLight(Point3(0,2,-3), Vector3(0,-1,0), 10, 1, 20),
+          // new SpotLight(Point3(0,2,-2), Vector3(0,-1,0), 10, 1, 60)
         };
 
         //==== Create the Shader
         Shader *shader = new BlinnPhongShader(100.0);
         World world (myHitables,lights, 0.00001f, 
           std::numeric_limits<float>::max());
-        Render(img, cam2, world, shader);
+        Render(img, cam3, world, shader);
 
         //==== Write the reult into a file
         WriteOnFile(img);
