@@ -9,11 +9,13 @@ namespace utils {
       // The origin of the vector
       Point3 origin;
       Point3 terminal;
+      Vector3 dir;
 
       Ray( void );
       Ray( Point3 origin, Point3 terminal);
       Vector3 Direction( void );
       Point3 PointAt( float );
+      void setDir( Vector3 dir_ );
   };
 } // namespace utils
 

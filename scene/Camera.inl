@@ -9,7 +9,6 @@ Camera::Camera( void ) {
 
 Camera::Camera( Vector3 lookFrom_, Vector3 lookAt_, Vector3 vup, float fov, 
       float aspect ) {
-  Vector3 u, v, w;
   lens_radius = 1;
   float theta = fov * M_PI/180.0;
   float half_height = tan(theta/2);
@@ -46,6 +45,16 @@ Camera::Camera( Point3 origin_, Point3 llc_, Vector3 horizontal_,
   vertical = vertical_;
 }
 
+void Camera::setParallel( float l_, float r_, float b_, float t_,
+    int width_, int height_ ) {
+  l = l_;
+  r = r_;
+  b = b_;
+  t = t_;
+  width = width_;
+  height = height_;
+}
+
 
 inline Vector3 Camera::randomInUnitDisk() {
   Vector3 p;
@@ -60,4 +69,16 @@ inline Ray Camera::ShootRay(float s, float t) {
   Vector3 offset = u * rd.X() + v * rd.Y();
   Point3 term = llc + s*horizontal + t*vertical;
   return Ray(origin + offset, term);
+}
+
+
+inline Ray Camera::ShootParallelRay(float s, float t) {
+  float u_ = l + ((r-l)*(s + 0.5) / width);
+  float v_ = b + ((t-b)*(t + 0.5) / height);
+  // std::cout << w << std::endl;
+  // std::cout << u_ << "|" << v_ << std::endl;
+  Vector3 tmpOrigin = origin + u_*horizontal + v_*vertical;
+  Ray ray = Ray(tmpOrigin, Point3(0,0,0));
+  ray.setDir(-w);
+  return ray;
 }

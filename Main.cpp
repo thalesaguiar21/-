@@ -75,7 +75,7 @@ void RenderLine( int *linha, int width, int height, int row, int aliasSamples,
     for(auto s = 0; s < aliasSamples; s++) {
       float u = float(col + drand48()) / float(width);
       float v = float(row + drand48()) / float(height);
-      Ray r = cam.ShootRay(u, v);
+      Ray r = cam.ShootParallelRay(u, v);
       tonality += shader->GetColor(r, world);
     }
 
@@ -97,7 +97,7 @@ void Render(Image img, Camera cam, World world, Shader *shader) {
   before = std::clock();
   for(auto row=img.height-1; row>=0; row--) {
     threadPool.push_back(thread (RenderLine, std::ref(img.content[row]), 
-             img.width, img.height, row, img.aliasSamples, cam, world, shader));
+             img.width, img.height, row, img.aliasSamples, std::ref(cam), world, shader));
   }
 
   // Wait for threads to finish
@@ -141,9 +141,11 @@ int main( int argc, char *argv[] ) {
 
         //==== Create the Camera
         Camera cam = Camera();
+
         Camera cam2 = Camera( Point3(3,1,2), Point3(0,0,-2), Vector3(0,1,0), 50, 
                               float(img.width)/float(img.height));
-
+        cam2.setParallel(-1, 1, -1, 1, img.width, img.height);
+        // Defocus cam
         float dist = (Point3(3,1,2) - Point3(0,0,-2)).Length();
         Camera cam3 = Camera( Point3(3,1,2), Point3(0,0,-2), Vector3(0,1,0), 50, 
                               float(img.width)/float(img.height), 2.0, 6);
@@ -167,7 +169,7 @@ int main( int argc, char *argv[] ) {
         Shader *shader = new BlinnPhongShader(100.0);
         World world (myHitables,lights, 0.00001f, 
           std::numeric_limits<float>::max());
-        Render(img, cam3, world, shader);
+        Render(img, cam2, world, shader);
 
         //==== Write the reult into a file
         WriteOnFile(img);
