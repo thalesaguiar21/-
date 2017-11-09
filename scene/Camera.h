@@ -46,6 +46,7 @@ class Camera {
         @param float The vertical scalar
     */
     Ray ShootRay( float s, float t );
+    Ray ShootDefocus( float s, float t );
     Ray ShootParallelRay( float s, float t ); 
     Vector3 randomInUnitDisk();
     void SetFrame( Point3 at, Point3 from, Vector3 up );

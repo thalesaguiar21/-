@@ -65,19 +65,22 @@ inline Vector3 Camera::randomInUnitDisk() {
 }
 
 inline Ray Camera::ShootRay(float s, float t) {
+  Point3 term = llc + s*horizontal + t*vertical;
+  return Ray(origin, term);
+}
+
+inline Ray Camera::ShootDefocus(float s, float t) {
   Vector3 rd = lens_radius * randomInUnitDisk();
   Vector3 offset = u * rd.X() + v * rd.Y();
   Point3 term = llc + s*horizontal + t*vertical;
   return Ray(origin + offset, term);
+
 }
 
-
 inline Ray Camera::ShootParallelRay(float s, float t) {
-  float u_ = l + ((r-l)*(s + 0.5) / width);
-  float v_ = b + ((t-b)*(t + 0.5) / height);
-  // std::cout << w << std::endl;
-  // std::cout << u_ << "|" << v_ << std::endl;
-  Vector3 tmpOrigin = origin + u_*horizontal + v_*vertical;
+  float u_ = l + (r-l)*s;
+  float v_ = b + (t-b)*(1-t);
+  Vector3 tmpOrigin = origin + u_*u + v_*v;
   Ray ray = Ray(tmpOrigin, Point3(0,0,0));
   ray.setDir(-w);
   return ray;
