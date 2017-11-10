@@ -149,12 +149,12 @@ int main( int argc, char *argv[] ) {
         //==== Create the Camera
         // Perspective Camera
         float dist = (Point3(3,1,2) - Point3(0,0,-2)).Length();
-        // Camera *cam3 = new PerspectiveCamera( Point3(3,1,1), Point3(0,0,-2), Vector3(0,1,0), 90, 
-        //                       float(img.width)/float(img.height), 0, dist);
+        Camera *perspecCam = new PerspectiveCamera( Point3(3,1,1), Point3(0,0,-2), 90, 
+                              float(img.width)/float(img.height), 0, dist);
 
         // Parallel Camera
-        Camera *cam3 = new ParallelCamera( Point3(0,5,2), Point3(0,0,-2), Vector3(0,1,0), 90, 
-                              float(img.width)/float(img.height), 2.0, dist, -400, 400, -200, 200);
+        Camera *orthoCam = new ParallelCamera( Point3(0,0,1), Point3(0,0,-10),
+                                           -400, 400, -200, 200);
         
         //==== Create the hitable objects
         Point3 center (0, 0, -2);
@@ -184,14 +184,15 @@ int main( int argc, char *argv[] ) {
         Shader *shader = new BlinnPhongShader(100.0);
         World world (myHitables,lights, 0.00001f, 
           std::numeric_limits<float>::max());
-        Render(img, cam3, world, shader);
+        Render(img, perspecCam, world, shader);
 
         //==== Write the reult into a file
         WriteOnFile(img);
         
         // Unlocking memory
         delete shader;
-        delete cam3;
+        delete orthoCam;
+        delete perspecCam;
         delete mat1;
         delete mat2;
         delete mat3;

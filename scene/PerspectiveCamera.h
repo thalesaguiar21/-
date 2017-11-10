@@ -6,11 +6,14 @@
 
 class PerspectiveCamera : public Camera {
 private:
-	Vector3 randomInUnitDisk();
+		Vector3 horizontal;
+		Vector3 vertical;
+		Vector3 lowerLeftCorner;
+		float lensRadius;
 public:
 	PerspectiveCamera( void );
-	PerspectiveCamera( Point3 from, Point3 at, Vector3 vup, float fov, 
-			float aspect, float aperture, float focus );
+	PerspectiveCamera( Point3 from, Point3 at, float fov, float aspect, 
+		float aperture, float focus );
 	Ray shootRay( float s, float t );
 };
 

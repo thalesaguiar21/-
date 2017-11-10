@@ -9,12 +9,10 @@ class ParallelCamera : public Camera {
 		float right;
 		float top;
 		float bottom;
-		Vector3 randomInUnitDisk();
 	public:
 		ParallelCamera( void );
-		ParallelCamera( Point3 from, Point3 at, Vector3 vup, float fov, 
-			float aspect, float aperture, float focus, float left, float right, 
-			float top, float bottom );
+		ParallelCamera( Point3 from, Point3 at, float left, float right, float top, 
+			float bottom );
 		Ray shootRay( float s, float t );
 };
 
