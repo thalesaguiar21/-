@@ -153,11 +153,11 @@ int main( int argc, char *argv[] ) {
                               float(img.width)/float(img.height), 0, dist);
 
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(3,0,1), Point3(0,0,-2),
-                                           -400, 400, -200, 200);
+        Camera *orthoCam = new ParallelCamera( Point3(0,-1,2), Point3(0,0,-2),
+                                           -2, 2, -1, 1);
         
         //==== Create the hitable objects
-        Point3 center (0, 0, -2);
+        Point3 center (2, 0, -2);
         glm::vec4 p1(0, 2, 0, 1);
         glm::vec3 translation = glm::vec3(center.X(), center.Y(), center.Z());
 
@@ -184,7 +184,7 @@ int main( int argc, char *argv[] ) {
         Shader *shader = new BlinnPhongShader(100.0);
         World world (myHitables,lights, 0.00001f, 
           std::numeric_limits<float>::max());
-        Render(img, perspecCam, world, shader);
+        Render(img, orthoCam, world, shader);
 
         //==== Write the reult into a file
         WriteOnFile(img);
