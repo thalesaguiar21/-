@@ -8,7 +8,7 @@ Metalic::Metalic( Vector3 albedo, float refCoef_ ) {
 bool Metalic::Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
                         Vector3 normal ) {
 	auto reflected = Reflect(UnitVector(incident.Direction()), normal);
-	diffused = Ray(hitPoint, reflected);
+	diffused = Ray(hitPoint, reflected - hitPoint);
 	return (dot(diffused.Direction(), normal) > 0);
 }
 

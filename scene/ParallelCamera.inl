@@ -17,7 +17,6 @@ Ray ParallelCamera::shootRay( float s, float t) {
 	float u_ = left + (right-left)*s;
   float v_ = bottom + (top-bottom)*(1-t);
   Vector3 tmpOrigin = from + u_*u + v_*v;
-  Ray ray = Ray(tmpOrigin, Point3(0,0,0));
-  ray.setDir(-w);
+  Ray ray = Ray(tmpOrigin, -w);
   return ray;
 }

@@ -4,24 +4,19 @@ namespace utils {
 
   Ray::Ray( void ) {
     origin = Point3(0, 0, 0);
-    terminal = Point3(0, 0, 0);
+    dir = Point3(0, 0, 0);
   }
 
-  Ray::Ray(Point3 origin_, Point3 terminal_) {
+  Ray::Ray(Point3 origin_, Vector3 dir) {
     origin = origin_;
-    terminal = terminal_;
-    dir = terminal - origin;
+    dir = dir;
   }
 
-  void Ray::setDir( Vector3 dir_ ) {
-    dir = dir_;
-  }
-
-  inline Vector3 Ray::Direction() {
+  Vector3 Ray::Direction() {
     return dir;
   }
 
-  inline Point3 Ray::PointAt(float t) {
+  Point3 Ray::PointAt(float t) {
     return origin + t*Direction();
   }
 

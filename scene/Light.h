@@ -24,7 +24,7 @@ class Light {
 		}
 
 		Ray virtual GetShadowRay( Point3 surface ) {
-			return Ray(surface, Origin);
+			return Ray(surface, surface - Origin);
 		}
 };
 

@@ -19,5 +19,5 @@ bool SpotLight::IsIlluminating( Point3 point ) {
 }
 
 Ray SpotLight::GetShadowRay( Point3 surface ) {
-  return Ray(surface, Origin);
+  return Ray(surface, surface - Origin);
 }

@@ -24,6 +24,7 @@ bool Sphere::Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) {
   float A, B, C;
   float discriminant = Discriminant(r_, A, B, C);
   if(discriminant > 0) {
+    std::cout << "HEY" << std::endl;
     float root = (-B - sqrt(discriminant))/A;
     if(root < maxHit && root > minHit) {
       rec.root = root;

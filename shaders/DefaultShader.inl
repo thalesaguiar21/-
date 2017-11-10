@@ -23,7 +23,7 @@ RGB DefaultShader::GetColorAux( Ray r_, World world, int maxRef_ ) {
     return RGB(1.0, 1.0, 1.0);
   }
   if(world.HitAnything(r_, rec)) {
-    Ray difused (Point3(0, 0, 0), Vector3(0, 0, 0));
+    Ray difused;
     rec.material->Diffusion(r_, difused, rec.hitPoint, rec.normal);
     RGB visColor = rec.material->refCoef * rec.material->prop;
     return visColor * GetColorAux(difused, world, maxRef_-1);
