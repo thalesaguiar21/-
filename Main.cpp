@@ -82,7 +82,7 @@ void RenderLine( int *linha, int width, int height, int row, int aliasSamples,
     for(auto s = 0; s < aliasSamples; s++) {
       float u = float(col + drand48()) / float(width);
       float v = float(row + drand48()) / float(height);
-      Ray r = cam->shootRay(u, v);
+      Ray r = cam->shootRay(u, v);;
       tonality += shader->GetColor(r, world);
     }
 
@@ -149,11 +149,11 @@ int main( int argc, char *argv[] ) {
         //==== Create the Camera
         // Perspective Camera
         float dist = (Point3(3,1,2) - Point3(0,0,-2)).Length();
-        Camera *perspecCam = new PerspectiveCamera( Point3(3,1,1), Point3(0,0,-2), 90, 
+        Camera *perspecCam = new PerspectiveCamera( Point3(0,0,0), Point3(0,0,-2), 90, 
                               float(img.width)/float(img.height), 0, dist);
 
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(0,0,1), Point3(0,0,-10),
+        Camera *orthoCam = new ParallelCamera( Point3(3,0,1), Point3(0,0,-2),
                                            -400, 400, -200, 200);
         
         //==== Create the hitable objects

@@ -9,7 +9,7 @@ namespace utils {
 
   Ray::Ray(Point3 origin_, Vector3 dir) {
     origin = origin_;
-    dir = dir;
+    this->dir = dir;
   }
 
   Vector3 Ray::Direction() {

@@ -20,5 +20,6 @@ PerspectiveCamera::PerspectiveCamera( Point3 from, Point3 at,	float fov,
 Ray PerspectiveCamera::shootRay( float s, float t) {
 	Vector3 rd = lensRadius * randomInUnitDisk();
   Vector3 offset = u * rd.X() + v * rd.Y();
-  return Ray(from + offset, lowerLeftCorner + s*horizontal + t*vertical - from - offset);
+  Vector3 dir = lowerLeftCorner + s*horizontal + t*vertical - from - offset;
+  return Ray(from + offset, dir);
 }
