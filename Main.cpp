@@ -147,10 +147,14 @@ int main( int argc, char *argv[] ) {
                                         Vector3(1.8, 1.0, 0.1));
 
         //==== Create the Camera
-        // Defocus cam
+        // Perspective Camera
         float dist = (Point3(3,1,2) - Point3(0,0,-2)).Length();
-        Camera *cam3 = new PerspectiveCamera( Point3(3,1,1), Point3(0,0,-2), Vector3(0,1,0), 90, 
-                              float(img.width)/float(img.height), 0, dist);
+        // Camera *cam3 = new PerspectiveCamera( Point3(3,1,1), Point3(0,0,-2), Vector3(0,1,0), 90, 
+        //                       float(img.width)/float(img.height), 0, dist);
+
+        // Parallel Camera
+        Camera *cam3 = new ParallelCamera( Point3(0,5,2), Point3(0,0,-2), Vector3(0,1,0), 90, 
+                              float(img.width)/float(img.height), 2.0, dist, -400, 400, -200, 200);
         
         //==== Create the hitable objects
         Point3 center (0, 0, -2);
