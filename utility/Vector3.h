@@ -16,6 +16,7 @@ namespace utils {
       // Constructors
       Vector3 ( void );
       Vector3(element_type x, element_type y, element_type z);
+      Vector3(element_type xyz);
 
       // Operators overloading
       element_type operator[]( size_t idx ) const;

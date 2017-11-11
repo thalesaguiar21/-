@@ -16,6 +16,12 @@ namespace utils {
     e[Cz] = z;
   }
 
+  Vector3::Vector3(Vector3::element_type xyz) {
+    e[Cx] = xyz;
+    e[Cy] = xyz;
+    e[Cz] = xyz;
+  }
+
   inline Vector3::element_type Vector3::operator[]( size_t idx ) const {
     return e[idx];
   }
