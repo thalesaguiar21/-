@@ -2,7 +2,6 @@
 #define _PERSPERCTIVE_CAM_
 
 #include "Camera.h"
-#include "../utility/Vector3.h"
 
 class PerspectiveCamera : public Camera {
 private:

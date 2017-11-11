@@ -1,9 +1,10 @@
 #ifndef _LIGHT_H_
 #define _LIGHT_H_
 
-#include "../utility/Vector3.h"
+#include "../../utility/Vector3.h"
+#include "../../utility/Ray.h"
 
-using utils::Vector3;
+using namespace utils;
 
 class Light {
 	public:

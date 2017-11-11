@@ -6,7 +6,7 @@
 #include "Hitable.h"
 #include "HitRecord.h"
 
-#include "../scene/Light.h"
+#include "../scene/lights/Light.h"
 
 using std::vector;
 

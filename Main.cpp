@@ -11,11 +11,11 @@
 #include "utility/Ray.h"
 #include "utility/Gamma.h"
 
-#include "scene/Camera.h"
-#include "scene/Light.h"
-#include "scene/SpotLight.h"
-#include "scene/ParallelCamera.h"
-#include "scene/PerspectiveCamera.h"
+#include "scene/lights/Light.h"
+#include "scene/lights/SpotLight.h"
+#include "scene/cameras/Camera.h"
+#include "scene/cameras/ParallelCamera.h"
+#include "scene/cameras/PerspectiveCamera.h"
 
 #include "hitables/HitRecord.h"
 #include "hitables/Hitable.h"
@@ -153,12 +153,12 @@ int main( int argc, char *argv[] ) {
                               float(img.width)/float(img.height), 0, dist);
 
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(0,-1,2), Point3(0,0,-2),
-                                           -4, 4, -2, 2);
+        Camera *orthoCam = new ParallelCamera( Point3(3,0,1), Point3(0,0,-2),
+                                           -400, 400, -200, 200);
         
         //==== Create the hitable objects
         Point3 center (0, 0, -2);
-        glm::vec4 p1(0, 1, 0, 1);
+        glm::vec4 p1(0, 2, 0, 1);
         glm::vec3 translation = glm::vec3(center.X(), center.Y(), center.Z());
 
 
@@ -168,8 +168,8 @@ int main( int argc, char *argv[] ) {
 
         std::vector<Hitable*> myHitables = {
           new Sphere(center, 0.5, mat1),
-          new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
-          new Sphere(Point3(1, 0, -2), 0.5, mat3),
+          // new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
+          // new Sphere(Point3(2, 0, -2), 0.5, mat3),
           // new Sphere(Point3(0, 1, -2), 0.5, mat5),
           new Sphere(Point3(0, -100.5, -3), 100, mat4)};
         
