@@ -11,10 +11,6 @@ using utils::Ray;
 
 class Hitable {
   public:
-    // Origin of the object in the world
-    Point3 origin;
-    Material *material;
-
     /*  Checks if the given Ray instersect the object and stores
         the hit informations inside the given HitRecord.
 
@@ -25,6 +21,16 @@ class Hitable {
         @return bool True if it hit, false otherwise.
     */
     bool virtual Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) = 0;
+
+    Point3 origin() const { return origin_; };
+    void set_origin(Point3 value) { origin_ = value; };
+    Material* material() const { return mat_; };
+    void set_material(Material *value) { mat_ = value; };
+  
+  private:
+    Point3 origin_;
+    Material *mat_;
+
 };
 
 #endif
