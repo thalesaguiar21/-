@@ -37,6 +37,8 @@
 #include "materials/Metalic.h"
 #include "materials/BlinnPhong.h"
 
+#include "Renderer.h"
+
 
 // vec3, vec4, ivec4, mat4
 #include "external/glm/glm.hpp"
@@ -51,71 +53,6 @@ using std::string;
 using std::flush;
 using std::vector;
 using std::thread;
-
-void ShowRenderingInfo(string fileSpecs, string msg) {
-  cout << "\n------- FILE SPECFICATION -------" << endl;
-  cout << fileSpecs << endl;
-  cout << "---------------------------------" << endl;
-  cout << msg << "..." <<flush;
-}
-
-void ShowProgress(float num, float denom) {
-  float result = num / denom * 100.0;
-  string strRes = std::to_string(int(result));
-  cout << strRes << "%" << flush;
-  cout << string(strRes.length() + 1, '\b') << flush;
-}
-
-void PrintExecutionTime(float time) {
-  int min = int(time / CLOCKS_PER_SEC) / 60;
-  int sec = int(time / CLOCKS_PER_SEC) - (min * 60);
-  cout << "\n------------ TIME ---------------" << endl;
-  cout << "Rendered file for " << min << "min " << sec << "s" << endl;
-  cout << "---------------------------------" << endl;
-}
-
-void RenderLine( int *linha, int width, int height, int row, int aliasSamples,               
-                 Camera *cam, World world, Shader *shader) {
-  int kj = 0;
-  for(auto col = 0; col < width; col++) {
-    RGB tonality (0, 0, 0);
-    for(auto s = 0; s < aliasSamples; s++) {
-      float u = float(col + drand48()) / float(width);
-      float v = float(row + drand48()) / float(height);
-      Ray r = cam->shootRay(u, v);;
-      tonality += shader->GetColor(r, world);
-    }
-
-    tonality /= aliasSamples;
-    tonality = GammaCorrection(tonality, 2.0);
-
-    linha[kj++] = int(255.99 * tonality.R());      
-    linha[kj++] = int(255.99 * tonality.G());
-    linha[kj++] = int(255.99 * tonality.B());
-  } 
-}
-
-void Render(Image img, Camera *cam, World world, Shader *shader) {
-  std::clock_t before, after;
-  ShowRenderingInfo(img.Description(), "\nRendering");
-  vector<thread> threadPool;
-
-  // Initialize rendering with a thread pool
-  before = std::clock();
-  for(auto row=img.height-1; row>=0; row--) {
-    threadPool.push_back(thread (RenderLine, std::ref(img.content[row]), 
-             img.width, img.height, row, img.aliasSamples, std::ref(cam), world, shader));
-  }
-
-  // Wait for threads to finish
-  for(auto th = 0; th < threadPool.size(); th++){
-    threadPool[th].join();
-  }
-  after = std::clock();
-  
-  cout << "Done!" << endl;
-  PrintExecutionTime(float(after) - float(before));
-}
 
 int main( int argc, char *argv[] ) {
 
@@ -184,7 +121,8 @@ int main( int argc, char *argv[] ) {
         Shader *shader = new BlinnPhongShader(100.0);
         World world (myHitables,lights, 0.00001f, 
           std::numeric_limits<float>::max());
-        Render(img, perspecCam, world, shader);
+        Renderer renderer = Renderer(img, perspecCam, world, shader);
+        renderer.Start();
 
         //==== Write the reult into a file
         WriteOnFile(img);

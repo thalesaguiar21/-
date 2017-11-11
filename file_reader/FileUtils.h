@@ -17,6 +17,10 @@ namespace file_utils {
   const string NO_CONTENT          = "[ERROR] No content given!";
   const string INVALID_SIZE        = "[ERROR] Insuficient information, or file"
                                      " is too big!";
+  const string UNSUPPORTED_FORMAT  = "[ERROR] Format is not supported!";
+  const string INVALID_VALUE       = "[ERROR] Invalid value! For attribute ";
+  // Supported formats
+  string imgFormats[1] { "PPM" };
   const string INSUFICIENT_CONTENT = "[ERROR] No information given: ";
   // Valid file attributes
   const char COMMENT_CHAR   = '#';

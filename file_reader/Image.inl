@@ -24,7 +24,7 @@ namespace filerd {
       return  "P3\n" + std::to_string(width) + " "
               + std::to_string(height) + "\n255\n";
     } else {
-      cout << UNSUPPORTED_FORMAT << endl;
+      cout << file_utils::UNSUPPORTED_FORMAT << endl;
       return "";
     }
   }
@@ -39,7 +39,7 @@ namespace filerd {
   }
 
   bool Image::IsFormatSupported( string format ) {
-    for(string & sFormat : imgFormats) {
+    for(string & sFormat : file_utils::imgFormats) {
       if(sFormat.compare(format)) {
         return true;
       }
@@ -51,13 +51,13 @@ namespace filerd {
     cout << "Verifying values of image description...";;
     bool isValid = false;
     if(!IsFormatSupported(cod)) {
-      cout << UNSUPPORTED_FORMAT << endl;
+      cout << file_utils::UNSUPPORTED_FORMAT << endl;
     } else if (width <= 0) {
-      cout << INVALID_VALUE << " WIDTH." << endl;
+      cout << file_utils::INVALID_VALUE << " WIDTH." << endl;
     } else if (height <= 0) {
-      cout << INVALID_VALUE << " HEIGHT." << endl;
+      cout << file_utils::INVALID_VALUE << " HEIGHT." << endl;
     } else if (aliasSamples <= 0) {
-      cout << INVALID_VALUE << " ANTI-ALIASING SAMPLES." << endl;
+      cout << file_utils::INVALID_VALUE << " ANTI-ALIASING SAMPLES." << endl;
     } else {
       cout << "Done!" << endl;
       isValid = true;
