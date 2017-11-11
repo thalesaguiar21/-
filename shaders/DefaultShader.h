@@ -7,7 +7,7 @@ class DefaultShader : public Shader {
 		DefaultShader(float value);
     RGB GetColor(Ray r_, World world) override;
  	private:
- 		RGB GetColorAux( Ray r_, World world, int maxRef_ );
+ 		RGB GetColorAux(Ray r_, World world, int maxRef_);
 };
 
 #include "DefaultShader.inl"

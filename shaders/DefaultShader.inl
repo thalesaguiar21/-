@@ -2,15 +2,15 @@
 
 
 DefaultShader::DefaultShader(void) {
-	shaderValue = 0;
+	set_shader_value(0.f);
 }
 
 DefaultShader::DefaultShader(float value) {
-  shaderValue = std::max(0.f, value);
+  set_shader_value(value);
 }
 
 RGB DefaultShader::GetColor(Ray r_, World world) {
-  return GetColorAux(r_, world, shaderValue);
+  return GetColorAux(r_, world, shader_value());
 }
 
 RGB DefaultShader::GetColorAux(Ray r_, World world, int shaderValue_) {

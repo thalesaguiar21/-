@@ -11,7 +11,6 @@ SpotLight::SpotLight(Point3 origin, Vector3 dir, float intensity, float radius,
   aperture_angle_ = radians(fov);
 }
 
-
 bool SpotLight::IsIlluminating(Point3 point) {
 	Vector3 unit_direction = UnitVector(direction());
 	Vector3 back_vec_dir = UnitVector(point - origin());

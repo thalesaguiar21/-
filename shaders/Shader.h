@@ -8,10 +8,12 @@ using utils::Vector3;
 
 class Shader {
   public:
-  	void SetShaderValue(float value) { shaderValue = value; }
-    RGB virtual GetColor( Ray r_, World world ) = 0;
-  protected:
-    float shaderValue;
+    virtual RGB GetColor(Ray r_, World world) = 0;
+
+    float shader_value() const { return shader_value_; };
+    void set_shader_value(float value) { shader_value_ = value; };
+  private:
+    float shader_value_;
 };
 
 #endif

@@ -1,11 +1,11 @@
 #include "NormalToColor.h"
 
 NormalToColor::NormalToColor( void ) {
-	shaderValue  = 0;
+	set_shader_value(0.f);
 }
 
 NormalToColor::NormalToColor(float value) {
-	shaderValue = std::max(0.f, value);
+	set_shader_value(value);
 }
 
 RGB NormalToColor::GetColor(Ray t_, World world) {

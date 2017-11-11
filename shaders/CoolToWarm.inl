@@ -1,14 +1,14 @@
 #include "CoolToWarm.h"
 
 CoolToWarm::CoolToWarm(void) {
-	shaderValue = 0;
+	set_shader_value(0.f);
 }
 
 CoolToWarm::CoolToWarm(float value) {
-	shaderValue = std::max(0.f, value);
+	set_shader_value(value);
 }
 
-RGB CoolToWarm::GetColor( Ray r_, World world ) {
+RGB CoolToWarm::GetColor(Ray r_, World world) {
   HitRecord rec;
 	RGB ambient (1.0, 1.0, 1.0);
 	if(world.HitAnything(r_, rec)) {
