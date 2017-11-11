@@ -20,7 +20,7 @@ RGB BlinnPhongShader::GetColor(Ray r_, World world) {
 		Ray shadow_ray;
 		float nl_dot;
 		float nh_dot;
-		RGB color = rec.mat->prop.Z() * ambient;
+		RGB color = rec.mat->prop().Z() * ambient;
 		vector<Light*> lights = world.lights;
 
 		for(int i = 0; i < lights.size(); i++) {
@@ -33,14 +33,14 @@ RGB BlinnPhongShader::GetColor(Ray r_, World world) {
 				
 				nl_dot = std::max(0.000001f, dot(rec.normal, light_ray));
 
-				diffuse = rec.mat->prop.X() * nl_dot * rec.mat->diffCol;
+				diffuse = rec.mat->prop().X() * nl_dot * rec.mat->diffuse();
 				shadow_ray = lights[i]->GetShadowRay(rec.hit);
-
+				
 				if(!world.HitAnything(shadow_ray, tmp)) {
 					nh_dot = std::max(0.000001f, dot(rec.normal, half_way));
-					specular = rec.mat->prop.Y() * 
+					specular = rec.mat->prop().Y() * 
 										 std::pow(nh_dot, shader_value()) * 
-										 rec.mat->specCol;
+										 rec.mat->specular();
 					color += specular + diffuse;
 				}
 			}

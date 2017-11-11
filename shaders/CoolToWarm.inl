@@ -25,9 +25,9 @@ RGB CoolToWarm::GetColor(Ray r_, World world) {
 				auto halfWay = UnitVector(viewDir + lightRay);
 
 				float difCoef = std::max(0.f, dot(rec.normal, lightRay));
-				auto diffuse = rec.mat->prop.X() * difCoef * rec.mat->diffCol;
+				auto diffuse = rec.mat->prop().X() * difCoef * rec.mat->diffuse();
         float specCoef = std::max(0.f, dot(halfWay, rec.normal));
-        auto specular = rec.mat->prop.Y() *specCoef * rec.mat->specCol;
+        auto specular = rec.mat->prop().Y() *specCoef * rec.mat->specular();
         float angle = fabs(dot(UnitVector(rec.normal), UnitVector(r_.Direction())));
         if(angle < 0.30){
           return RGB(0,0,0);

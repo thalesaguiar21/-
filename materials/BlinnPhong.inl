@@ -6,9 +6,9 @@ BlinnPhong::BlinnPhong( void ) {
 }
 
 BlinnPhong::BlinnPhong( RGB diffuse_, RGB specular_, Vector3 properties_ ) {
-	diffCol = diffuse_;
-	specCol = specular_;
-	prop = properties_;
+	set_diffuse(diffuse_);
+	set_specular(specular_);
+	set_prop(properties_);
 }
 
 bool BlinnPhong::Diffusion( Ray incident, Ray &diffused, Point3 hitPoint, Vector3 normal ) {

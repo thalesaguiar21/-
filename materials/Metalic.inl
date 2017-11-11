@@ -1,8 +1,8 @@
 #include "Metalic.h"
 
 Metalic::Metalic( Vector3 albedo, float refCoef_ ) {
-  refCoef = refCoef_;
-  prop = albedo;
+  set_ref_coef(refCoef_);
+  set_prop(albedo);
 }
 
 bool Metalic::Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
