@@ -26,11 +26,8 @@
 #include "file_reader/Image.h"
 #include "file_reader/Reader.h"
 
-#include "shaders/Shader.h"
-#include "shaders/BlinnPhongShader.h"
-#include "shaders/DefaultShader.h"
-#include "shaders/CoolToWarm.h"
-#include "shaders/NormalToColor.h"
+#include "shaders/factory/ShaderFactory.h"
+#include "shaders/factory/ShaderType.h"
 
 #include "materials/Material.h"
 #include "materials/Lambertian.h"
@@ -38,8 +35,6 @@
 #include "materials/BlinnPhong.h"
 
 #include "Renderer.h"
-
-
 // vec3, vec4, ivec4, mat4
 #include "external/glm/glm.hpp"
 // translate, rotate, scale, perspective
@@ -119,7 +114,7 @@ int main( int argc, char *argv[] ) {
         };
 
         //==== Create the Shader
-        Shader *shader = new BlinnPhongShader(100.0);
+        Shader *shader = ShaderFactory::Create(ShaderType::blinnPhong, 100.0);
         World world (myHitables,lights, 0.00001f, 
           std::numeric_limits<float>::max());
         Renderer renderer = Renderer(img, orthoCam, world, shader);

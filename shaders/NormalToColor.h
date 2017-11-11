@@ -3,8 +3,9 @@
 
 class NormalToColor : public Shader {
 public:
-	NormalToColor( void );
-  RGB GetColor( Ray r_, World world ) override;
+	NormalToColor(void);
+	NormalToColor(float value);
+  RGB GetColor(Ray r_, World world) override;
 };
 
 #include "NormalToColor.inl"

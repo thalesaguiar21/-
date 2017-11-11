@@ -15,12 +15,9 @@ using utils::Ray;
 
 class BlinnPhongShader : public Shader {
   public:
-  	float power;
-  	
-  	BlinnPhongShader ( void );
-    BlinnPhongShader( float power_ );
-    RGB GetColor( Ray r_, World world );
-    RGB BlinnColor( );
+  	BlinnPhongShader(void);
+  	BlinnPhongShader(float power);
+    RGB GetColor(Ray r_, World world);
 };
 
 #include "BlinnPhongShader.inl"

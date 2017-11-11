@@ -1,11 +1,11 @@
 #include "BlinnPhongShader.h"
 
 BlinnPhongShader::BlinnPhongShader( void ) {
-	//
+	shaderValue = 0;
 }
 
-BlinnPhongShader::BlinnPhongShader( float power_ ) {
-	power = std::max(0.f, power_);
+BlinnPhongShader::BlinnPhongShader(float value) {
+	shaderValue = std::max(0.f, value);
 }
 
 RGB BlinnPhongShader::GetColor( Ray r_, World world ) {
@@ -30,7 +30,7 @@ RGB BlinnPhongShader::GetColor( Ray r_, World world ) {
 
 				if(!world.HitAnything(shadowRay, tmp)) {
 					float nhDot = std::max(0.000001f, dot(rec.normal, halfWay));
-					auto specular = rec.material->prop.Y() * std::pow(nhDot, power) * rec.material->specCol;
+					auto specular = rec.material->prop.Y() * std::pow(nhDot, shaderValue) * rec.material->specCol;
 					color += specular + diffuse;
 				}
 			}
@@ -41,11 +41,4 @@ RGB BlinnPhongShader::GetColor( Ray r_, World world ) {
     float t = 0.5 * (unitDirection.Y() + 1.0);
     return (1.0 - t)*RGB(1.0, 1.0, 1.0) + t*RGB(0.5, 0.7, 1.0);
 	}
-}
-
-
-RGB BlinnPhongShader::BlinnColor() {
-	RGB color (0, 0, 0);
-
-	return color;
 }

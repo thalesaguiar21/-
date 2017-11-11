@@ -5,7 +5,9 @@
 
 class CoolToWarm : public Shader {
   public:
-    RGB GetColor( Ray r_, World world ) override;
+  	CoolToWarm(void);
+  	CoolToWarm(float value);
+    RGB GetColor(Ray r_, World world) override;
 };
 
 #include "CoolToWarm.inl"
