@@ -11,9 +11,9 @@ using utils::Vector3;
 */
 struct HitRecord {
   float root;
-  Point3 hitPoint;
+  Point3 hit;
   Vector3 normal;
-  Material *material;
+  Material *mat;
 };
 
 #endif

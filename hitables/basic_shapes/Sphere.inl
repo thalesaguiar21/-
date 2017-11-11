@@ -27,17 +27,17 @@ bool Sphere::Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) {
     float root = (-B - sqrt(discriminant))/A;
     if(root < maxHit && root > minHit) {
       rec.root = root;
-      rec.hitPoint = r_.PointAt(rec.root);
-      rec.normal = UnitVector(rec.hitPoint - origin);
-      rec.material = material;
+      rec.hit = r_.PointAt(rec.root);
+      rec.normal = UnitVector(rec.hit - origin);
+      rec.mat = material;
       return true;
     }
     root = (-B + sqrt(discriminant))/A;
     if(root < maxHit && root > minHit) {
       rec.root = root;
-      rec.hitPoint = r_.PointAt(rec.root);
-      rec.normal = UnitVector(rec.hitPoint - origin);
-      rec.material = material;
+      rec.hit = r_.PointAt(rec.root);
+      rec.normal = UnitVector(rec.hit - origin);
+      rec.mat = material;
       return true;
     }
   }
