@@ -19,6 +19,7 @@
 
 #include "hitables/HitRecord.h"
 #include "hitables/Hitable.h"
+#include "hitables/Transformer.h"
 #include "hitables/basic_shapes/Sphere.h"
 #include "hitables/World.h"
 
