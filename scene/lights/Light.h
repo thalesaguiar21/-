@@ -3,30 +3,28 @@
 
 #include "../../utility/Vector3.h"
 #include "../../utility/Ray.h"
+#include "../../utility/Angles.h"
 
 using namespace utils;
 
 class Light {
 	public:
-		Vector3 Origin;
-		float Intensity;
+		Light( void );
+		Light(Vector3 origin, float intensity);
 
-		Light( void ) {
-			// nothing
-		}
+		virtual bool IsIlluminating(Point3 point);
+		virtual Ray GetShadowRay(Point3 surface);
 
-		Light( Vector3 origin, float intensity ) {
-			Origin = origin;
-			Intensity = intensity;
-		}
+		Vector3 origin() const { return origin_; };
+		void set_origin(Vector3 value) { origin_ = value; };
+		float intensity() const {return intensity_; };
+		void set_intensity(float value) { intensity_ = value; };
 
-		bool virtual IsIlluminating( Point3 point ) {
-			return true;
-		}
-
-		Ray virtual GetShadowRay( Point3 surface ) {
-			return Ray(surface, Origin - surface);
-		}
+	private:
+		Vector3 origin_;
+		float intensity_;
 };
+
+#include "Light.inl"
 
 #endif

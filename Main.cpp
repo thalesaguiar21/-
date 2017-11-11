@@ -43,9 +43,7 @@
 using std::cout;
 using std::endl;
 using std::string;
-using std::flush;
-using std::vector;
-using std::thread;
+using std::numeric_limits;
 
 using namespace utils;
 using namespace filerd;
@@ -115,12 +113,11 @@ int main( int argc, char *argv[] ) {
 
         //==== Create the Shader
         Shader *shader = ShaderFactory::Create(ShaderType::blinnPhong, 100.0);
-        World world (myHitables,lights, 0.00001f, 
-          std::numeric_limits<float>::max());
+        World world (myHitables,lights, 0.00001f, numeric_limits<float>::max());
         Renderer renderer = Renderer(img, orthoCam, world, shader);
         renderer.Start();
 
-        //==== Write the reult into a file
+        //==== Write the result into a file
         WriteOnFile(img);
         
         // Unlocking memory

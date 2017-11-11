@@ -18,7 +18,7 @@ RGB CoolToWarm::GetColor( Ray r_, World world ) {
 			if(lights[i]->IsIlluminating(rec.hitPoint)){
 				HitRecord tmp;
 				// L
-				auto lightRay = UnitVector(lights[i]->Origin - rec.hitPoint);
+				auto lightRay = UnitVector(lights[i]->origin() - rec.hitPoint);
 				// V
 				auto viewDir = UnitVector(r_.origin - rec.hitPoint);
 				// H

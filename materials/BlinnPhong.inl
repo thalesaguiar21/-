@@ -16,5 +16,5 @@ bool BlinnPhong::Diffusion( Ray incident, Ray &diffused, Point3 hitPoint, Vector
 }
 
 Vector3 BlinnPhong::Reflect( Vector3 incident, Vector3 normal ) {
-	return Vector3(0,0,0);
+	return Vector3(0.f);
 }
