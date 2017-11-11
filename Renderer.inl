@@ -33,7 +33,7 @@ void Renderer::ShowRenderingInfo(string file_specs, string msg) {
   cout << msg << "..." <<flush;
 }
 
-static void RenderLine(int *mat_row, int width, int height, int alias_samp, 
+void Renderer::RenderLine(int *mat_row, int width, int height, int alias_samp, 
 											 int row, Camera *cam, Shader *shader, World world)	 {
 	int kj = 0;
   for(auto col = 0; col < width; col++) {
@@ -62,7 +62,7 @@ void Renderer::Start(void) {
   // Initialize rendering with a thread pool
   before = std::clock();
   for(auto row=img.height-1; row>=0; row--) {
-    threadPool.push_back(thread(RenderLine, std::ref(img.content[row]), 
+    threadPool.push_back(thread(Renderer::RenderLine, std::ref(img.content[row]), 
     	img.width, img.height, img.aliasSamples, row, std::ref(cam), shader, 
     	world));
   }

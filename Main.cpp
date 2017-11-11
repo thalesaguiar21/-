@@ -44,8 +44,6 @@
 #include "external/glm/glm.hpp"
 // translate, rotate, scale, perspective
 #include "external/glm/gtc/matrix_transform.hpp"
-using namespace utils;
-using namespace filerd;
 
 using std::cout;
 using std::endl;
@@ -53,6 +51,9 @@ using std::string;
 using std::flush;
 using std::vector;
 using std::thread;
+
+using namespace utils;
+using namespace filerd;
 
 int main( int argc, char *argv[] ) {
 
@@ -90,11 +91,11 @@ int main( int argc, char *argv[] ) {
                               float(img.width)/float(img.height), 0, dist);
 
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(3,0,1), Point3(0,0,-2),
-                                           -400, 400, -200, 200);
+        Camera *orthoCam = new ParallelCamera( Point3(3,2,1), Point3(0,0,-2),
+                                           -4, 4, -2, 2);
         
         //==== Create the hitable objects
-        Point3 center (0, 0, -2);
+        Point3 center (0, 0, -7);
         glm::vec4 p1(0, 2, 0, 1);
         glm::vec3 translation = glm::vec3(center.X(), center.Y(), center.Z());
 
@@ -107,7 +108,7 @@ int main( int argc, char *argv[] ) {
           new Sphere(center, 0.5, mat1),
           // new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
           // new Sphere(Point3(2, 0, -2), 0.5, mat3),
-          // new Sphere(Point3(0, 1, -2), 0.5, mat5),
+          new Sphere(Point3(0, 1, -2), 0.5, mat5),
           new Sphere(Point3(0, -100.5, -3), 100, mat4)};
         
         //==== Create the world lights
@@ -121,7 +122,7 @@ int main( int argc, char *argv[] ) {
         Shader *shader = new BlinnPhongShader(100.0);
         World world (myHitables,lights, 0.00001f, 
           std::numeric_limits<float>::max());
-        Renderer renderer = Renderer(img, perspecCam, world, shader);
+        Renderer renderer = Renderer(img, orthoCam, world, shader);
         renderer.Start();
 
         //==== Write the reult into a file

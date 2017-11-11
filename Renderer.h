@@ -30,8 +30,8 @@ private:
 	World world;
 	Shader *shader;
 
-	// static void RenderLine(int *mat_row, int width, int height, int alias_samp, 
-	// 	int row, Camera *cam, Shader *shader, World world); 
+	static void RenderLine(int *mat_row, int width, int height, int alias_samp, 
+		int row, Camera *cam, Shader *shader, World world); 
 	 
 	void ShowRenderingInfo(string file_specs, string msg);
 	void PrintExecutionTime(float time);
