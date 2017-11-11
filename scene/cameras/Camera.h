@@ -3,8 +3,8 @@
 
 #define PI 3.141592
 
-#include "../utility/Vector3.h"
-#include "../utility/Ray.h"
+#include "../../utility/Vector3.h"
+#include "../../utility/Ray.h"
 
 using namespace utils;
 

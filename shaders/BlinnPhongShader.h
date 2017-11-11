@@ -7,7 +7,7 @@
 
 #include "../utility/Vector3.h"
 #include "../utility/Ray.h"
-#include "../scene/Light.h"
+#include "../scene/lights/Light.h"
 #include "Shader.h"
 
 using utils::Vector3;

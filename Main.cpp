@@ -11,11 +11,11 @@
 #include "utility/Ray.h"
 #include "utility/Gamma.h"
 
-#include "scene/Camera.h"
-#include "scene/Light.h"
-#include "scene/SpotLight.h"
-#include "scene/ParallelCamera.h"
-#include "scene/PerspectiveCamera.h"
+#include "scene/lights/Light.h"
+#include "scene/lights/SpotLight.h"
+#include "scene/cameras/Camera.h"
+#include "scene/cameras/ParallelCamera.h"
+#include "scene/cameras/PerspectiveCamera.h"
 
 #include "hitables/HitRecord.h"
 #include "hitables/Hitable.h"
@@ -184,7 +184,7 @@ int main( int argc, char *argv[] ) {
         Shader *shader = new BlinnPhongShader(100.0);
         World world (myHitables,lights, 0.00001f, 
           std::numeric_limits<float>::max());
-        Render(img, orthoCam, world, shader);
+        Render(img, perspecCam, world, shader);
 
         //==== Write the reult into a file
         WriteOnFile(img);
