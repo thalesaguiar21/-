@@ -12,13 +12,17 @@ using utils::Ray;
 
 class Sphere : public Hitable {
   public:
-    float radius;
-
     Sphere(void);
     Sphere(Point3 center_, float radius_, Material *material_);
     bool Hit(Ray r_, HitRecord &rec, float minHit, float maxHit) override;
+
+    float radius() const { return radius_; };
+    void set_radius(float value) { radius_ = value; };
+
   private:
     float Discriminant(Ray r_, float &a, float &b, float &c);
+
+    float radius_;
 };
 
 

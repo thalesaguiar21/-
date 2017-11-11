@@ -2,20 +2,20 @@
 
 Sphere::Sphere( void ) {
   set_origin(Vector3(0.f));
-  radius = 0.f;
+  radius_ = 0.f;
 }
 
 Sphere::Sphere( Point3 center_, float rad_, Material *mat_ ) {
   set_origin(center_);
   set_material(mat_);
-  radius = rad_;
+  radius_ = rad_;
 }
 
 float Sphere::Discriminant(Ray r_, float &a, float &b, float &c) {
   Vector3 oc = r_.origin - origin();
   a = dot(r_.Direction(), r_.Direction());
   b = dot(oc, r_.Direction());
-  c = dot(oc, oc) - radius*radius;
+  c = dot(oc, oc) - radius()*radius();
   float discriminant = b*b - a*c;
   return discriminant;
 }
