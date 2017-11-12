@@ -18,11 +18,15 @@ World::World( vector<Hitable*> hitables_, vector<Light*> lights_, float start_,
   lights = lights_;
 }
 
-bool World::HitAnything( Ray r_, HitRecord &rec ) {
+bool World::HitAnything(Ray r_, HitRecord &rec) {
+  return HitAnything(r_, rec, start, depth);
+}
+
+bool World::HitAnything(Ray r_, HitRecord &rec, float from, float until) {
   HitRecord tmpRecord;
   double closest = depth;
   for(auto i=0; i<hitables.size(); i++) {
-    if(hitables[i]->Hit(r_, tmpRecord, start, depth)) {
+    if(hitables[i]->Hit(r_, tmpRecord, from, until)) {
       closest = tmpRecord.root;
       rec = tmpRecord;
       return true;
@@ -30,3 +34,4 @@ bool World::HitAnything( Ray r_, HitRecord &rec ) {
   }
   return false;
 }
+

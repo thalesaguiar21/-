@@ -36,8 +36,9 @@ void Renderer::ShowRenderingInfo(string file_specs, string msg) {
 void Renderer::RenderLine(int *mat_row, int width, int height, int alias_samp, 
 											 int row, Camera *cam, Shader *shader, World world)	 {
 	int kj = 0;
+  RGB tonality (0.f);
   for(auto col = 0; col < width; col++) {
-    RGB tonality (0, 0, 0);
+    tonality = RGB(0.f);
     for(auto s = 0; s < alias_samp; s++) {
       float u = float(col + drand48()) / float(width);
       float v = float(row + drand48()) / float(height);

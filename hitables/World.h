@@ -30,7 +30,8 @@ class World {
         @param Ray The ray being shooted inside the world
         @param HitRecord Where the information of a colision will be stored.
     */
-    bool HitAnything( Ray r_, HitRecord &rec );
+    bool HitAnything(Ray r_, HitRecord &rec);
+    bool HitAnything(Ray r_, HitRecord &rec, float from, float until);
 };
 
 

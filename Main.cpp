@@ -21,6 +21,7 @@
 #include "hitables/Hitable.h"
 #include "hitables/Transformer.h"
 #include "hitables/basic_shapes/Sphere.h"
+#include "hitables/basic_shapes/Triangle.h"
 #include "hitables/World.h"
 
 #include "file_reader/FileUtils.h"
@@ -80,16 +81,16 @@ int main( int argc, char *argv[] ) {
 
         //==== Create the Camera
         // Perspective Camera
-        float dist = (Point3(3,1,2) - Point3(0,0,-2)).Length();
-        Camera *perspecCam = new PerspectiveCamera( Point3(0,0,0), Point3(0,0,-2), 90, 
+        float dist = (Point3(0,3,2) - Point3(0,0,-2)).Length();
+        Camera *perspecCam = new PerspectiveCamera( Point3(2,5,1), Point3(0,0,-2), 45, 
                               float(img.width)/float(img.height), 0, dist);
 
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(3,2,1), Point3(0,0,-2),
-                                           -4, 4, -2, 2);
+        Camera *orthoCam = new ParallelCamera( Point3(2,5,-1), Point3(0,0,-3),
+                                           -8, 8, -4, 4);
         
         //==== Create the hitable objects
-        Point3 center (0, 0, -7);
+        Point3 center (3, 0, -3);
         glm::vec4 p1(0, 2, 0, 1);
         glm::vec3 translation = glm::vec3(center.X(), center.Y(), center.Z());
 
@@ -97,13 +98,18 @@ int main( int argc, char *argv[] ) {
         glm::mat4 tMatrix = glm::translate(glm::mat4(1.0f), translation);
         glm::vec4 centerT = tMatrix * p1;
 
+        Point3 v1 (-2,1,-3);
+        Point3 v2 (1,1,-1);
+        Point3 v3 (2,1,-3);
 
         std::vector<Hitable*> myHitables = {
+          new Triangle(v1, v2, v3, mat2),
           new Sphere(center, 0.5, mat1),
           // new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
           // new Sphere(Point3(2, 0, -2), 0.5, mat3),
-          new Sphere(Point3(0, 1, -2), 0.5, mat5),
-          new Sphere(Point3(0, -100.5, -3), 100, mat4)};
+          // new Sphere(Point3(0, 1, -2), 0.5, mat5),
+          new Sphere(Point3(0, -100.5, -3), 100, mat4)
+          };
         
         //==== Create the world lights
         std::vector<Light*> lights = {
@@ -114,7 +120,7 @@ int main( int argc, char *argv[] ) {
 
         //==== Create the Shader
         Shader *shader = ShaderFactory::Create(ShaderType::blinnPhong, 100.0);
-        World world (myHitables,lights, 0.00001f, numeric_limits<float>::max());
+        World world (myHitables,lights, 0.0001f, numeric_limits<float>::max());
         Renderer renderer = Renderer(img, orthoCam, world, shader);
         renderer.Start();
 

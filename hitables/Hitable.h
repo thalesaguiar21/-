@@ -20,7 +20,7 @@ class Hitable {
         @param float Maximum point of hit
         @return bool True if it hit, false otherwise.
     */
-    bool virtual Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) = 0;
+    virtual bool Hit(Ray r_, HitRecord &rec, float minHit, float maxHit) = 0;
 
     Point3 origin() const { return origin_; };
     void set_origin(Point3 value) { origin_ = value; };
