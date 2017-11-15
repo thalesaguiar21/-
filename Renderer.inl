@@ -43,7 +43,7 @@ void Renderer::RenderLine(int *mat_row, int width, int height, int alias_samp,
       float u = float(col + drand48()) / float(width);
       float v = float(row + drand48()) / float(height);
       Ray r = cam->shootRay(u, v);;
-      tonality += shader->GetColor(r, world);
+      tonality += shader->Color(r, world);
     }
 
     tonality /= alias_samp;

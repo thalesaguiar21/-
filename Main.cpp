@@ -86,11 +86,11 @@ int main( int argc, char *argv[] ) {
                               float(img.width)/float(img.height), 0, 5);
 
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(2,-1,3), Point3(0,0,0),
+        Camera *orthoCam = new ParallelCamera( Point3(0,1,3), Point3(0,0,0),
                                            -4, 4, -2, 2);
         
         //==== Create the hitable objects
-        Point3 center (3, 0, -3);
+        Point3 center (0, 0, -3);
         glm::vec4 p1(0, 2, 0, 1);
 
         Point3 v1 (-2, 0, -2);
@@ -103,20 +103,20 @@ int main( int argc, char *argv[] ) {
         std::vector<Hitable*> myHitables = {
           // orig_triang->Rotate(Vector3(0, 90, 0)),
           // orig_triang->Scale(Vector3(0.5, 0.5, 0.5)),
-          orig_triang
-          // original,
+          // orig_triang
+          original,
           // original->Translate(Vector3(6,0,0)),
           // new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
           // new Sphere(Point3(-2, 0, -2), 0.5, mat3),
           // new Sphere(Point3(2, 0, -2), 0.5, mat3),
           // new Sphere(Point3(0, 1, -2), 0.5, mat5),
-          // new Sphere(Point3(0, -100.5, -3), 100, mat4)
+          new Sphere(Point3(0, -100.5, -3), 100, mat4)
           };
         
         //==== Create the world lights
         std::vector<Light*> lights = {
-          new Light(Point3(0, 1, -1), 10.0)
-          // new SpotLight(Point3(0,2,-3), Vector3(0,-1,-1), 10, 1, 80)
+          // new Light(Point3(2, 1, 0), 10.0)
+          new SpotLight(Point3(2,2,-3), Vector3(-1,-1,0), 10, 1, 45)
           // new SpotLight(Point3(0,2,-2), Vector3(0,-1,0), 10, 1, 60)
         };
 

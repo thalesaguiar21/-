@@ -8,11 +8,7 @@ NormalToColor::NormalToColor(float value) {
 	set_shader_value(value);
 }
 
-RGB NormalToColor::GetColor(Ray t_, World world) {
-	HitRecord record;
-	if(world.HitAnything(t_, record)){
-		return record.normal;
-	} else {
-		return BackgroundColor(t_, RGB(1.0, 1.0, 1.0), RGB(0.7, 0.5, 1.0));
-	}
+RGB NormalToColor::OnHit(Ray t_, World world, HitRecord rec) {
+	return rec.normal;
 }
+

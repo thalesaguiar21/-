@@ -2,10 +2,12 @@
 #define _NORMALTOCOLOR_H_
 
 class NormalToColor : public Shader {
-public:
-	NormalToColor(void);
-	NormalToColor(float value);
-  RGB GetColor(Ray r_, World world) override;
+	public:
+		NormalToColor(void);
+		NormalToColor(float value);
+
+	protected:
+		RGB OnHit(Ray r_, World world, HitRecord rec) override;
 };
 
 #include "NormalToColor.inl"
