@@ -64,8 +64,8 @@ int main( int argc, char *argv[] ) {
       Image img;
       if(img.FromContent(input)) {
         //==== Create the Materials
-        Material *mat1 = new BlinnPhong(RGB(0.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
-                                        Vector3(0.5, 0.4, 0.1));
+        Material *mat1 = new BlinnPhong(RGB(0, 0.0, 1.0), RGB(255.0, 255.0, 255.0),
+                                        Vector3(0.01, 0.8, 0.2));
 
         Material *mat2 = new BlinnPhong(RGB(0.0, 1.0, 0.0), RGB(1.0, 1.0, 1.0), 
                                         Vector3(0.5, 1.0, 0.1));
@@ -82,41 +82,41 @@ int main( int argc, char *argv[] ) {
         //==== Create the Camera
         // Perspective Camera
         float dist = (Point3(0,3,2) - Point3(0,0,-2)).Length();
-        Camera *perspecCam = new PerspectiveCamera( Point3(0,3,2), Point3(0,0,0), 80, 
+        Camera *perspecCam = new PerspectiveCamera( Point3(0,1,1), Point3(0,0,0), 120, 
                               float(img.width)/float(img.height), 0, 5);
 
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(0,1,3), Point3(0,0,0),
+        Camera *orthoCam = new ParallelCamera( Point3(0,1,1), Point3(0,1,-1),
                                            -4, 4, -2, 2);
         
         //==== Create the hitable objects
         Point3 center (0, 0, -1);
         glm::vec4 p1(0, 2, 0, 1);
 
-        Point3 v1 (-2, 0, -2);
-        Point3 v2 (2, 0, -2);
-        Point3 v3 (0, 3, -2);
+        Point3 v1 (-0.5, 0, -1);
+        Point3 v2 (0.5, 0, -1);
+        Point3 v3 (0, 1, -1);
 
         Sphere *original = new Sphere(center, 0.5, mat1);
-        Triangle *orig_triang = new Triangle(v1, v2, v3, mat2);
+        Triangle *orig_triang = new Triangle(v1, v2, v3, mat1);
 
         std::vector<Hitable*> myHitables = {
           // orig_triang->Rotate(Vector3(0, 90, 0)),
           // orig_triang->Scale(Vector3(0.5, 0.5, 0.5)),
           // orig_triang
-          original,
-          original->Translate(Vector3(1,0,1)),
-          original->Translate(Vector3(-1,0,1)),
+          original
+          // original->Translate(Vector3(1,0,1)),
+          // original->Translate(Vector3(-1,0,1)),
           // new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
           // new Sphere(Point3(-2, 0, -2), 0.5, mat3),
           // new Sphere(Point3(2, 0, -2), 0.5, mat3),
           // new Sphere(Point3(0, 1, -2), 0.5, mat5),
-          new Sphere(Point3(0, -100.5, -3), 100, mat4)
+          // new Sphere(Point3(0, -100.5, -3), 100, mat4)
           };
         
         //==== Create the world lights
         std::vector<Light*> lights = {
-          new Light(Point3(0, 0, 0), 10.0)
+          new Light(Point3(0, 2, -1), 10.0)
           // new SpotLight(Point3(2,2,-3), Vector3(-1,-1,0), 10, 1, 45)
           // new SpotLight(Point3(0,2,-2), Vector3(0,-1,0), 10, 1, 60)
         };

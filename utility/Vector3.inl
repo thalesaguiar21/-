@@ -128,15 +128,15 @@ namespace utils {
   }
 
   inline Vector3::element_type Vector3::R() {
-    return Vector3::X();
+    return e[Cr];
   }
 
   inline Vector3::element_type Vector3::G() {
-    return Vector3::Y();
+    return e[Cg];
   }
 
   inline Vector3::element_type Vector3::B() {
-    return Vector3::Z();
+    return e[Cb];
   }
 
   // Non member functions

@@ -9,7 +9,7 @@ BlinnPhongShader::BlinnPhongShader(float value) {
 }
 
 RGB BlinnPhongShader::OnHit(Ray r_, World world, HitRecord rec) {
-	RGB ambient (0.8, 0.3, 0.5);
+	RGB ambient (1);
 	Vector3 light_ray;
 	Vector3 view_dir;
 	Vector3 half_way;
@@ -18,7 +18,7 @@ RGB BlinnPhongShader::OnHit(Ray r_, World world, HitRecord rec) {
 	Ray shadow_ray;
 	float nl_dot;
 	float nh_dot;
-	RGB color = rec.mat->prop().Z() * ambient;
+	RGB color (0.f);
 	vector<Light*> lights = world.lights;
 
 	for(int i = 0; i < lights.size(); i++) {
@@ -29,22 +29,28 @@ RGB BlinnPhongShader::OnHit(Ray r_, World world, HitRecord rec) {
 			view_dir = UnitVector(r_.origin - rec.hit);
 			half_way = UnitVector(view_dir + light_ray);
 			
-			nl_dot = std::max(0.000001f, dot(rec.normal, light_ray));
+			nl_dot = std::max(0.0f, dot(rec.normal, light_ray));
 
-			diffuse += rec.mat->prop().X() * nl_dot * rec.mat->diffuse();
+			diffuse += rec.mat->prop().Y() * nl_dot * rec.mat->diffuse();
 			shadow_ray = lights[i]->GetShadowRay(rec.hit);
 
 			Point3 tmpHit = shadow_ray.PointAt(SHADOW_ERROR);
 			float shadow_ray_length = (lights[i]->origin() - tmpHit).Length();
 
 			if(!world.HitAnything(shadow_ray, tmp, SHADOW_ERROR, shadow_ray_length)) {
-				nh_dot = std::max(0.000001f, dot(rec.normal, half_way));
-				specular = rec.mat->prop().Y() * 
+				
+				nh_dot = std::max(0.0f, dot(rec.normal, half_way));
+
+				// std::cout << "NHDOT: " << nh_dot << std::endl;
+				specular = rec.mat->prop().Z() * 
 									 std::pow(nh_dot, shader_value()) * 
-									 rec.mat->specular();
+									 rec.mat->diffuse();
 				color += specular + diffuse;
+				
 			}
 		}
 	}
+	// std::cout << "COLOR: " << rec.mat->diffuse() << std::endl;
+	// std::cout << "COLOR: " << color << std::endl;
 	return color;
 }

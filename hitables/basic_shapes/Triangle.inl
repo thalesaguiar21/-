@@ -28,7 +28,7 @@ bool Triangle::Hit(Ray r_, HitRecord &rec, float minHit, float maxHit) {
 		Point3 t = r_.origin - vert1();
 		float u = dot(t, p) * inv_det;
 		
-		if(u < 0.f || u > 1.0) {
+		if(u < 0.f || u > 1.f) {
 			return false;
 		} else {
 			Point3 q = Cross(t, edge1());
@@ -38,14 +38,13 @@ bool Triangle::Hit(Ray r_, HitRecord &rec, float minHit, float maxHit) {
 				return false;
 			} else {
 				float t = dot(edge2(), q) * inv_det;
-				if(t < maxHit && t > minHit) {
-					rec.hit = r_.PointAt(t);
-					rec.normal = Cross(edge1(), edge2());
-					rec.mat = material();
-					return true;
-				} else {
+				if(t < minHit || t > maxHit)
 					return false;
-				}
+				rec.root = t;
+				rec.hit = r_.PointAt(t);
+				rec.normal = Cross(edge1(), edge2());
+				rec.mat = material();
+				return true;
 			}
 		}
 	}
