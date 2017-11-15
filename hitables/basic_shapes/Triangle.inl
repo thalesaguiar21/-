@@ -38,12 +38,14 @@ bool Triangle::Hit(Ray r_, HitRecord &rec, float minHit, float maxHit) {
 				return false;
 			} else {
 				float t = dot(edge2(), q) * inv_det;
-				// if(t > minHit && t < maxHit) {
+				if(t < maxHit && t > minHit) {
 					rec.hit = r_.PointAt(t);
 					rec.normal = Cross(edge1(), edge2());
 					rec.mat = material();
 					return true;
-				// }
+				} else {
+					return false;
+				}
 			}
 		}
 	}

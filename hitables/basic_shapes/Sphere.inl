@@ -28,7 +28,7 @@ bool Sphere::Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) {
     if(root < maxHit && root > minHit) {
       rec.root = root;
       rec.hit = r_.PointAt(rec.root);
-      rec.normal = UnitVector(rec.hit - origin());
+      rec.normal = (rec.hit - origin()) / radius();
       rec.mat = material();
       return true;
     }
@@ -36,7 +36,7 @@ bool Sphere::Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) {
     if(root < maxHit && root > minHit) {
       rec.root = root;
       rec.hit = r_.PointAt(rec.root);
-      rec.normal = UnitVector(rec.hit - origin());
+      rec.normal = (rec.hit - origin()) / radius();
       rec.mat = material();
       return true;
     }
@@ -46,8 +46,8 @@ bool Sphere::Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) {
 
 
 Hitable* Sphere::Translate(Vector3 target) {
-  Vector3 target_ = target - origin();
-  glm::vec4 trasnslade_vec (target_.X(), target_.Y(), target_.Z(), 1);
+  // Vector3 target = target - origin();
+  glm::vec4 trasnslade_vec (target.X(), target.Y(), target.Z(), 1);
   glm::vec3 translation (origin().X(), origin().Y(), origin().Z());
   glm::mat4 tMatrix = glm::translate(glm::mat4(1.0f), translation);
   glm::vec4 centerT = tMatrix * trasnslade_vec;

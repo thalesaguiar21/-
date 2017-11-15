@@ -24,9 +24,9 @@ bool World::HitAnything(Ray r_, HitRecord &rec) {
 
 bool World::HitAnything(Ray r_, HitRecord &rec, float from, float until) {
   HitRecord tmpRecord;
-  double closest = depth;
+  double closest = until;
   for(auto i=0; i<hitables.size(); i++) {
-    if(hitables[i]->Hit(r_, tmpRecord, from, until)) {
+    if(hitables[i]->Hit(r_, tmpRecord, from, closest)) {
       closest = tmpRecord.root;
       rec = tmpRecord;
       return true;

@@ -18,5 +18,5 @@ bool Light::IsIlluminating(Point3 point) {
 }
 
 Ray Light::GetShadowRay(Point3 surface) {
-	return Ray(surface, origin() - surface);
+	return Ray(surface, UnitVector(origin() - surface));
 }

@@ -1,6 +1,8 @@
 #ifndef _SHADER_H_
 #define _SHADER_H_
 
+#define SHADOW_ERROR 0.001
+
 #include "../utility/Vector3.h"
 #include "../hitables/World.h"
 

@@ -33,8 +33,11 @@ RGB BlinnPhongShader::OnHit(Ray r_, World world, HitRecord rec) {
 
 			diffuse += rec.mat->prop().X() * nl_dot * rec.mat->diffuse();
 			shadow_ray = lights[i]->GetShadowRay(rec.hit);
-			
-			if(!world.HitAnything(shadow_ray, tmp)) {
+
+			Point3 tmpHit = shadow_ray.PointAt(SHADOW_ERROR);
+			float shadow_ray_length = (lights[i]->origin() - tmpHit).Length();
+
+			if(!world.HitAnything(shadow_ray, tmp, SHADOW_ERROR, shadow_ray_length)) {
 				nh_dot = std::max(0.000001f, dot(rec.normal, half_way));
 				specular = rec.mat->prop().Y() * 
 									 std::pow(nh_dot, shader_value()) * 

@@ -82,7 +82,7 @@ int main( int argc, char *argv[] ) {
         //==== Create the Camera
         // Perspective Camera
         float dist = (Point3(0,3,2) - Point3(0,0,-2)).Length();
-        Camera *perspecCam = new PerspectiveCamera( Point3(0,3,1), Point3(0,0,0), 60, 
+        Camera *perspecCam = new PerspectiveCamera( Point3(0,3,2), Point3(0,0,0), 80, 
                               float(img.width)/float(img.height), 0, 5);
 
         // Parallel Camera
@@ -90,7 +90,7 @@ int main( int argc, char *argv[] ) {
                                            -4, 4, -2, 2);
         
         //==== Create the hitable objects
-        Point3 center (0, 0, -3);
+        Point3 center (0, 0, -1);
         glm::vec4 p1(0, 2, 0, 1);
 
         Point3 v1 (-2, 0, -2);
@@ -105,7 +105,8 @@ int main( int argc, char *argv[] ) {
           // orig_triang->Scale(Vector3(0.5, 0.5, 0.5)),
           // orig_triang
           original,
-          // original->Translate(Vector3(6,0,0)),
+          original->Translate(Vector3(1,0,1)),
+          original->Translate(Vector3(-1,0,1)),
           // new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
           // new Sphere(Point3(-2, 0, -2), 0.5, mat3),
           // new Sphere(Point3(2, 0, -2), 0.5, mat3),
@@ -115,15 +116,15 @@ int main( int argc, char *argv[] ) {
         
         //==== Create the world lights
         std::vector<Light*> lights = {
-          // new Light(Point3(2, 1, 0), 10.0)
-          new SpotLight(Point3(2,2,-3), Vector3(-1,-1,0), 10, 1, 45)
+          new Light(Point3(0, 0, 0), 10.0)
+          // new SpotLight(Point3(2,2,-3), Vector3(-1,-1,0), 10, 1, 45)
           // new SpotLight(Point3(0,2,-2), Vector3(0,-1,0), 10, 1, 60)
         };
 
         //==== Create the Shader
         Shader *shader = ShaderFactory::Create(ShaderType::blinnPhong, 100.0);
         World world (myHitables,lights, 0.0001f, numeric_limits<float>::max());
-        Renderer renderer = Renderer(img, orthoCam, world, shader);
+        Renderer renderer = Renderer(img, perspecCam, world, shader);
         renderer.Start();
 
         //==== Write the result into a file
