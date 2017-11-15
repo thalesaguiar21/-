@@ -17,7 +17,7 @@ class Light {
 
 		Vector3 origin() const { return origin_; };
 		void set_origin(Vector3 value) { origin_ = value; };
-		float intensity() const {return intensity_; };
+		float intensity(Point3 at) const;
 		void set_intensity(float value) { intensity_ = value; };
 
 	private:

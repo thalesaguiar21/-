@@ -20,3 +20,8 @@ bool Light::IsIlluminating(Point3 point) {
 Ray Light::GetShadowRay(Point3 surface) {
 	return Ray(surface, UnitVector(origin() - surface));
 }
+
+float Light::intensity(Point3 at) const {
+	float dist = (origin() - at).Length();
+	return intensity_ / dist; 
+}
