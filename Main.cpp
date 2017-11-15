@@ -93,17 +93,17 @@ int main( int argc, char *argv[] ) {
         Point3 center (0, 0, -1);
         glm::vec4 p1(0, 2, 0, 1);
 
-        Point3 v1 (-0.5, 0, -1);
-        Point3 v2 (0.5, 0, -1);
-        Point3 v3 (0, 1, -1);
+        Point3 v1 (-1.5, 1, 0);
+        Point3 v2 (1.5, 1, 0);
+        Point3 v3 (1, 1, 2);
 
         Sphere *original = new Sphere(center, 0.5, mat1);
         Triangle *orig_triang = new Triangle(v1, v2, v3, mat1);
 
         std::vector<Hitable*> myHitables = {
           // orig_triang->Rotate(Vector3(0, 90, 0)),
-          // orig_triang->Scale(Vector3(0.5, 0.5, 0.5)),
-          // orig_triang
+          orig_triang->Scale(Vector3(0.5, 0.5, 0.5)),
+          // orig_triang,
           original,
           // original->Translate(Vector3(1,0,1)),
           // original->Translate(Vector3(-1,0,1)),
@@ -116,7 +116,7 @@ int main( int argc, char *argv[] ) {
         
         //==== Create the world lights
         std::vector<Light*> lights = {
-          new Light(Point3(0, 2, -1), 6.0)
+          new Light(Point3(1, 6, -4), 6.0)
           // new SpotLight(Point3(2,2,-3), Vector3(-1,-1,0), 10, 1, 45)
           // new SpotLight(Point3(0,2,-2), Vector3(0,-1,0), 10, 1, 60)
         };

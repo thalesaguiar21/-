@@ -42,7 +42,7 @@ bool Triangle::Hit(Ray r_, HitRecord &rec, float minHit, float maxHit) {
 					return false;
 				rec.root = t;
 				rec.hit = r_.PointAt(t);
-				rec.normal = Cross(edge1(), edge2());
+				rec.normal = UnitVector(Cross(edge2(), edge1()));
 				rec.mat = material();
 				return true;
 			}
