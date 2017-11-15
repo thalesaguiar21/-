@@ -13,6 +13,6 @@ RGB NormalToColor::GetColor(Ray t_, World world) {
 	if(world.HitAnything(t_, record)){
 		return record.normal;
 	} else {
-		return RGB (0, 0, 0);
+		return BackgroundColor(t_, RGB(1.0, 1.0, 1.0), RGB(0.7, 0.5, 1.0));
 	}
 }

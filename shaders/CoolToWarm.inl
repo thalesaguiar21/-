@@ -43,8 +43,6 @@ RGB CoolToWarm::GetColor(Ray r_, World world) {
 		}
 		return color;
 	} else {
-		Vector3 unitDirection = UnitVector(r_.Direction());
-    float t = 0.5 * (unitDirection.Y() + 1.0);
-    return (1.0 - t)*RGB(1.0, 1.0, 1.0) + t*RGB(0.5, 0.7, 1.0);
+		return BackgroundColor(r_, RGB(1.0, 1.0, 1.0), RGB(0.7, 0.5, 1.0));
 	}
 }

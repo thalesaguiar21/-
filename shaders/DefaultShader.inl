@@ -24,8 +24,6 @@ RGB DefaultShader::GetColorAux(Ray r_, World world, int shaderValue_) {
     RGB visColor = rec.mat->ref_coef() * rec.mat->prop();
     return visColor * GetColorAux(difused, world, shaderValue_-1);
   } else {
-    Vector3 unitDirection = UnitVector(r_.Direction());
-    float t = 0.5 * (unitDirection.Y() + 1.0);
-    return (1.0 - t)*RGB(1.0, 1.0, 1.0) + t*RGB(0.5, 0.7, 1.0);
+    return BackgroundColor(r_, RGB(1.0, 1.0, 1.0), RGB(0.7, 0.5, 1.0));
   }
 }
