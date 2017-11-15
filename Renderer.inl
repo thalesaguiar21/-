@@ -48,8 +48,8 @@ void Renderer::RenderLine(int *mat_row, int width, int height, int alias_samp,
 
     tonality /= alias_samp;
     tonality = GammaCorrection(tonality, 2.0);
-
-    mat_row[kj++] = int(255.99 * tonality.R());      
+    
+    mat_row[kj++] = int(255.99 * tonality.R()) ;      
     mat_row[kj++] = int(255.99 * tonality.G());
     mat_row[kj++] = int(255.99 * tonality.B());
   } 

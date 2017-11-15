@@ -43,3 +43,23 @@ bool Sphere::Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) {
   }
   return false;
 }
+
+
+Hitable* Sphere::Translate(Vector3 target) {
+  Vector3 target_ = target - origin();
+  glm::vec4 trasnslade_vec (target_.X(), target_.Y(), target_.Z(), 1);
+  glm::vec3 translation (origin().X(), origin().Y(), origin().Z());
+  glm::mat4 tMatrix = glm::translate(glm::mat4(1.0f), translation);
+  glm::vec4 centerT = tMatrix * trasnslade_vec;
+  
+  Vector3 transladed_center (centerT[0], centerT[1], centerT[2]);
+  return new Sphere(transladed_center, radius(), material());
+}
+
+Hitable* Sphere::Rotate(Vector3 angles) {
+  return new Sphere(origin(), radius(), material());
+}
+
+Hitable* Sphere::Scale(Vector3 proportions) {
+  return new Sphere();
+}

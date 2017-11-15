@@ -82,39 +82,41 @@ int main( int argc, char *argv[] ) {
         //==== Create the Camera
         // Perspective Camera
         float dist = (Point3(0,3,2) - Point3(0,0,-2)).Length();
-        Camera *perspecCam = new PerspectiveCamera( Point3(2,5,1), Point3(0,0,-2), 45, 
-                              float(img.width)/float(img.height), 0, dist);
+        Camera *perspecCam = new PerspectiveCamera( Point3(0,3,1), Point3(0,0,0), 60, 
+                              float(img.width)/float(img.height), 0, 5);
 
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(2,5,-1), Point3(0,0,-3),
-                                           -8, 8, -4, 4);
+        Camera *orthoCam = new ParallelCamera( Point3(2,-1,3), Point3(0,0,0),
+                                           -4, 4, -2, 2);
         
         //==== Create the hitable objects
         Point3 center (3, 0, -3);
         glm::vec4 p1(0, 2, 0, 1);
-        glm::vec3 translation = glm::vec3(center.X(), center.Y(), center.Z());
 
+        Point3 v1 (-2, 0, -2);
+        Point3 v2 (2, 0, -2);
+        Point3 v3 (0, 3, -2);
 
-        glm::mat4 tMatrix = glm::translate(glm::mat4(1.0f), translation);
-        glm::vec4 centerT = tMatrix * p1;
-
-        Point3 v1 (-2,1,-3);
-        Point3 v2 (1,1,-1);
-        Point3 v3 (2,1,-3);
+        Sphere *original = new Sphere(center, 0.5, mat1);
+        Triangle *orig_triang = new Triangle(v1, v2, v3, mat2);
 
         std::vector<Hitable*> myHitables = {
-          new Triangle(v1, v2, v3, mat2),
-          new Sphere(center, 0.5, mat1),
+          // orig_triang->Rotate(Vector3(0, 90, 0)),
+          // orig_triang->Scale(Vector3(0.5, 0.5, 0.5)),
+          orig_triang
+          // original,
+          // original->Translate(Vector3(6,0,0)),
           // new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
+          // new Sphere(Point3(-2, 0, -2), 0.5, mat3),
           // new Sphere(Point3(2, 0, -2), 0.5, mat3),
           // new Sphere(Point3(0, 1, -2), 0.5, mat5),
-          new Sphere(Point3(0, -100.5, -3), 100, mat4)
+          // new Sphere(Point3(0, -100.5, -3), 100, mat4)
           };
         
         //==== Create the world lights
         std::vector<Light*> lights = {
-          new Light(Point3(0, 2, -1), 10.0)
-          // new SpotLight(Point3(0,2,-3), Vector3(0,-1,0), 10, 1, 20),
+          new Light(Point3(0, 1, -1), 10.0)
+          // new SpotLight(Point3(0,2,-3), Vector3(0,-1,-1), 10, 1, 80)
           // new SpotLight(Point3(0,2,-2), Vector3(0,-1,0), 10, 1, 60)
         };
 
@@ -136,6 +138,8 @@ int main( int argc, char *argv[] ) {
         delete mat3;
         delete mat4;
         delete mat5;
+        delete original;
+        delete orig_triang;
       }
     }    
     return 0;

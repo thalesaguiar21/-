@@ -6,7 +6,7 @@
 namespace utils {
 	#define PI 3.141592
 	
-  float radians(float angle) {
+  float rad(float angle) {
     return angle * PI / 180.0;
   }
 }

@@ -15,7 +15,7 @@ class SpotLight : public Light {
 		float radius() const { return radius_; };
 		void set_radius(float value) { radius_ = value; };
 		float aperture_angle() const { return aperture_angle_; };
-		void set_aperture_angle(float value) { aperture_angle_ = radians(value); };
+		void set_aperture_angle(float value) { aperture_angle_ = rad(value); };
 		Vector3 direction() const { return direction_; };
 		void set_direction(Vector3 value) { direction_ = value; };
 

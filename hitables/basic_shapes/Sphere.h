@@ -14,8 +14,12 @@ class Sphere : public Hitable {
   public:
     Sphere(void);
     Sphere(Point3 center_, float radius_, Material *material_);
-    bool Hit(Ray r_, HitRecord &rec, float minHit, float maxHit) override;
 
+    bool Hit(Ray r_, HitRecord &rec, float minHit, float maxHit) override;
+		Hitable* Translate(Vector3 target) override;
+		Hitable* Rotate(Vector3 angles) override;
+		Hitable* Scale(Vector3 proportions) override;
+		
     float radius() const { return radius_; };
     void set_radius(float value) { radius_ = value; };
 

@@ -8,7 +8,7 @@ SpotLight::SpotLight(Point3 origin, Vector3 dir, float intensity, float radius,
 										 float fov) : Light(origin, intensity) {
   direction_ = dir;
   radius_ = radius;
-  aperture_angle_ = radians(fov);
+  aperture_angle_ = rad(fov);
 }
 
 bool SpotLight::IsIlluminating(Point3 point) {
