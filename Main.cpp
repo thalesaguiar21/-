@@ -22,6 +22,7 @@
 #include "hitables/Transformer.h"
 #include "hitables/basic_shapes/Sphere.h"
 #include "hitables/basic_shapes/Triangle.h"
+#include "hitables/basic_shapes/Cube.h"
 #include "hitables/World.h"
 
 #include "file_reader/FileUtils.h"
@@ -68,7 +69,7 @@ int main( int argc, char *argv[] ) {
                                         Vector3(0.01, 0.8, 0.2));
 
         Material *mat2 = new BlinnPhong(RGB(0.0, 1.0, 0.0), RGB(1.0, 1.0, 1.0), 
-                                        Vector3(0.5, 1.0, 0.1));
+                                        Vector3(0.001, 0.7, 0.3));
 
         Material *mat3 = new BlinnPhong(RGB(1.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
                                         Vector3(1.8, 1.0, 0.1));
@@ -82,12 +83,12 @@ int main( int argc, char *argv[] ) {
         //==== Create the Camera
         // Perspective Camera
         float dist = (Point3(0,3,2) - Point3(0,0,-2)).Length();
-        Camera *perspecCam = new PerspectiveCamera( Point3(0,1,1), Point3(0,0,0), 120, 
+        Camera *perspecCam = new PerspectiveCamera( Point3(-0.5,1,1), Point3(0,0,0), 120, 
                               float(img.width)/float(img.height), 0, 5);
 
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(0,3,1), Point3(0,0,-1),
-                                           -4, 4, -2, 2);
+        Camera *orthoCam = new ParallelCamera( Point3(0,3,1), Point3(0,1,-1),
+                                           -8, 8, -4, 4);
         
         //==== Create the hitable objects
         Point3 center (0, 0, -1);
@@ -99,12 +100,14 @@ int main( int argc, char *argv[] ) {
 
         Sphere *original = new Sphere(center, 0.5, mat1);
         Triangle *orig_triang = new Triangle(v1, v2, v3, mat1);
+        Hitable *cube = new Cube(-1,5,1,4,-2,-3, mat1);
 
         std::vector<Hitable*> myHitables = {
           // orig_triang->Rotate(Vector3(0, 90, 0)),
-          orig_triang->Scale(Vector3(0.5, 0.5, 0.5)),
+          // orig_triang->Scale(Vector3(0.5, 0.5, 0.5)),
           // orig_triang,
           original,
+          cube,
           // original->Translate(Vector3(1,0,1)),
           // original->Translate(Vector3(-1,0,1)),
           // new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
@@ -116,7 +119,7 @@ int main( int argc, char *argv[] ) {
         
         //==== Create the world lights
         std::vector<Light*> lights = {
-          new Light(Point3(1, 6, -4), 6.0)
+          new Light(Point3(0, 3, 1), 10.0)
           // new SpotLight(Point3(2,2,-3), Vector3(-1,-1,0), 10, 1, 45)
           // new SpotLight(Point3(0,2,-2), Vector3(0,-1,0), 10, 1, 60)
         };
