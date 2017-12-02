@@ -13,6 +13,7 @@
 
 #include "scene/lights/Light.h"
 #include "scene/lights/SpotLight.h"
+#include "scene/lights/AreaLight.h"
 #include "scene/cameras/Camera.h"
 #include "scene/cameras/ParallelCamera.h"
 #include "scene/cameras/PerspectiveCamera.h"
@@ -107,7 +108,7 @@ int main( int argc, char *argv[] ) {
           // orig_triang->Scale(Vector3(0.5, 0.5, 0.5)),
           // orig_triang,
           original,
-          cube,
+          // cube,
           // original->Translate(Vector3(1,0,1)),
           // original->Translate(Vector3(-1,0,1)),
           // new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),

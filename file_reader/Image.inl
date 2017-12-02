@@ -24,7 +24,7 @@ namespace filerd {
       return  "P3\n" + std::to_string(width) + " "
               + std::to_string(height) + "\n255\n";
     } else {
-      cout << file_utils::UNSUPPORTED_FORMAT << endl;
+      cout << format << "|" << file_utils::UNSUPPORTED_FORMAT << endl;
       return "";
     }
   }
@@ -72,8 +72,7 @@ namespace filerd {
       name = tmpContnt[file_utils::NAME].substr(7, 
         tmpContnt[file_utils::NAME].length());
       
-      format = tmpContnt[file_utils::TYPE].substr(7, 
-        tmpContnt[file_utils::TYPE].length());
+      format = tmpContnt[file_utils::TYPE].substr(7, 3);
 
       int codLength = tmpContnt[file_utils::CODIFICATION].length();
       cod = tmpContnt[file_utils::CODIFICATION].substr(15, codLength);
