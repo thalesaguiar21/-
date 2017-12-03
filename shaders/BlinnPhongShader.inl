@@ -30,7 +30,6 @@ RGB BlinnPhongShader::OnHit(Ray r_, World world, HitRecord rec) {
 
 			if(!world.HitAnything(shadow_ray, tmp, SHADOW_ERROR, shadow_ray_length)) {
 				light_ray = UnitVector(lights[i]->origin() - rec.hit);
-				// std::cout <<
 				view_dir = UnitVector(r_.origin - rec.hit);
 				half_way = UnitVector(view_dir + light_ray);
 				float intensity_i = lights[i]->intensity(rec.hit);
@@ -48,7 +47,7 @@ RGB BlinnPhongShader::OnHit(Ray r_, World world, HitRecord rec) {
 		}
 	}
 	RGB color_aux = RGB(std::min(color.R(), 1.f),
-											std::min(color.G(), 1.f),
-											std::min(color.B(), 1.f));
+						std::min(color.G(), 1.f),
+						std::min(color.B(), 1.f));
 	return color_aux;
 }

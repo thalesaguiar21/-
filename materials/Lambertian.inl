@@ -2,7 +2,8 @@
 
 
 Lambertian::Lambertian( Vector3 albedo, float absortion ) {
-	set_prop(albedo);
+	set_diffuse(albedo);
+	set_prop(Vector3(0.01, 1.0, 0.0));
 	set_ref_coef(absortion);
 }
 
