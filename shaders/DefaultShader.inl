@@ -19,7 +19,6 @@ RGB DefaultShader::OnHitAux(Ray r_, World world, HitRecord rec,
     return RGB(1.0);
   } else {
     Ray difused;
-    rec.mat->Diffusion(r_, difused, rec.hit, rec.normal);
     RGB visColor = rec.mat->ref_coef() * rec.mat->prop();
     return visColor * OnHitAux(difused, world, rec, shaderValue_-1);
   }

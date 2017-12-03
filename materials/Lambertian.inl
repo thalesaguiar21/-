@@ -7,10 +7,9 @@ Lambertian::Lambertian( Vector3 albedo, float absortion ) {
 	set_ref_coef(absortion);
 }
 
-bool Lambertian::Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
-														Vector3 normal ) {
-	Vector3 target = hitPoint + normal + Reflect(incident.Direction(), normal);
-	diffused = Ray(hitPoint, target - hitPoint);
+bool Lambertian::Scatter( Ray incident, const HitRecord rec, Vector3 &attenuation, Ray &scattered ) {
+	Vector3 target = rec.hit + rec.normal + Reflect(incident.Direction(), rec.normal);
+	scattered = Ray(rec.hit, target - rec.hit);
 	return true;
 }
 

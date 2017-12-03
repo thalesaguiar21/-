@@ -18,6 +18,11 @@
 #include "scene/cameras/ParallelCamera.h"
 #include "scene/cameras/PerspectiveCamera.h"
 
+#include "materials/Material.h"
+#include "materials/Lambertian.h"
+#include "materials/Metalic.h"
+#include "materials/BlinnPhong.h"
+
 #include "hitables/HitRecord.h"
 #include "hitables/Hitable.h"
 #include "hitables/Transformer.h"
@@ -33,10 +38,7 @@
 #include "shaders/factory/ShaderFactory.h"
 #include "shaders/factory/ShaderType.h"
 
-#include "materials/Material.h"
-#include "materials/Lambertian.h"
-#include "materials/Metalic.h"
-#include "materials/BlinnPhong.h"
+
 
 #include "Renderer.h"
 // vec3, vec4, ivec4, mat4
@@ -68,15 +70,11 @@ int main( int argc, char *argv[] ) {
         //==== Create the Materials
         Material *mat1 = new BlinnPhong(RGB(0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
                                         Vector3(0.01, 0.8, 0.2));
-
         Material *mat2 = new BlinnPhong(RGB(0.0, 1.0, 0.0), RGB(1.0, 1.0, 1.0), 
                                         Vector3(0.001, 0.7, 0.3));
-
-        Material *lambertian = new Lambertian(RGB(1.0, 0.0, 0.0), 0.5);
-
         Material *mat4 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 1.0, 1.0),
                                         Vector3(0.01, 0.9, 0.1));
-
+        Material *lambertian = new Lambertian(RGB(1.0, 0.0, 0.0), 0.5);
         Material *metalic = new Metalic(RGB(0.0, 1.0, 1.0), 10);
 
         //==== Create the Camera
@@ -98,7 +96,7 @@ int main( int argc, char *argv[] ) {
         Point3 v3 (1, 1, 2);
 
         Sphere *original = new Sphere(center, 0.5, lambertian);
-        Sphere *metalicSphere = new Sphere(Point3(1,0,-1), 0.5, metalic);
+        Sphere *metalicSphere = new Sphere(Point3(1,0,-1), 0.5, lambertian);
         Triangle *orig_triang = new Triangle(v1, v2, v3, mat1);
         Hitable *cube = new Cube(-1,5,1,4,-2,-3, mat1);
 
@@ -115,7 +113,7 @@ int main( int argc, char *argv[] ) {
           // new Sphere(Point3(-2, 0, -2), 0.5, lambertian),
           // new Sphere(Point3(2, 0, -2), 0.5, lambertian),
           // new Sphere(Point3(0, 1, -2), 0.5, metalic),
-          new Sphere(Point3(0, -100.5, -3), 100, lambertian)
+          new Sphere(Point3(0, -100.5, -3), 100, mat4)
           };
         
         //==== Create the world lights

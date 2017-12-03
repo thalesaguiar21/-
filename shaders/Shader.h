@@ -10,7 +10,7 @@ using utils::Vector3;
 
 class Shader {
   public:
-    RGB Color(Ray r_, World world);
+    RGB Color(Ray r_, World world, depth = 10);
     float shader_value() const { return shader_value_; };
     void set_shader_value(float value) { shader_value_ = value; };
 

@@ -6,8 +6,7 @@
 class Lambertian : public Material {
 public:
 	Lambertian ( Vector3 albedo, float absorption );
-	bool Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
-									Vector3 normal ) override;
+	bool Scatter( Ray incident, const HitRecord rec, Vector3 &attenuation, Ray &scattered ) override;
 protected:
 	Vector3 Reflect( Vector3 incident, Vector3 normal ) override;
 };

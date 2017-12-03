@@ -3,7 +3,10 @@
 RGB Shader::Color(Ray r_, World world) {
   HitRecord rec;
   if(world.HitAnything(r_, rec)) {
-    return OnHit(r_, world, rec);
+  	Ray scattered;
+  	Vector3 attenuation;
+  	if(rec.mat->Scatter(r_, rec, attenuation, scattered))
+      return OnHit(scattered, world, rec);
   } else {
     return BackgroundColor(r_, RGB(1.0, 1.0, 1.0), RGB(0.5, 0.7, 1.0));
   }

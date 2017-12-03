@@ -11,7 +11,9 @@ BlinnPhong::BlinnPhong( RGB diffuse_, RGB specular_, Vector3 properties_ ) {
 	set_prop(properties_);
 }
 
-bool BlinnPhong::Diffusion( Ray incident, Ray &diffused, Point3 hitPoint, Vector3 normal ) {
+bool BlinnPhong::Scatter( Ray incident, const HitRecord rec, Vector3 &attenuation, Ray &scattered ) {
+	scattered = incident;
+	attenuation = prop();
 	return true;
 }
 

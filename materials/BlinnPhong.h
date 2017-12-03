@@ -9,8 +9,7 @@ class BlinnPhong : public Material {
 public:
 	BlinnPhong( void );
 	BlinnPhong( RGB diffuse_, RGB specular_, Vector3 properties_ );
-  bool Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
-                  Vector3 normal ) override;
+  	bool Scatter( Ray incident, const HitRecord rec, Vector3 &attenuation, Ray &scattered ) override;
 protected:
   Vector3 Reflect( Vector3 incident, Vector3 normal ) override;
 };

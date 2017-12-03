@@ -3,14 +3,14 @@
 
 #include "../utility/Vector3.h"
 #include "../utility/Ray.h"
+#include "../hitables/HitRecord.h"
 
 using utils::Vector3;
 using utils::Ray;
 
 class Material {
 	public:
-		bool virtual Diffusion( Ray incident, Ray &diffused, Point3 hitPoint,
-													  Vector3 normal ) = 0;
+		bool virtual Scatter( Ray incident, const HitRecord rec, Vector3 &attenuation, Ray &scattered ) = 0;
 
 		float ref_coef() const { return ref_coef_; };
 		void set_ref_coef(float value) { ref_coef_ = value; };

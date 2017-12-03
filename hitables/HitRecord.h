@@ -6,6 +6,8 @@
 
 using utils::Vector3;
 
+class Material;
+
 /*  This structure is created to sotre the information of the instersection
     between a Ray and a Hitable object inside the world.
 */
