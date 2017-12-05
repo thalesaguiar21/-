@@ -2,7 +2,10 @@
 #define _TRIANGLE_H_
 
 #include "../Hitable.h"
+#include "../../materials/Material.h"
 #include "../../utility/Angles.h"
+
+#define EPSILON 0.000001
 
 class Triangle : public Hitable {
 	public:
@@ -24,7 +27,6 @@ class Triangle : public Hitable {
 		Vector3 edge2() const { return edge2_; }
 
 	private:
-		float const EPSILON = 0.000001;
 		Point3 Baricenter();
 		Vector3 TranslateVerticle(Vector3 verticle, Vector3 target);
 		Vector3 RotateVerticle(Vector3 verticle, Vector3 target);

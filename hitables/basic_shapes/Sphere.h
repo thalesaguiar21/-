@@ -3,6 +3,7 @@
 
 #include "../../utility/Vector3.h"
 #include "../../utility/Ray.h"
+#include "../../materials/Material.h"
 #include "../Hitable.h"
 #include <cmath>
 

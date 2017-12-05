@@ -15,7 +15,7 @@ Cube::Cube(Point3 origin, Vector3 side1, Vector3 side2) {
 }
 
 Cube::Cube(float xMin, float xMax, float yMin, float yMax, float zMin, 
-				 	float zMax, Material *mat) {
+					 float zMax, Material *mat) {
 	x_min = xMin;
 	x_max = xMax;
 	y_min = yMin;

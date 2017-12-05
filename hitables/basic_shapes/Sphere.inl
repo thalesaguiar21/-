@@ -5,9 +5,9 @@ Sphere::Sphere( void ) {
   radius_ = 0.f;
 }
 
-Sphere::Sphere( Point3 center_, float rad_, Material *mat ) {
+Sphere::Sphere( Point3 center_, float rad_, Material *mat_ ) {
   set_origin(center_);
-  set_material(mat);
+  set_material(mat_);
   radius_ = rad_;
 }
 

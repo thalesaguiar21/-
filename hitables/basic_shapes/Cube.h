@@ -11,8 +11,7 @@ class Cube : public Hitable {
 		Cube(float xMin, float xMax, float yMin, float yMax, float zMin, 
 				 float zMax, Material *mat);
 		//xzhit
-		bool Hit(Ray r_, HitRecord &rec, float minHit, 
-             float maxHit) override;
+		bool Hit(Ray r_, HitRecord &rec, float minHit, float maxHit) override;
     Hitable* Translate(Vector3 target) override;
     Hitable* Rotate(Vector3 angles) override;
     Hitable* Scale(Vector3 proportions) override;
