@@ -71,8 +71,11 @@ namespace filerd {
       vector<string> tmpContnt = file_utils::RemoveComents(fileContent);
       name = tmpContnt[file_utils::NAME].substr(7, 
         tmpContnt[file_utils::NAME].length());
-      
       format = tmpContnt[file_utils::TYPE].substr(7, 3);
+
+      string tmpName = file_utils::RemoveSpacingChars(tmpContnt[file_utils::NAME]);
+      vector<string> items = file_utils::Split(tmpName, ' ');
+      name = items[2];
 
       int codLength = tmpContnt[file_utils::CODIFICATION].length();
       cod = tmpContnt[file_utils::CODIFICATION].substr(15, codLength);

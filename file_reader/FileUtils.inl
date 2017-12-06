@@ -30,7 +30,7 @@ namespace file_utils {
       }
     }
     return result;
-  };
+  }
 
   vector<string> Split(const string str, const char s) {
     vector<string> result;
