@@ -29,7 +29,7 @@ RGB LambertianShadingModel::ColorAux(Ray r_, World world, HitRecord &rec, int re
 	  if(ref > 0 && rec.mat->Scatter(r_, tmp, attenuation, scaterred)) {
 	  	return attenuation * ColorAux(scaterred, world, tmp, ref-1);
 	  } else {
-	  	return ShadingModel::BackgroundColor(r_, RGB(0,1,0), RGB(0,0,1));
+	  	return BackgroundColor(r_, RGB(0,1,0), RGB(0,0,1));
 	  }
   } else {
   	return RGB(1);

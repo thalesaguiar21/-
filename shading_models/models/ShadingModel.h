@@ -8,7 +8,7 @@
 class ShadingModel {
 	public:		
   	virtual RGB Color(Ray r_, World world, HitRecord &rec) = 0;
-  	static RGB BackgroundColor(Ray r_, RGB top, RGB bottom);    
+   	RGB BackgroundColor(Ray r_, RGB top, RGB bottom);    
 };
 
 #include "ShadingModel.cpp"

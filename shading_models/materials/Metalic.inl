@@ -9,8 +9,8 @@ Metalic::Metalic( Vector3 albedo, float refCoef, int reflections ) {
 }
 
 bool Metalic::Scatter( Ray incident, const HitRecord rec, Vector3 &attenuation, Ray &scattered ) {
-	auto reflected = Reflect(UnitVector(incident.Direction()), rec.normal);
-	scattered = Ray(rec.hit, reflected);
+	Vector3 reflected = Reflect(UnitVector(incident.Direction()), rec.normal);
+	scattered = Ray(rec.hit, reflected + ref_coef() * RandomInUnitSphere());
 	attenuation = diffuse();	
 	return (dot(scattered.Direction(), rec.normal) > 0);
 }

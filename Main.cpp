@@ -63,12 +63,13 @@ int main( int argc, char *argv[] ) {
       if(img.FromContent(input)) {
         //==== Create the Materials
         Material *blinnPhong1 = new BlinnPhong(RGB(0.0, 0.0, 1.0), RGB(1.0, 1.0, 1.0), 0.01f, 0.8f, 0.2f, 30);
-        Material *blinnPhong2 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 1.0, 1.0), 0.01f, 0.8f, 0.2f, 30);
+        Material *blinnPhong2 = new BlinnPhong(RGB(0.8, 0.8, 0.0), RGB(1.0, 1.0, 1.0), 0.01f, 0.8f, 0.2f, 30);
         // Material *mat2 = new BlinnPhong(RGB(0.0, 1.0, 0.0), RGB(1.0, 1.0, 1.0), 0.001f, 0.7f, 0.3f);
         // Material *mat4 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 1.0, 1.0), 0.01f, 0.9f, 0.1f);
         Material *lambertian1 = new Lambertian(RGB(1.0, 0.0, 0.0), 0.5, 10);
         Material *lambertian2 = new Lambertian(RGB(0.5, 0.5, 0.5), 0.5, 10);
-        Material *metalic = new Metalic(RGB(1.0, 1.0, 1.0), 10, 10);
+        Material *lambertian3 = new Lambertian(RGB(0.8, 0.8, 0.0), 0.5, 10);
+        Material *metalic = new Metalic(RGB(0.8, 0.6, 0.4), 0.3, 10);
 
         //==== Create the Camera
         // Perspective Camera
@@ -78,7 +79,7 @@ int main( int argc, char *argv[] ) {
 
         // Parallel Camera
         Camera *orthoCam = new ParallelCamera( Point3(0,1,2), Point3(0,0,-1),
-                                           -2, 2, -1, 1);
+                                           -4, 4, -2, 2);
         
         //==== Create the hitable objects
 
@@ -88,10 +89,10 @@ int main( int argc, char *argv[] ) {
 
         std::vector<Hitable*> myHitables = {
           original,
-          sphere2,
+          // sphere2,
           metalSphere,
-          new Sphere(Point3(0, -100.5, -3), 100, blinnPhong2)
-          };
+          new Sphere(Point3(0, -100.5, -3), 100, lambertian3)
+        };
         
         //==== Create the world lights
         std::vector<Light*> lights = {
@@ -115,11 +116,13 @@ int main( int argc, char *argv[] ) {
         delete blinnPhong2;
         delete lambertian1;
         delete lambertian2;
+        delete lambertian3;
         // delete mat4;
         // delete mat2;
         delete metalic;
         delete original;
         delete sphere2;
+        delete metalSphere;
       }
     }    
     return 0;

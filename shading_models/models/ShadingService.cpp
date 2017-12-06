@@ -29,9 +29,10 @@ RGB ShadingService::Shader(Ray r_, World world) {
 		}
 		result = shadingModel_->Color(r_, world, rec);
 	} else {
-		RGB blue (0,0,1);
-		RGB green (0,1,0);
-		result = ShadingModel::BackgroundColor(r_, blue, green);
+		shadingModel_ = new NormalShadingModel();
+		RGB blue (1,1,1);
+		RGB green (0.5,0.7,1.0);
+		result = shadingModel_->BackgroundColor(r_, blue, green);
 	}
 
 	delete shadingModel_;

@@ -2,7 +2,7 @@
 #define _TRIANGLE_H_
 
 #include "../Hitable.h"
-#include "../../materials/Material.h"
+#include "../../shading_models/materials/Material.h"
 #include "../../utility/Angles.h"
 
 #define EPSILON 0.000001
