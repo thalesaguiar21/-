@@ -22,6 +22,32 @@ namespace file_utils {
     return fileContent;
   }
 
+  string RemoveSpacingChars(string str) {
+    string result = str;
+    for(int i=0; i < result.length(); i++) {
+      if(str[i] == '\n' || str[i] == '\t') {
+        result.erase(i);
+      }
+    }
+    return result;
+  };
+
+  vector<string> Split(const string str, const char s) {
+    vector<string> result;
+    string item = "";
+    for(int i=0; i < str.length(); i++) {
+      if(str[i] == s) {
+        result.push_back(item);
+        item = "";
+        continue;
+      }
+      item += str[i];
+    }
+    result.push_back(item);
+
+    return result;
+  }
+
    /*  
       Returns true if the file has no erros, false otherwise
   */
