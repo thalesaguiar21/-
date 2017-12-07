@@ -96,15 +96,15 @@ int main( int argc, char *argv[] ) {
         Point3 v2 (1.5, 1, 0);
         Point3 v3 (1, 1, 2);
 
-        Sphere *original = new Sphere(center, 0.5, lambertian);
-        Sphere *metalicSphere = new Sphere(Point3(1,0,-1), 0.5, metalic);
+        Sphere *original = new Sphere(center, 0.5, mat2);
+        Sphere *metalicSphere = new Sphere(Point3(1,0,-1), 0.5, mat4);
         Triangle *orig_triang = new Triangle(v1, v2, v3, mat1);
         Hitable *cube = new Cube(-1,5,1,4,-2,-3, mat1);
 
         std::vector<Hitable*> myHitables = {
           original,
           metalicSphere,
-          new Sphere(Point3(0, -100.5, -3), 100, lambertian2)
+          new Sphere(Point3(0, -100.5, -3), 100, mat1)
           };
         
         //==== Create the world lights
@@ -115,7 +115,7 @@ int main( int argc, char *argv[] ) {
         };
 
         //==== Create the Shader
-        Shader *shader = ShaderFactory::Create(ShaderType::defaultShader, 10.0);
+        Shader *shader = ShaderFactory::Create(ShaderType::blinnPhong, 30.0);
         World world (myHitables,lights, 0.001f, numeric_limits<float>::max());
         Renderer renderer = Renderer(img, orthoCam, world, shader);
         renderer.Start();
