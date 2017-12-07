@@ -5,12 +5,7 @@ class DefaultShader : public Shader {
 	public:
 		DefaultShader (void);
 		DefaultShader(float value);
-
-  protected:
-  	RGB OnHit(Ray r_, World world, HitRecord rec) override;
-  	
- 	private:
- 		RGB OnHitAux(Ray r_, World world, HitRecord rec, int maxRef_);
+  	RGB Color(Ray r_, World world, int depth) override;
 };
 
 #include "DefaultShader.inl"

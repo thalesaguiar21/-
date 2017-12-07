@@ -75,7 +75,8 @@ int main( int argc, char *argv[] ) {
         Material *mat4 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 1.0, 1.0),
                                         Vector3(0.01, 0.9, 0.1));
         Material *lambertian = new Lambertian(RGB(1.0, 0.0, 0.0), 0.5);
-        Material *metalic = new Metalic(RGB(0.0, 1.0, 1.0), 10);
+        Material *lambertian2 = new Lambertian(RGB(0.8, 0.8, 0.0), 0.5);
+        Material *metalic = new Metalic(RGB(1.0, 1.0, 1.0), 0.3);
 
         //==== Create the Camera
         // Perspective Camera
@@ -84,8 +85,8 @@ int main( int argc, char *argv[] ) {
                               float(img.width)/float(img.height), 0, 5);
 
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(0,1,2), Point3(0,0,-1),
-                                           -2, 2, -1, 1);
+        Camera *orthoCam = new ParallelCamera( Point3(0,0.5,2), Point3(0,0,-1),
+                                           -4, 4, -2, 2);
         
         //==== Create the hitable objects
         Point3 center (0, 0, -1);
@@ -96,24 +97,14 @@ int main( int argc, char *argv[] ) {
         Point3 v3 (1, 1, 2);
 
         Sphere *original = new Sphere(center, 0.5, lambertian);
-        Sphere *metalicSphere = new Sphere(Point3(1,0,-1), 0.5, lambertian);
+        Sphere *metalicSphere = new Sphere(Point3(1,0,-1), 0.5, metalic);
         Triangle *orig_triang = new Triangle(v1, v2, v3, mat1);
         Hitable *cube = new Cube(-1,5,1,4,-2,-3, mat1);
 
         std::vector<Hitable*> myHitables = {
-          // orig_triang->Rotate(Vector3(0, 90, 0)),
-          // orig_triang->Scale(Vector3(0.5, 0.5, 0.5)),
-          // orig_triang,
           original,
           metalicSphere,
-          // cube,
-          // original->Translate(Vector3(1,0,1)),
-          // original->Translate(Vector3(-1,0,1)),
-          // new Sphere(Point3(centerT[0], centerT[1], centerT[2]), 0.5, mat2),
-          // new Sphere(Point3(-2, 0, -2), 0.5, lambertian),
-          // new Sphere(Point3(2, 0, -2), 0.5, lambertian),
-          // new Sphere(Point3(0, 1, -2), 0.5, metalic),
-          new Sphere(Point3(0, -100.5, -3), 100, mat4)
+          new Sphere(Point3(0, -100.5, -3), 100, lambertian2)
           };
         
         //==== Create the world lights
@@ -124,8 +115,8 @@ int main( int argc, char *argv[] ) {
         };
 
         //==== Create the Shader
-        Shader *shader = ShaderFactory::Create(ShaderType::blinnPhong, 30.0);
-        World world (myHitables,lights, 0.0001f, numeric_limits<float>::max());
+        Shader *shader = ShaderFactory::Create(ShaderType::defaultShader, 10.0);
+        World world (myHitables,lights, 0.001f, numeric_limits<float>::max());
         Renderer renderer = Renderer(img, orthoCam, world, shader);
         renderer.Start();
 
@@ -139,6 +130,7 @@ int main( int argc, char *argv[] ) {
         delete mat1;
         delete mat2;
         delete lambertian;
+        delete lambertian2;
         delete mat4;
         delete metalic;
         delete original;

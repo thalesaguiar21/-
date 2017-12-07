@@ -16,7 +16,3 @@ bool BlinnPhong::Scatter( Ray incident, const HitRecord rec, Vector3 &attenuatio
 	attenuation = prop();
 	return true;
 }
-
-Vector3 BlinnPhong::Reflect( Vector3 incident, Vector3 normal ) {
-	return Vector3(0.f);
-}

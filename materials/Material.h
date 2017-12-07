@@ -22,7 +22,17 @@ class Material {
 		void set_prop(Vector3 value) { prop_ = value; };
 
 	protected:
- 		Vector3 virtual Reflect( Vector3 incident, Vector3 normal ) = 0;
+ 		Vector3 Reflect( Vector3 incident, Vector3 normal ) {
+			return incident - 2*dot(incident, normal) * normal;
+		}
+
+		Point3 RandomInUnitSphere() {
+			Vector3 p;
+			do {
+				p = 2.0 * (Vector3(drand48(), drand48(), drand48()) - Vector3(1.0));
+			} while (dot(p, p) >= 1.0);
+			return p;
+		}
 
  	private:
 		float ref_coef_;

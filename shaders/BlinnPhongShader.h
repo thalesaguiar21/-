@@ -17,9 +17,10 @@ class BlinnPhongShader : public Shader {
   public:
   	BlinnPhongShader(void);
   	BlinnPhongShader(float power);
-  	
-  protected:
-    RGB OnHit(Ray r_, World world, HitRecord rec);
+    RGB Color(Ray r_, World world, int depth) override;
+
+  private:
+  	float power_;
 };
 
 #include "BlinnPhongShader.inl"

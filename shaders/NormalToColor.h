@@ -5,9 +5,7 @@ class NormalToColor : public Shader {
 	public:
 		NormalToColor(void);
 		NormalToColor(float value);
-
-	protected:
-		RGB OnHit(Ray r_, World world, HitRecord rec) override;
+		RGB Color(Ray r_, World world, int depth) override;
 };
 
 #include "NormalToColor.inl"

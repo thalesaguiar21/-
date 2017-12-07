@@ -7,9 +7,10 @@ class CoolToWarm : public Shader {
   public:
   	CoolToWarm(void);
   	CoolToWarm(float value);
+    RGB Color(Ray r_, World world, int depth) override;
 
-  protected:
-    RGB OnHit(Ray r_, World world, HitRecord rec) override;
+  private:
+  	float power_;
 };
 
 #include "CoolToWarm.inl"

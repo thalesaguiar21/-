@@ -10,12 +10,11 @@ using utils::Vector3;
 
 class Shader {
   public:
-    RGB Color(Ray r_, World world, depth = 10);
+    virtual RGB Color(Ray r_, World world, int depth = 10) = 0;
     float shader_value() const { return shader_value_; };
     void set_shader_value(float value) { shader_value_ = value; };
 
   protected:
-    virtual RGB OnHit(Ray r_, World world, HitRecord rec) = 0;
   	RGB BackgroundColor(Ray r_, RGB top, RGB bottom);
   	
   private:

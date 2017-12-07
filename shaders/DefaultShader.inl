@@ -2,24 +2,24 @@
 
 
 DefaultShader::DefaultShader(void) {
-	set_shader_value(0.f);
+	//
 }
 
 DefaultShader::DefaultShader(float value) {
-  set_shader_value(value);
+  //
 }
 
-RGB DefaultShader::OnHit(Ray r_, World world, HitRecord rec) {
-  return OnHitAux(r_, world, rec, shader_value());
-}
-
-RGB DefaultShader::OnHitAux(Ray r_, World world, HitRecord rec, 
-                            int shaderValue_) {
-  if(shaderValue_ <= 0){
-    return RGB(1.0);
+RGB DefaultShader::Color(Ray r_, World world, int depth) {
+  HitRecord tmp;
+  if(world.HitAnything(r_, tmp)) {
+    Ray scaterred;
+    Vector3 attenuation;
+    if(depth > 0 && tmp.mat->Scatter(r_, tmp, attenuation, scaterred)) {
+      return attenuation * Color(scaterred, world, depth-1);
+    } else {
+      return RGB(0);
+    }
   } else {
-    Ray difused;
-    RGB visColor = rec.mat->ref_coef() * rec.mat->prop();
-    return visColor * OnHitAux(difused, world, rec, shaderValue_-1);
+    return BackgroundColor(r_);
   }
 }
