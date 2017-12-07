@@ -8,7 +8,7 @@ class ConstantTexture : public Texture {
 		ConstantTexture();
 		ConstantTexture(RGB color_) : color(color_) {};
 		~ConstantTexture();
-		Vector3 value(float u, float v, const Vector3 &p) override{
+		Vector3 Value(float u, float v, const Vector3 &p) override{
 			return color;
 		}
 

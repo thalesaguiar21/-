@@ -25,6 +25,7 @@
 #include "materials/BlinnPhong.h"
 #include "materials/textures/Texture.h"
 #include "materials/textures/ConstantTexture.h"
+#include "materials/textures/CheckerTexture.h"
 
 #include "hitables/HitRecord.h"
 #include "hitables/Hitable.h"
@@ -76,7 +77,7 @@ int main( int argc, char *argv[] ) {
         Material *mat4 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 1.0, 1.0),
                                         Vector3(0.01, 0.9, 0.1));
         Material *lambertian = new Lambertian(new ConstantTexture(RGB(1.0, 0.0, 0.0)), 0.5);
-        Material *lambertian2 = new Lambertian(new ConstantTexture(RGB(0.8, 0.8, 0.0)), 0.5);
+        Material *lambertian2 = new Lambertian(new CheckerTexture(new ConstantTexture(RGB(0.2, 0.3, 0.1)), new ConstantTexture(RGB(0.9, 0.9, 0.9))), 0.5);
         Material *metalic = new Metalic(new ConstantTexture(RGB(0.8, 0.6, 0.2)), 0.3);
         Material *dielectric = new Dielectric(1.5f);
 
@@ -87,8 +88,8 @@ int main( int argc, char *argv[] ) {
                               float(img.width)/float(img.height), 0, 5);
 
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(0,3,2), Point3(0,0,-1),
-                                           -4, 4, -2, 2);
+        Camera *orthoCam = new ParallelCamera( Point3(0,2,2), Point3(0,0,-1),
+                                           -16, 16, -8, 8);
         
         //==== Create the hitable objects
         Point3 center (0, 0, -1);
