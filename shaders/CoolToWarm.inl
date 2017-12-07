@@ -13,6 +13,7 @@ RGB CoolToWarm::Color(Ray r_, World world, int depth) {
 	RGB ambient (1.0, 1.0, 1.0);
 	RGB color (0,0,0);
 	if(world.HitAnything(r_, rec)) {
+		BlinnPhong *mat = dynamic_cast<BlinnPhong*>(rec.mat);
 		vector<Light*> lights = world.lights;
 		for(int i = 0; i < lights.size(); i++) {
 			if(lights[i]->IsIlluminating(rec.hit)){
@@ -25,9 +26,9 @@ RGB CoolToWarm::Color(Ray r_, World world, int depth) {
 				auto halfWay = UnitVector(viewDir + lightRay);
 
 				float difCoef = std::max(0.f, dot(rec.normal, lightRay));
-				auto diffuse = rec.mat->prop().X() * difCoef * rec.mat->diffuse();
+				auto diffuse = mat->prop().X() * difCoef * mat->diffuse();
 	      float specCoef = std::max(0.f, dot(halfWay, rec.normal));
-	      auto specular = rec.mat->prop().Y() *specCoef * rec.mat->specular();
+	      auto specular = mat->prop().Y() *specCoef * mat->specular();
 	      float angle = fabs(dot(UnitVector(rec.normal), UnitVector(r_.Direction())));
 	      if(angle < 0.30){
 	        return RGB(0,0,0);

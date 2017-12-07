@@ -13,6 +13,7 @@ RGB BlinnPhongShader::Color(Ray r_, World world, int depth) {
 	HitRecord rec;
 	if(world.HitAnything(r_, rec)) {
 		RGB ambient (1);
+		BlinnPhong *mat = dynamic_cast<BlinnPhong*>(rec.mat);
 		Vector3 light_ray;
 		Vector3 view_dir;
 		Vector3 half_way;
@@ -21,7 +22,7 @@ RGB BlinnPhongShader::Color(Ray r_, World world, int depth) {
 		Ray shadow_ray;
 		float nl_dot;
 		float nh_dot;
-		RGB color = RGB(1.0, 1.0, 1.0) * rec.mat->prop().X();
+		RGB color = RGB(1.0, 1.0, 1.0) * mat->prop().X();
 		vector<Light*> lights = world.lights;
 		HitRecord tmp;
 
@@ -38,12 +39,12 @@ RGB BlinnPhongShader::Color(Ray r_, World world, int depth) {
 					float intensity_i = lights[i]->intensity(rec.hit);
 					
 					nl_dot = std::max(0.0f, dot(rec.normal, light_ray));
-					diffuse += rec.mat->prop().Y() * nl_dot * rec.mat->diffuse() * intensity_i;
+					diffuse += mat->prop().Y() * nl_dot * mat->diffuse() * intensity_i;
 			
 					nh_dot = std::max(0.0f, dot(rec.normal, half_way));
-					specular = rec.mat->prop().Z() * 
+					specular = mat->prop().Z() * 
 										 std::pow(nh_dot, power_) * 
-										 rec.mat->specular() *
+										 mat->specular() *
 										 intensity_i;
 					color += specular + diffuse;
 				}

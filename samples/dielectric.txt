@@ -1,0 +1,6 @@
+NAME = dielectric.ppm		# Name of the output file
+TYPE = PPM 				# Type of output file
+CODIFICATION = PPM	# Codification of outputfile
+WIDTH = 400				# Image width
+HEIGHT = 200			# Image height
+ALIAS = 48

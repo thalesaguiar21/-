@@ -5,7 +5,7 @@
 
 class Lambertian : public Material {
 public:
-	Lambertian ( Vector3 albedo, float absorption );
+	Lambertian ( Texture *albedo, float absorption );
 	bool Scatter( Ray incident, const HitRecord rec, Vector3 &attenuation, Ray &scattered ) override;
 };
 

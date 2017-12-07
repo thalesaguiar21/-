@@ -24,14 +24,15 @@ bool World::HitAnything(Ray r_, HitRecord &rec) {
 
 bool World::HitAnything(Ray r_, HitRecord &rec, float from, float until) {
   HitRecord tmpRecord;
-  double closest = until;
+  bool hitAnything = false;
+  double closestSoFar = until;
   for(auto i=0; i<hitables.size(); i++) {
-    if(hitables[i]->Hit(r_, tmpRecord, from, closest)) {
-      closest = tmpRecord.root;
+    if(hitables[i]->Hit(r_, tmpRecord, from, closestSoFar)) {
+      hitAnything = true;
+      closestSoFar = tmpRecord.root;
       rec = tmpRecord;
-      return true;
     }
   }
-  return false;
+  return hitAnything;
 }
 

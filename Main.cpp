@@ -21,7 +21,10 @@
 #include "materials/Material.h"
 #include "materials/Lambertian.h"
 #include "materials/Metalic.h"
+#include "materials/Dielectric.h"
 #include "materials/BlinnPhong.h"
+#include "materials/textures/Texture.h"
+#include "materials/textures/ConstantTexture.h"
 
 #include "hitables/HitRecord.h"
 #include "hitables/Hitable.h"
@@ -37,8 +40,6 @@
 
 #include "shaders/factory/ShaderFactory.h"
 #include "shaders/factory/ShaderType.h"
-
-
 
 #include "Renderer.h"
 // vec3, vec4, ivec4, mat4
@@ -74,18 +75,19 @@ int main( int argc, char *argv[] ) {
                                         Vector3(0.001, 0.7, 0.3));
         Material *mat4 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 1.0, 1.0),
                                         Vector3(0.01, 0.9, 0.1));
-        Material *lambertian = new Lambertian(RGB(1.0, 0.0, 0.0), 0.5);
-        Material *lambertian2 = new Lambertian(RGB(0.8, 0.8, 0.0), 0.5);
-        Material *metalic = new Metalic(RGB(1.0, 1.0, 1.0), 0.3);
+        Material *lambertian = new Lambertian(new ConstantTexture(RGB(1.0, 0.0, 0.0)), 0.5);
+        Material *lambertian2 = new Lambertian(new ConstantTexture(RGB(0.8, 0.8, 0.0)), 0.5);
+        Material *metalic = new Metalic(new ConstantTexture(RGB(0.8, 0.6, 0.2)), 0.3);
+        Material *dielectric = new Dielectric(1.5f);
 
         //==== Create the Camera
         // Perspective Camera
         float dist = (Point3(0,3,2) - Point3(0,0,-2)).Length();
-        Camera *perspecCam = new PerspectiveCamera( Point3(-0.5,1,1), Point3(0,0,0), 120, 
+        Camera *perspecCam = new PerspectiveCamera( Point3(0,0,0), Point3(0,0,-1), 120, 
                               float(img.width)/float(img.height), 0, 5);
 
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(0,0.5,2), Point3(0,0,-1),
+        Camera *orthoCam = new ParallelCamera( Point3(0,3,2), Point3(0,0,-1),
                                            -4, 4, -2, 2);
         
         //==== Create the hitable objects
@@ -96,15 +98,19 @@ int main( int argc, char *argv[] ) {
         Point3 v2 (1.5, 1, 0);
         Point3 v3 (1, 1, 2);
 
-        Sphere *original = new Sphere(center, 0.5, mat2);
-        Sphere *metalicSphere = new Sphere(Point3(1,0,-1), 0.5, mat4);
+        Sphere *original = new Sphere(center, 0.5, lambertian);
+        Sphere *metalicSphere = new Sphere(Point3(2,1,-1), 1.5, metalic);
+        Sphere *glassSphere = new Sphere(Point3(-1,0,-1), 0.5, dielectric);
+        Sphere *littleGlassSphere = new Sphere(Point3(-1,0,-1), -0.45, dielectric);
         Triangle *orig_triang = new Triangle(v1, v2, v3, mat1);
         Hitable *cube = new Cube(-1,5,1,4,-2,-3, mat1);
 
         std::vector<Hitable*> myHitables = {
           original,
           metalicSphere,
-          new Sphere(Point3(0, -100.5, -3), 100, mat1)
+          glassSphere,
+          littleGlassSphere,
+          new Sphere(Point3(0, -100.5, -3), 100, lambertian2)
           };
         
         //==== Create the world lights
@@ -115,8 +121,8 @@ int main( int argc, char *argv[] ) {
         };
 
         //==== Create the Shader
-        Shader *shader = ShaderFactory::Create(ShaderType::blinnPhong, 30.0);
-        World world (myHitables,lights, 0.001f, numeric_limits<float>::max());
+        Shader *shader = ShaderFactory::Create(ShaderType::defaultShader, 10.0);
+        World world (myHitables,lights, 0.01f, numeric_limits<float>::max());
         Renderer renderer = Renderer(img, orthoCam, world, shader);
         renderer.Start();
 
@@ -135,6 +141,9 @@ int main( int argc, char *argv[] ) {
         delete metalic;
         delete original;
         delete orig_triang;
+        delete dielectric;
+        delete glassSphere;
+        delete littleGlassSphere;
       }
     }    
     return 0;
