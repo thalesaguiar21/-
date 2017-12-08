@@ -9,6 +9,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
+
 /* Example of valid file
  * -----------------------------------------------
  * NAME = test_normalshader_antialias500_01.ppm
