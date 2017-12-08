@@ -97,8 +97,9 @@ int main( int argc, char *argv[] ) {
         Material *greyMat = new Lambertian(greyTexture, 0.5);
         Material *perlinMat = new Lambertian(perlin, 0.5);
         Material *metal = new Metalic(coble, 0.3);
-        Material *dielectric = new Dielectric(1.5f);
-        Material *imgMat = new Lambertian(checker, 0.5);
+        Material *dielectric = new Dielectric(1.05f);
+        Material *chekerMat = new Lambertian(checker, 0.5);
+        Texture *imgMat = new Lambertian(imgTexture, 0.5);
 
         //==== Create the hitable objects
         Point3 v1 (-1.5, 1, 0);
@@ -106,18 +107,18 @@ int main( int argc, char *argv[] ) {
         Point3 v3 (1, 1, 2);
 
         Sphere *constSphere = new Sphere(Point3(0,0,-1), 0.5, greenMat);
-        Sphere *imgSphere = new Sphere(Point3(2,1,-1), 1.5, imgMat);
-        Sphere *glassSphere = new Sphere(Point3(-1,2,-2), 2, dielectric);
-        Sphere *perlinSphere = new Sphere(Point3(-2,0,-1), 0.25, perlinMat);
-        Sphere *metalSphere = new Sphere(Point3(2,0,-1), 0.25, metal);
+        Sphere *imgSphere = new Sphere(Point3(3,2,-2), 1.5, perlinMat);
+        Sphere *glassSphere = new Sphere(Point3(1.5,2,4), 1.5, dielectric);
+        Sphere *perlinSphere = new Sphere(Point3(-2,0,-1), 0.5, chekerMat);
+        Sphere *metalSphere = new Sphere(Point3(1,0,-1), 0.5, metal);
 
         //==== Create the Camera
         // Perspective Camera
         Camera *perspecCam = new PerspectiveCamera( Point3(0,0,0), Point3(0,0,-1), 120, 
                               float(img.width)/float(img.height), 0, 5);
         // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(0,2,2), Point3(0,0,-1),
-                                           -16, 16, -8, 8);
+        Camera *orthoCam = new ParallelCamera( Point3(1,10,100), Point3(0,0,-1),
+                                           -8, 8, -4, 4);
 
         std::vector<Hitable*> myHitables = {
           constSphere,
@@ -126,7 +127,7 @@ int main( int argc, char *argv[] ) {
           perlinSphere,
           metalSphere,
           new Sphere(Point3(0, -100.5, -3), 100, greyMat)
-          };
+        };
         
         //==== Create the world lights
         std::vector<Light*> lights = {
@@ -136,7 +137,7 @@ int main( int argc, char *argv[] ) {
         };
 
         //==== Create the Shader
-        Shader *shader = ShaderFactory::Create(ShaderType::defaultShader, 5.0);
+        Shader *shader = ShaderFactory::Create(ShaderType::defaultShader, 50.0);
         World world (myHitables,lights, 0.01f, numeric_limits<float>::max());
         Renderer renderer = Renderer(img, orthoCam, world, shader);
         renderer.Start();
@@ -158,7 +159,7 @@ int main( int argc, char *argv[] ) {
         delete greyMat;
         delete metal;
         delete dielectric;
-        delete imgMat;
+        delete chekerMat;
 
         delete constSphere;
         delete imgSphere;

@@ -26,7 +26,7 @@ class Material {
 			float dt = dot(uv,n);
 			float discriminant = 1.0 - ni_over_nt*ni_over_nt*(1-dt*dt);
 			if(discriminant > 0) {
-				refracted = ni_over_nt * (v - n*dt) - n*sqrt(discriminant);
+				refracted = ni_over_nt * (uv - n*dt) - n*sqrt(discriminant);
 				return true;
 			} else {
 				return false;

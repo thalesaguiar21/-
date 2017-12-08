@@ -29,11 +29,10 @@ class Dielectric : public Material {
 			float cosine;
 			float reflect_prob;
 
-			if(dot(inDir, rec.normal)) {
+			if(dot(inDir, rec.normal) > 0.00001) {
 				outward_normal = -1 * rec.normal;
 				ni_over_nt = ref_idx;
-				cosine = dot(inDir, rec.normal) / inDir.Length();
-				cosine = 1 - ref_idx*ref_idx*(1-cosine*cosine);
+				cosine = ref_idx * dot(inDir, rec.normal) / inDir.Length();
 			} else {
 				outward_normal = rec.normal;
 				ni_over_nt = 1.0 / ref_idx;
@@ -46,7 +45,7 @@ class Dielectric : public Material {
 				reflect_prob = 1.0;
 			}
 
-			if(drand48() < reflect_prob) {
+			if(drand48() <= reflect_prob) {
 				scattered = Ray(rec.hit, reflected);
 			} else {
 				scattered = Ray(rec.hit, refracted);
