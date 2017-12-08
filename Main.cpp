@@ -52,7 +52,7 @@
 #include "external/glm/gtc/matrix_transform.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "external/stb_image.h"
 
 using std::cout;
 using std::endl;
