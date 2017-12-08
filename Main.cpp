@@ -75,58 +75,57 @@ int main( int argc, char *argv[] ) {
       //==== Checks if the content in the input file is correct
       Image img;
       if(img.FromContent(input)) {
-        //==== Create the Materials
-        // Texture *imgTexture = new ImageTexture();
+        //==== Create the Textures
         int nx, ny, nn;
         unsigned char *tex_data = stbi_load("voyager.jpg", &nx, &ny, &nn, 0);
-        std::cout << "HEY" << std::endl;
         Texture *imgTexture = new ImageTexture(tex_data, nx, ny);
-        Texture *checker = new CheckerTexture(new ConstantTexture(RGB(0.2, 0.3, 0.1)), 
-                                              new ConstantTexture(RGB(0.9, 0.9, 0.9)));
+        Texture *greenTexture = new ConstantTexture(RGB(0.2, 0.3, 0.1));
+        Texture *greyTexture = new ConstantTexture(RGB(0.9, 0.9, 0.9));
+        Texture *coble = new ConstantTexture(RGB(0.8, 0.6, 0.2));
+        Texture *checker = new CheckerTexture(greenTexture, greyTexture);
         Texture *perlin = new PerlinTexture(1.0);
+
+        //==== Create the BlinnPhong materials
         Material *mat1 = new BlinnPhong(RGB(0, 0.0, 1.0), RGB(1.0, 1.0, 1.0),
                                         Vector3(0.01, 0.8, 0.2));
         Material *mat2 = new BlinnPhong(RGB(0.0, 1.0, 0.0), RGB(1.0, 1.0, 1.0), 
                                         Vector3(0.001, 0.7, 0.3));
         Material *mat4 = new BlinnPhong(RGB(0.5, 0.5, 0.5), RGB(1.0, 1.0, 1.0),
                                         Vector3(0.01, 0.9, 0.1));
-        Material *lambertian = new Lambertian(checker, 0.5);
-        Material *lambertian2 = new Lambertian(perlin, 0.5);
-        Material *metalic = new Metalic(new ConstantTexture(RGB(0.8, 0.6, 0.2)), 0.3);
+        //==== Create the materials
+        Material *greenMat = new Lambertian(greenTexture, 0.5);
+        Material *greyMat = new Lambertian(greyTexture, 0.5);
+        Material *perlinMat = new Lambertian(perlin, 0.5);
+        Material *metal = new Metalic(coble, 0.3);
         Material *dielectric = new Dielectric(1.5f);
-        Material *voyager = new Lambertian(imgTexture, 0.5);
+        Material *imgMat = new Lambertian(checker, 0.5);
 
-        //==== Create the Camera
-        // Perspective Camera
-        float dist = (Point3(0,3,2) - Point3(0,0,-2)).Length();
-        Camera *perspecCam = new PerspectiveCamera( Point3(0,0,0), Point3(0,0,-1), 120, 
-                              float(img.width)/float(img.height), 0, 5);
-
-        // Parallel Camera
-        Camera *orthoCam = new ParallelCamera( Point3(0,2,2), Point3(0,0,-1),
-                                           -8, 8, -4, 4);
-        
         //==== Create the hitable objects
-        Point3 center (0, 0, -1);
-        glm::vec4 p1(0, 2, 0, 1);
-
         Point3 v1 (-1.5, 1, 0);
         Point3 v2 (1.5, 1, 0);
         Point3 v3 (1, 1, 2);
 
-        Sphere *original = new Sphere(center, 0.5, mat1);
-        Sphere *metalicSphere = new Sphere(Point3(2,1,-1), 1.5, mat2);
-        Sphere *glassSphere = new Sphere(Point3(-1,2,-2), 2, voyager);
-        Sphere *littleGlassSphere = new Sphere(Point3(-1,0,-1), -0.45, dielectric);
-        Triangle *orig_triang = new Triangle(v1, v2, v3, mat1);
-        Hitable *cube = new Cube(-1,5,1,4,-2,-3, mat1);
+        Sphere *constSphere = new Sphere(Point3(0,0,-1), 0.5, greenMat);
+        Sphere *imgSphere = new Sphere(Point3(2,1,-1), 1.5, imgMat);
+        Sphere *glassSphere = new Sphere(Point3(-1,2,-2), 2, dielectric);
+        Sphere *perlinSphere = new Sphere(Point3(-2,0,-1), 0.25, perlinMat);
+        Sphere *metalSphere = new Sphere(Point3(2,0,-1), 0.25, metal);
+
+        //==== Create the Camera
+        // Perspective Camera
+        Camera *perspecCam = new PerspectiveCamera( Point3(0,0,0), Point3(0,0,-1), 120, 
+                              float(img.width)/float(img.height), 0, 5);
+        // Parallel Camera
+        Camera *orthoCam = new ParallelCamera( Point3(0,2,2), Point3(0,0,-1),
+                                           -16, 16, -8, 8);
 
         std::vector<Hitable*> myHitables = {
-          original,
-          metalicSphere,
-          // glassSphere,
-          // littleGlassSphere,
-          new Sphere(Point3(0, -100.5, -3), 100, mat4)
+          constSphere,
+          imgSphere,
+          glassSphere,
+          perlinSphere,
+          metalSphere,
+          new Sphere(Point3(0, -100.5, -3), 100, greyMat)
           };
         
         //==== Create the world lights
@@ -137,7 +136,7 @@ int main( int argc, char *argv[] ) {
         };
 
         //==== Create the Shader
-        Shader *shader = ShaderFactory::Create(ShaderType::blinnPhong, 30.0);
+        Shader *shader = ShaderFactory::Create(ShaderType::defaultShader, 5.0);
         World world (myHitables,lights, 0.01f, numeric_limits<float>::max());
         Renderer renderer = Renderer(img, orthoCam, world, shader);
         renderer.Start();
@@ -147,21 +146,25 @@ int main( int argc, char *argv[] ) {
         
         // Unlocking memory
         delete shader;
-        delete orthoCam;
-        delete perspecCam;
-        delete mat1;
-        delete mat2;
-        delete lambertian;
-        delete lambertian2;
-        delete mat4;
-        delete metalic;
-        delete original;
-        delete orig_triang;
-        delete dielectric;
-        delete glassSphere;
-        delete littleGlassSphere;
-        delete perlin;
+
+        delete imgTexture;
+        delete greenTexture;
+        delete greyTexture;
+        delete coble;
         delete checker;
+        delete perlin;
+
+        delete greenMat;
+        delete greyMat;
+        delete metal;
+        delete dielectric;
+        delete imgMat;
+
+        delete constSphere;
+        delete imgSphere;
+        delete glassSphere;
+        delete perlinSphere;
+        delete metalSphere;
       }
     }    
     return 0;
