@@ -14,8 +14,9 @@ RGB DefaultShader::Color(Ray r_, World world, int depth) {
   if(world.HitAnything(r_, tmp)) {
     Ray scaterred;
     Vector3 attenuation;
+    Vector3 emitted = tmp.mat->Emitted(tmp.u,tmp.v,tmp.hit);
     if(depth > 0 && tmp.mat->Scatter(r_, tmp, attenuation, scaterred)) {
-      return attenuation * Color(scaterred, world, depth-1);
+      return emitted + attenuation * Color(scaterred, world, depth-1);
     } else {
       return RGB(0);
     }

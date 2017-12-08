@@ -12,7 +12,9 @@ using utils::Ray;
 class Material {
 	public:
 		bool virtual Scatter( Ray incident, const HitRecord rec, Vector3 &attenuation, Ray &scattered ) = 0;
-
+		virtual Vector3 Emitted(float u, float v, const Vector3& p) {
+			return Vector3(0);
+		}
 		float ref_coef() const { return ref_coef_; };
 		void set_ref_coef(float value) { ref_coef_ = value; };
 

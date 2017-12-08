@@ -23,6 +23,7 @@
 #include "materials/Lambertian.h"
 #include "materials/Metalic.h"
 #include "materials/Dielectric.h"
+#include "materials/DiffuseLight.h"
 #include "materials/BlinnPhong.h"
 #include "materials/textures/Texture.h"
 #include "materials/textures/ConstantTexture.h"
