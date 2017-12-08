@@ -77,7 +77,7 @@ int main( int argc, char *argv[] ) {
       if(img.FromContent(input)) {
         //==== Create the Textures
         int nx, ny, nn;
-        unsigned char *tex_data = stbi_load("voyager.jpg", &nx, &ny, &nn, 0);
+        unsigned char *tex_data = stbi_load("bricks.jpg", &nx, &ny, &nn, 0);
         Texture *imgTexture = new ImageTexture(tex_data, nx, ny);
         Texture *greenTexture = new ConstantTexture(RGB(0.2, 0.3, 0.1));
         Texture *greyTexture = new ConstantTexture(RGB(0.9, 0.9, 0.9));
@@ -99,7 +99,7 @@ int main( int argc, char *argv[] ) {
         Material *metal = new Metalic(coble, 0.3);
         Material *dielectric = new Dielectric(1.05f);
         Material *chekerMat = new Lambertian(checker, 0.5);
-        Texture *imgMat = new Lambertian(imgTexture, 0.5);
+        Material *imgMat = new Lambertian(imgTexture, 0.5);
 
         //==== Create the hitable objects
         Point3 v1 (-1.5, 1, 0);
@@ -126,7 +126,7 @@ int main( int argc, char *argv[] ) {
           glassSphere,
           perlinSphere,
           metalSphere,
-          new Sphere(Point3(0, -100.5, -3), 100, greyMat)
+          new Sphere(Point3(0, -100.5, -3), 100, imgMat)
         };
         
         //==== Create the world lights

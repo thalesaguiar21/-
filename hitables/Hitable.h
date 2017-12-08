@@ -5,6 +5,7 @@
 #include "../utility/Ray.h"
 #include "../materials/Material.h"
 #include "HitRecord.h"
+#include "../utility/SphereUV.h"
 
 // vec3, vec4, ivec4, mat4
 #include "../external/glm/glm.hpp"
@@ -13,6 +14,7 @@
 
 using utils::Vector3;
 using utils::Ray;
+using utils::GetSphereUV;
 
 class Hitable {
   public:

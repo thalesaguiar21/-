@@ -28,6 +28,7 @@ bool Sphere::Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) {
     if(root < maxHit && root > minHit) {
       rec.root = root;
       rec.hit = r_.PointAt(rec.root);
+      GetSphereUV((rec.hit-origin())/radius_, rec.u, rec.v);
       rec.normal = UnitVector(rec.hit - origin());
       rec.mat = material();
       return true;
@@ -36,6 +37,7 @@ bool Sphere::Hit( Ray r_, HitRecord &rec, float minHit, float maxHit ) {
     if(root < maxHit && root > minHit) {
       rec.root = root;
       rec.hit = r_.PointAt(rec.root);
+      GetSphereUV((rec.hit-origin())/radius_, rec.u, rec.v);
       rec.normal = UnitVector(rec.hit - origin());
       rec.mat = material();
       return true;

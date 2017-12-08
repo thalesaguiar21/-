@@ -13,7 +13,6 @@ class ImageTexture : public Texture {
 		}
 
 		Vector3 Value(float u, float v, const Vector3 &p) override {
-			Vector3 pAux = p;
 			int i = ( u)*nx;
 			int j = (1-v)*ny-0.001;
 			if(i < 0) i = 0;
@@ -23,6 +22,7 @@ class ImageTexture : public Texture {
 			float r = int(data[3*i + 3*nx*j]) / 255.0;
 			float g = int(data[3*i + 3*nx*j+1]) / 255.0;
 			float b = int(data[3*i + 3*nx*j+2]) / 255.0;
+			// std::cout << Vector3(r, g, b) << std::endl;
 			return Vector3(r, g, b);
 		}
 		
